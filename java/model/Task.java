@@ -90,6 +90,62 @@ public class Task implements Cloneable, Serializable {
 
     private threadTask threadTask;
 
+
+    /**
+     * Метод - конструктор Task(String title, Date time).
+     * создает экземпляр неповторяющейся
+     * задачи и поток для оповещения
+     * пользователя.
+     * @param   titles название задачи.
+     * @param   times время.
+     * @throws  ParseException преобраз. даты.
+     */
+
+    public Task(final String titles, final Date times)
+            throws ParseException {
+        this.setTitle(titles);
+        this.setTime(times);
+        this.interval = this.getInterval();
+        this.threadTask = new threadTask(this);
+        this.thread = new Thread(this.getThreadTask());
+        this.thread.start();
+    }
+
+    /**
+     * Метод - конструктор Task(String title, Date start,
+     * Date end, int intervalYear, int intervalMonth,
+     * int intervalDay, int intervalHour,
+     * int intervalMinute, int intervalSecond).
+     * создает экземпляр задачи и
+     * поток для оповещения пользователя.
+     * @param titles название задачи.
+     * @param starts время начала выполнения.
+     * @param ends время конца выполнения.
+     * @param intervalYears количество лет.
+     * @param intervalMonths количество месяцев.
+     * @param intervalDays количество дней.
+     * @param intervalHours количество часов.
+     * @param intervalMinutes количество минут.
+     * @param intervalSeconds количество секунд между.
+     * @throws ParseException из-за преобразования даты в
+     * {@link #setTime(Date, Date, int, int, int, int, int, int)}.
+     */
+
+    public Task(final String titles, final Date starts,
+                final Date ends, final int intervalYears,
+                final int intervalMonths, final int intervalDays,
+                final int intervalHours, final int intervalMinutes,
+                final int intervalSeconds) throws ParseException {
+        this.setTitle(titles);
+        this.setTime(starts, ends, intervalYears, intervalMonths,
+                intervalDays, intervalHours, intervalMinutes,
+                intervalSeconds);
+        this.interval = this.getInterval();
+        this.threadTask = new threadTask(this);
+        this.thread = new Thread(this.getThreadTask());
+        this.thread.start();
+    }
+
     /**
      *Метод getTitle().
      *  возвращает название задачи.
@@ -200,57 +256,6 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод - конструктор Task(String title, Date time).
-     * создает экземпляр неповторяющейся
-     * задачи и поток для оповещения
-     * пользователя.
-     * @param   titles название задачи.
-     * @param   times время.
-     * @throws  ParseException преобраз. даты.
-     */
-
-    public Task(String titles, Date times) throws ParseException {
-        this.setTitle(titles);
-        this.setTime(times);
-        this.interval = this.getInterval();
-        this.threadTask = new threadTask(this);
-        this.thread = new Thread(this.getThreadTask());
-        this.thread.start();
-    }
-
-    /**
-     * Метод - конструктор Task(String title, Date start,
-     * Date end, int intervalYear, int intervalMonth,
-     * int intervalDay, int intervalHour,
-     * int intervalMinute, int intervalSecond).
-     * создает экземпляр повторяющейся задачи и
-     * поток для оповещения пользователя.
-     * @param titles название задачи.
-     * @param starts время начала выполнения.
-     * @param ends время конца выполнения.
-     * @param intervalYears количество лет.
-     * @param intervalMonths количество месяцев.
-     * @param intervalDays количество дней.
-     * @param intervalHours количество часов.
-     * @param intervalMinutes количество минут.
-     * @param intervalSeconds количество секунд между.
-     * @throws ParseException из-за преобразования даты в
-     * {@link #setTime(Date, Date, int, int, int, int, int, int)}.
-     */
-
-    public Task(String titles, Date starts, Date ends, int intervalYears,
-                int intervalMonths, int intervalDays, int intervalHours,
-                int intervalMinutes, int intervalSeconds) throws ParseException {
-        this.setTitle(titles);
-        this.setTime(starts, ends, intervalYears, intervalMonths, intervalDays,
-                intervalHours, intervalMinutes, intervalSeconds);
-        this.interval = this.getInterval();
-        this.threadTask = new threadTask(this);
-        this.thread = new Thread(this.getThreadTask());
-        this.thread.start();
-    }
-
-    /**
      * Метод setTime(Date time).
      * устанавливает значение времени для
      * неповторяющейся задачи.
@@ -259,8 +264,9 @@ public class Task implements Cloneable, Serializable {
      * @throws ParseException преобраз. дат.
      */
 
-    public final void setTime(Date time) throws ParseException {
-        this.setTime(time, time, 0, 0, 0, 0, 0, 0) ;
+    public final void setTime(final Date time) throws ParseException {
+        this.setTime(time, time, 0, 0, 0,
+                0, 0, 0);
     }
 
     /**
@@ -279,9 +285,10 @@ public class Task implements Cloneable, Serializable {
      * @throws ParseException преобраз. дат.
      */
 
-    private void setTime(Date starts, Date ends, int intervalYears,
-                         int intervalMonths, int intervalDays, int intervalHours,
-                         int intervalMinutes, int intervalSeconds)
+    private void setTime(final Date starts, final Date ends,
+                         final int intervalYears, final int intervalMonths,
+                         final int intervalDays, final int intervalHours,
+                         final int intervalMinutes, final int intervalSeconds)
             throws ParseException {
         this.setStart((Date) starts.clone());
         this.setEnd((Date) ends.clone());
@@ -301,23 +308,26 @@ public class Task implements Cloneable, Serializable {
      * @return время след. повторения.
      */
 
-    public final  Date nextTimeAfter(Date current) {
+    public final  Date nextTimeAfter(final Date current) {
         if (!this.active){
             return null;
+        } else if (current.before(this.start)) {
+            return this.start;
+        } else if (current.after(this.end)) {
+            return null;
+        } else {
+            LocalDateTime start1 = this.dateToLocalDateTime(this.start);
+            LocalDateTime end1 = this.dateToLocalDateTime(this.end);
+            LocalDateTime current1 = this.dateToLocalDateTime(current);
+            do {
+                start1 = Tasks.plusTime(start1, this);
+            } while (start1.isBefore(current1) || start1.equals(current1));
+            if (start1.isBefore(end1) || start1.equals(end1)) {
+                return this.localDateTimeToDate(current1);
+            } else{
+                return new Date(0);
+            }
         }
-
-        if(current.before(this.start)) return this.start;
-        if(current.after(this.end)) return null;
-        LocalDateTime start1 = dateToLocalDateTime(this.start);
-        LocalDateTime end1 = dateToLocalDateTime(this.end);
-        LocalDateTime current1 = dateToLocalDateTime(current);
-        do{
-            start1 = Tasks.plusTime(start1, this);
-        } while (start1.isBefore(current1)||start1.equals(current1));
-        if (start1.isBefore(end1)||start1.equals(end1)){
-            return localDateTimeToDate(current1);
-        }
-        return new Date(0);
     }
 
     /**
@@ -327,8 +337,9 @@ public class Task implements Cloneable, Serializable {
      * @return дата типа Date.
      */
 
-    private Date localDateTimeToDate(LocalDateTime localDateTime) {
-        Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+    private Date localDateTimeToDate(final LocalDateTime localDateTime) {
+        Instant instant = localDateTime.
+                atZone(ZoneId.systemDefault()).toInstant();
         return Date.from(instant);
     }
 
@@ -339,7 +350,7 @@ public class Task implements Cloneable, Serializable {
      * @return дата типа LocalDateTime.
      */
 
-    private LocalDateTime dateToLocalDateTime(Date date) {
+    private LocalDateTime dateToLocalDateTime(final Date date) {
         Instant instant = Instant.ofEpochMilli(date.getTime());
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
@@ -352,10 +363,10 @@ public class Task implements Cloneable, Serializable {
      */
 
     @Override
-    public final boolean equals(Object obj) {
-        if(obj == null) {
+    public final boolean equals(final Object obj) {
+        if (obj == null) {
             return false;
-        } else if(obj == this) {
+        } else if (obj == this) {
             return true;
         } else {
             Task task = (Task) obj;
@@ -378,14 +389,14 @@ public class Task implements Cloneable, Serializable {
     @Override
     public final int hashCode() {
         return this.title.hashCode()
-                + this.getIntervalYear() * 2
-                + this.start.hashCode() * 3
-                + this.end.hashCode() * 4
-                + this.getIntervalMonth() * 5
-                + this.getIntervalDay() * 6
-                + this.getIntervalHour() * 7
-                + this.getIntervalMinute() * 8
-                + this.getIntervalSecond() * 9;
+                + this.getIntervalYear()
+                + this.start.hashCode()
+                + this.end.hashCode()
+                + this.getIntervalMonth()
+                + this.getIntervalDay()
+                + this.getIntervalHour()
+                + this.getIntervalMinute()
+                + this.getIntervalSecond();
     }
 
     /**
@@ -396,7 +407,7 @@ public class Task implements Cloneable, Serializable {
      */
 
     public final String getInterval() {
-        this.interval =  getRepeatInterval();
+        this.interval =  this.getRepeatInterval();
         return this.interval;
     }
 
@@ -440,7 +451,7 @@ public class Task implements Cloneable, Serializable {
      * @return количество часов.
      */
 
-    public int getIntervalHour() {
+    public final int getIntervalHour() {
         return this.intervalHour;
     }
 
@@ -472,57 +483,62 @@ public class Task implements Cloneable, Serializable {
      * @param intervalYears количество лет.
      */
 
-    public final void setIntervalYear(int intervalYears) {
+    public final void setIntervalYear(final int intervalYears) {
         this.intervalYear = intervalYears;
     }
 
     /**
      * Метод setIntervalMonth(int intervalMonth).
-     * устанавливает количество месяцев между повторениями.
+     * устанавливает количество месяцев
+     * между повторениями.
      * @param intervalMonths количество месяцев.
      */
 
-    public final void setIntervalMonth(int intervalMonths) {
+    public final void setIntervalMonth(final int intervalMonths) {
         this.intervalMonth = intervalMonths;
     }
 
     /**
      * Метод setIntervalDay(int intervalDay).
-     * устанавливает количество дней между повторениями.
+     * устанавливает количество дней
+     * между повторениями.
      * @param intervalDays количество дней.
      */
 
-    public final void setIntervalDay(int intervalDays) {
+    public final void setIntervalDay(final int intervalDays) {
         this.intervalDay = intervalDays;
     }
 
     /**
      * Метод setIntervalHour(int intervalHour).
-     * устанавливает количество часов между повторениями.
+     * устанавливает количество часов
+     * между повторениями.
      * @param intervalHours количество лет.
      */
 
-    public final void setIntervalHour(int intervalHours) {
+    public final void setIntervalHour(final int intervalHours) {
         this.intervalHour = intervalHours;
     }
 
     /**
      * Метод setIntervalMinute(int intervalMinute).
-     * устанавливает количество минут между повторениями.
+     * устанавливает количество минут
+     * между повторениями.
      * @param intervalMinutes количество минут.
      */
 
-    public final void setIntervalMinute(int intervalMinutes) {
+    public final void setIntervalMinute(final int intervalMinutes) {
         this.intervalMinute = intervalMinutes;
     }
 
     /**
      * Метод setIntervalSecond(int intervalSecond).
-     * устанавливает количество секунд между повторениями.
+     * устанавливает количество секунд
+     * между повторениями.
      * @param intervalSeconds количество лет.
      */
 
-    public final void setIntervalSecond(int intervalSeconds) {
+    public final void setIntervalSecond(final int intervalSeconds) {
         this.intervalSecond = intervalSeconds;
     }
 
@@ -532,17 +548,18 @@ public class Task implements Cloneable, Serializable {
      * @param starts дата начала.
      */
 
-    public final void setStart(Date starts) {
+    public final void setStart(final Date starts) {
         this.start = starts;
     }
 
     /**
      * Метод setEnd(Date end).
-     * устанавливает когда исполнение задачи будет закончени.
+     * устанавливает когда исполнение задачи
+     * будет закончени.
      * @param ends дата конца исполнения.
      */
 
-    public final void setEnd(Date ends) {
+    public final void setEnd(final Date ends) {
         this.end = ends;
     }
 
@@ -552,18 +569,18 @@ public class Task implements Cloneable, Serializable {
      * @param repeateds повторяемость задачи.
      */
 
-    public final void setRepeated(boolean repeateds) {
+    public final void setRepeated(final boolean repeateds) {
         this.repeated = repeateds;
     }
 
     /**
      * Метод getThreadTask().
-     * возвращает обьект, который будет создавать окна уведомления.
-     * @return обьект, на основе которого был создан поток
-     * для уведомления о приближении задачи.
+     * возвращает обьект, который будет
+     * создавать окна уведомления.
+     * @return Runnable - обьект.
      */
 
-    public threadTask getThreadTask() {
+    public final threadTask getThreadTask() {
         return this.threadTask;
     }
 }
