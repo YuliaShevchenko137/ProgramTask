@@ -19,29 +19,31 @@ import javafx.stage.Stage;
 public final class Main extends Application {
 
     /**
-     * Конструктор
+     * Конструктор.
      */
     private Main() {
-        super();
+        this.width = 900;
+        this.height = 500;
     }
 
     /**
      * Ширина экрана.
      */
 
-    private final int width = 900;
+    private int width;
 
     /**
      * Длинна экрана.
      */
 
-    private final int height = 500;
+    private int height;
 
     /**
      * Метод start(final Stage primaryStage).
      * открывает основное окно программы.
      * @param primaryStage сцена основного окна.
-     * @throws IOException возникает при открытии файла.
+     * @throws IOException возникает при открытии
+     * файла.
      */
 
     @Override
@@ -49,9 +51,9 @@ public final class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource(
                 "../view/main.fxml"));
         primaryStage.setTitle("Task Manager");
-        primaryStage.setScene(new Scene(root, width, height));
-        primaryStage.setMinHeight(height);
-        primaryStage.setMinWidth(width);
+        primaryStage.setScene(new Scene(root, this.width, this.height));
+        primaryStage.setMinHeight(this.height);
+        primaryStage.setMinWidth(this.width);
         primaryStage.show();
     }
 
