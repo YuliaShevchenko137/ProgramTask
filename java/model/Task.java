@@ -273,7 +273,8 @@ public class Task implements Cloneable, Serializable {
      * Метод setTime(Date start, Date end, int intervalYear,
      * int intervalMonth, int intervalDay, int intervalHour,
      * int intervalMinute, int intervalSecond).
-     * устанавливает время для повторяющейся задачи.
+     * устанавливает время для
+     * повторяющейся задачи.
      * @param starts время начала выполнения.
      * @param ends время конца выполнения.
      * @param intervalYears количество лет.
@@ -309,7 +310,7 @@ public class Task implements Cloneable, Serializable {
      */
 
     public final  Date nextTimeAfter(final Date current) {
-        if (!this.active){
+        if (!this.active) {
             return null;
         } else if (current.before(this.start)) {
             return this.start;
@@ -324,7 +325,7 @@ public class Task implements Cloneable, Serializable {
             } while (start1.isBefore(current1) || start1.equals(current1));
             if (start1.isBefore(end1) || start1.equals(end1)) {
                 return this.localDateTimeToDate(current1);
-            } else{
+            } else {
                 return new Date(0);
             }
         }
@@ -371,8 +372,8 @@ public class Task implements Cloneable, Serializable {
         } else {
             Task task = (Task) obj;
             boolean a2 = this.start.equals(task.getStart());
-            boolean a3 = isActive() == task.isActive();
-            boolean a4 = getRepeatInterval().equals(task.getRepeatInterval());
+            boolean a3 = this.isActive() == task.isActive();
+            boolean a4 = this.getRepeatInterval().equals(task.getRepeatInterval());
             boolean a = this.end.equals(task.getEnd());
             return a & a2 & a3 & a4;
         }
@@ -479,7 +480,8 @@ public class Task implements Cloneable, Serializable {
 
     /**
      * Метод setIntervalYear(int intervalYear).
-     * устанавливает количество лет между повторениями.
+     * устанавливает количество лет
+     * между повторениями.
      * @param intervalYears количество лет.
      */
 
