@@ -22,28 +22,26 @@ public final class Main extends Application {
      * Конструктор.
      */
     private Main() {
-        this.width = 900;
-        this.height = 500;
+        super();
     }
 
     /**
      * Ширина экрана.
      */
 
-    private int width;
+    private final int width = 900;
 
     /**
      * Длинна экрана.
      */
 
-    private int height;
+    private final int height = 500;
 
     /**
      * Метод start(final Stage primaryStage).
      * открывает основное окно программы.
      * @param primaryStage сцена основного окна.
-     * @throws IOException возникает при открытии
-     * файла.
+     * @throws IOException oткрытиe файла.
      */
 
     @Override
@@ -51,6 +49,7 @@ public final class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource(
                 "../view/main.fxml"));
         primaryStage.setTitle("Task Manager");
+
         primaryStage.setScene(new Scene(root, this.width, this.height));
         primaryStage.setMinHeight(this.height);
         primaryStage.setMinWidth(this.width);
