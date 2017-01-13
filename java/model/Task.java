@@ -11,7 +11,8 @@ import java.time.ZoneId;
 import java.util.Date;
 /**
  * Класс Task.
- * Класс, который описывает задачу со свойствами <b>title</b>, <b>start</b>,
+ * Класс, который описывает задачу.
+ * Cвойства: <b>title</b>, <b>start</b>,
  * <b>end</b>, <b>active</b>, <b>repeated</b>, <b>intervalYear</b>,
  * <b>intervalMonth</b>, <b>intervalDay</b>, <b>intervalHour</b>,
  * <b>intervalMinute</b>, <b>intervalSecond</b> и <b>thread</b>.
@@ -56,11 +57,11 @@ public class Task implements Cloneable, Serializable {
 
     /**Поля активности.*/
 
-    private boolean active = false;
+    private boolean active;
 
     /**Поле повторяемости.*/
 
-    private boolean repeated = false;
+    private boolean repeated;
 
     /**Поля начала выполнения задачи.
      */
@@ -72,13 +73,15 @@ public class Task implements Cloneable, Serializable {
 
     private Date end;
 
-    /**текстовое представление интервала задачи.
+    /**текстовое представление интервала
+     * задачи.
      */
 
     private String interval;
 
     /**
-     * Поток для оповещения пользователя о ближайшей задачею
+     * Поток для оповещения пользователя
+     * о ближайшей задачею.
      */
 
     private Thread thread;
@@ -93,77 +96,82 @@ public class Task implements Cloneable, Serializable {
      * @return  имя задачи.
      */
 
-    public String getTitle() {
-        return title;
+    public final String getTitle() {
+        return this.title;
     }
 
     /**
      * Метод setTitle(String title).
      * устанавливает название задачи.
-     * @param   title поле с названием задачи.
+     * @param   titles поле с названием задачи.
      */
 
-    public void setTitle(String title) {
-        this.title = title;
+    public final void setTitle(final String titles) {
+        this.title = titles;
     }
 
     /**
      * Метод isActive().
      * проверяет активна ли задача.
-     * @return  возваращает активность текущей задачи.
+     * @return  возваращает активность.
      */
 
-    public boolean isActive() {
-        return active;
+    public final boolean isActive() {
+        return this.active;
     }
 
     /**
      * Метод setActive(boolean active).
-     * устанавливает активность текущей задачи.
-     * @param   active активность текущей задачи.
+     * устанавливает активность задачи.
+     * @param   actives активность задачи.
      */
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public final void setActive(final boolean actives) {
+        this.active = actives;
     }
 
     /**
      * Метод getStart().
-     * возвращает время, когда текущая задача начнет выполнение.
+     * возвращает время начала задачи.
      * @return  время начала віполнения задачи.
      */
 
-    public Date getStart() {
-        return start;
+    public final Date getStart() {
+        return this.start;
     }
 
     /**
      * Метод getEnd().
-     * возвращает время, когда выполнение задачи будет окончено.
+     * возвращает время конца задачи.
      * @return  время окончания выполнения задачи.
      */
 
-    public Date getEnd() {
-        return end;
+    public final Date getEnd() {
+        return this.end;
     }
 
     /**
      * Метод getRepeatInterval().
-     * возвращает текстовую строку представления интервала
+     * возвращает текстовую строку интервала
      * повторения задачи.
      * @return  интервал полторения.
      */
 
     private String getRepeatInterval() {
-        if (isRepeated()){
-            return getIntervalYear() + " year " +
-                    getIntervalMonth() + " month " +
-                    getIntervalDay() + " day "+
-                    getIntervalHour() + " hour " +
-                    getIntervalMinute() + " minute " +
-                    getIntervalSecond() + " second";
-        }
-        else{
+        if (isRepeated()) {
+            return this.getIntervalYear()
+                    + " year "
+                    + this.getIntervalMonth()
+                    + " month "
+                    + this.getIntervalDay()
+                    + " day "
+                    + this.getIntervalHour()
+                    + " hour "
+                    + this.getIntervalMinute()
+                    + " minute "
+                    + this.getIntervalSecond()
+                    + " second";
+        } else {
             return "0";
         }
     }
@@ -174,31 +182,30 @@ public class Task implements Cloneable, Serializable {
      * @return  повторяемость задачи.
      */
 
-    public boolean isRepeated() {
-        return repeated;
+    public final boolean isRepeated() {
+        return this.repeated;
     }
 
     /**
      * Метод clone().
-     * создает копию текущей задачи {@link Object#clone()}.
+     * создает копию текущей задачи
+     * {@link Object#clone()}.
      * @return  копию текущей задачи.
-     * @throws  CloneNotSupportedException при невозможности
-     * клонирования обьекта.
+     * @throws  CloneNotSupportedException no clone.
      */
 
     @Override
-    public Task clone() throws CloneNotSupportedException {
+    public final Task clone() throws CloneNotSupportedException {
         return (Task) super.clone();
     }
 
     /**
      * Метод - конструктор Task(String title, Date time).
-     * создает экземпляр неповторяющейся задачи и поток для
-     * оповещения пользователя.
+     * создает экземпляр неповторяющейся задачи
+     * и поток для оповещения пользователя.
      * @param   title название задачи.
-     * @param   time время, когда задача должна быть исполнена.
-     * @throws  ParseException из-за преобразования даты в
-     * {@link #setTime(Date)}.
+     * @param   time время.
+     * @throws  ParseException преобразование даты.
      */
 
     public Task(String title, Date time) throws ParseException {
