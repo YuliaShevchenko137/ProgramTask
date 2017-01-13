@@ -19,6 +19,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     /**
+     * Конструктор
+     */
+    private Main() {}
+
+    /**
      * Ширина экрана.
      */
 
@@ -34,11 +39,12 @@ public class Main extends Application {
      * Метод start(final Stage primaryStage).
      * открывает основное окно программы.
      * @param primaryStage сцена основного окна.
-     * @throws IOException возникает при открытии fxml-файла.
+     * @throws IOException возникает при открытии
+     * fxml-файла.
      */
 
     @Override
-    public final void start(Stage primaryStage) throws IOException {
+    public final void start(final Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(
                 "../view/main.fxml"));
         primaryStage.setTitle("Task Manager");
@@ -54,7 +60,7 @@ public class Main extends Application {
      * @param args стандартный набор аргументов.
      */
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 }
