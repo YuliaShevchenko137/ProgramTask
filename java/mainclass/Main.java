@@ -16,31 +16,32 @@ import javafx.stage.Stage;
  * Запуск приложения.
  */
 
-public class Main extends Application {
+public final class Main extends Application {
 
     /**
      * Конструктор
      */
-    private Main() {}
+    private Main() {
+        super();
+    }
 
     /**
      * Ширина экрана.
      */
 
-    private static final int width = 900;
+    private final int width = 900;
 
     /**
      * Длинна экрана.
      */
 
-    private static final int height = 500;
+    private final int height = 500;
 
     /**
      * Метод start(final Stage primaryStage).
      * открывает основное окно программы.
      * @param primaryStage сцена основного окна.
-     * @throws IOException возникает при открытии
-     * fxml-файла.
+     * @throws IOException возникает при открытии файла.
      */
 
     @Override
