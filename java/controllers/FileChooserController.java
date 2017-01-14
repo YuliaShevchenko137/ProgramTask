@@ -54,7 +54,7 @@ public final class FileChooserController {
      * @param actionEvent нажатие кнопки.
      */
 
-    public final void chooseFile(final ActionEvent actionEvent) {
+    public void chooseFile(final ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         this.fileChooser.setTitle("Open Resource File");
@@ -72,7 +72,7 @@ public final class FileChooserController {
      * @param actionEvent нажатие кнопки.
      */
 
-    public final void actionOk(final ActionEvent actionEvent) {
+    public void actionOk(final ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
@@ -85,7 +85,7 @@ public final class FileChooserController {
      * @param actionEvent нажатие кнопки.
      */
 
-    public final void actionCancel(final ActionEvent actionEvent) {
+    public void actionCancel(final ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
@@ -97,7 +97,7 @@ public final class FileChooserController {
      * @return выбраный файл.
      */
 
-    final File getSelectedFile() {
+    File getSelectedFile() {
         return this.selectedFile;
     }
 }
