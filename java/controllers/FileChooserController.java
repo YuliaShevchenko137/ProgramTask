@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  * Контроллер окна выбора файла.
  */
 
-public class FileChooserController {
+public final class FileChooserController {
 
     /**
      * path.
@@ -43,14 +43,14 @@ public class FileChooserController {
      * Конструктор класса.
      */
 
-    private FileChooserController(){
+    private FileChooserController() {
         super();
     }
 
     /**
      * Метод chooseFile(ActionEvent actionEvent).
      * Вызывается при нажатии кнопки.
-     * Служит для выбора файла из файл. системы.
+     * Служит для выбора файла.
      * @param actionEvent нажатие кнопки.
      */
 
