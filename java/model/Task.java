@@ -79,12 +79,7 @@ public class Task implements Cloneable, Serializable {
 
     private String interval;
 
-    /**
-     * Поток для оповещения пользователя
-     * о ближайшей задачею.
-     */
-
-    private threadTask threadTask;
+    private ThreadTask ThreadTask;
 
 
     /**
@@ -102,7 +97,7 @@ public class Task implements Cloneable, Serializable {
         this.setTitle(titles);
         this.setTime(times);
         this.interval = this.getInterval();
-        this.threadTask = new threadTask(this);
+        this.setThreadTask(new ThreadTask(this));
     }
 
     /**
@@ -135,7 +130,7 @@ public class Task implements Cloneable, Serializable {
                 intervalDays, intervalHours, intervalMinutes,
                 intervalSeconds);
         this.interval = this.getInterval();
-        this.threadTask = new threadTask(this);
+        this.setThreadTask(new ThreadTask(this));
     }
 
     /**
@@ -575,7 +570,17 @@ public class Task implements Cloneable, Serializable {
      * @return Runnable - обьект.
      */
 
-    public final threadTask getThreadTask() {
-        return this.threadTask;
+    public final ThreadTask getThreadTask() {
+        return this.ThreadTask;
+    }
+
+    /**
+     * Метод setThreadTask(model.ThreadTask threadTask).
+     * Связывает поток с задачей.
+     * @param threadTask новый поток.
+     */
+
+    public final void setThreadTask(final model.ThreadTask threadTask) {
+        ThreadTask = threadTask;
     }
 }

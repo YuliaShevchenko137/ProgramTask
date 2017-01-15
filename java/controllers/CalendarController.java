@@ -177,7 +177,7 @@ public class CalendarController {
     final void fillingTable(final Map<Date, Set<Task>> map) {
         Set<Date> dateSet = map.keySet();
         ObservableList<Date> dateObs = FXCollections.observableArrayList();
-        for(Date t : dateSet) {
+        for (Date t : dateSet) {
             dateObs.add(t);
         }
         this.listView.setItems(dateObs);

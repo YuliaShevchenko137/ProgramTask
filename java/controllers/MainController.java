@@ -322,9 +322,13 @@ public class MainController {
             this.gridChange.setVisible(false);
             this.gridView.setVisible(true);
             task.getInterval();
+            task.getThreadTask().setFinish();
+            task.setThreadTask(new ThreadTask(task));
             this.getObs().getObs().add(task);
             TaskIO.writeText(getObs().getTasks(), new File("temp.txt"));
             this.countChanges = -1;
+            this.change.setVisible(true);
+            this.apply.setVisible(false);
             this.error.setText("");
         } else {
             this.error.setVisible(true);
