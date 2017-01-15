@@ -26,13 +26,13 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
      * Начальная длинна списка.
      */
 
-    private int startSize = 10;
+    private final int startSize = 10;
 
     /**
      * Ноль.
      */
 
-    private int nulls = 0;
+    private final int nulls = 0;
 
     /**
      * Количество внесенных задач.
@@ -76,7 +76,8 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
             if (this.size == this.n) {
                 this.n += this.n / 2;
                 Task[] temp = new Task[this.n];
-                System.arraycopy(this.array, 0, temp, 0, this.n - (this.startSize / 2));
+                System.arraycopy(this.array, 0, temp, 0,
+                        this.n - (this.startSize / 2));
                 this.array = temp;
             }
             this.array[this.size] = task;
@@ -136,28 +137,31 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     
     @Override
     public final Iterator<Task> iterator() {
+        Task[] tasks = this.array;
         return new Iterator<Task>() {
 
             private int current = nulls;
 
             public boolean hasNext() {
-                return this.current < size;
+                return this.current < tasks.length;
             }
 
             public Task next() {
-                return array[this.current++];
+                return tasks[this.current++];
             }
 
             public void remove() {
-                if(this.current == 0) throw new IllegalStateException();
+                if(this.current == 0) {
+                    throw new IllegalStateException();
+                }
                 int k = 0;
-                for (int i = 0; i < size; i++){
+                for (int i = 0; i < tasks.length; i++) {
                     if (i == this.current - 1) {
                         k++;
                     }
-                    array[i] = array[i + k];
+                    tasks[i] = tasks[i + k];
                 }
-                array[size] = null;
+                tasks[tasks.length] = null;
                 size--;
                 this.current--;
             }
@@ -190,19 +194,19 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
      */
     
     @Override
-    public final boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (obj == null)  {
             return false;
-        } else if(obj == this) {
+        } else if (obj == this) {
             return true;
         } else if (this.getClass() != obj.getClass()) {
             return false;
         } else {
             TaskList tasks = (TaskList) obj;
-            if (tasks.size() != size()) {
+            if (tasks.size() != this.size()) {
                 return false;
             }
-            Iterator<Task> i = iterator();
+            Iterator<Task> i = this.iterator();
             for (Task t : tasks) {
                 Task t1 = i.next();
                 boolean a = t.equals(t1);
@@ -223,7 +227,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
      */
 
     @Override
-    protected TaskList clone() throws CloneNotSupportedException {
+    protected final TaskList clone() throws CloneNotSupportedException {
         return (TaskList) super.clone();
     }
 }
