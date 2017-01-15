@@ -59,6 +59,18 @@ public final class TaskIO {
     private static String active = "inactive;";
 
     /**
+     * Маркер [.
+     */
+
+    private static String leftbrasket = " [";
+
+    /**
+     * Маркер ].
+     */
+
+    private static String rightbrasket = "] ";
+
+    /**
      * Маркер неактивной задачи.
      */
 
@@ -108,7 +120,7 @@ public final class TaskIO {
     private static String createMessage(final Task t) {
         String str = st + t.getTitle();
         if (!t.isRepeated()) {
-            str += st + space + at + " [" + dateFormat.format(t.getStart()) + "]";
+            str += st + space + at + leftbrasket + dateFormat.format(t.getStart()) + rightbrasket;
             if (t.isActive()) {
                 str += active + enter;
             } else {
@@ -116,10 +128,10 @@ public final class TaskIO {
             }
         } else {
             String interval = t.getInterval();
-            str += st + space + from + " ["
+            str += st + space + from + leftbrasket
                     + dateFormat.format(t.getStart()) + "] to ["
                     + dateFormat.format(t.getEnd()) + "] every ["
-                    + interval + "] ";
+                    + interval + rightbrasket;
             if (t.isActive()) {
                 str += space + active + enter;
             } else {
@@ -210,8 +222,8 @@ public final class TaskIO {
                 + words[s + 2 * count + 1];
         end = end.substring(1, end.length() - 2);
         count++;
-        final int intervalYear = Integer.parseInt(words[s + 2 * count + 1]
-                .substring(1));
+        final int intervalYear = Integer.parseInt(words[s
+                + 2 * count + 1].substring(1));
         count++;
         final int intervalMonth = Integer.parseInt(words[s + 2 * count + 1]);
         count++;
@@ -283,7 +295,7 @@ public final class TaskIO {
 
     public static void readText(final TaskList tasks, final File file)
             throws IOException, ParseException {
-        if (file.exists() || file.length() != 0){
+        if (file.exists() || file.length() != 0) {
             Reader in = new FileReader(file);
             read(tasks, in);
         }
