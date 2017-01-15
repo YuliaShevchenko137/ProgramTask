@@ -1,86 +1,155 @@
 package model;
 
-
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class ArrayTaskList extends TaskList implements Cloneable, Serializable{
+/**
+ * Класс ArrayTaskList.
+ * Реализация списка задач.
+ */
+
+public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
+
+    /**
+     * Контроль версии для сериализации.
+     */
 
     static final long serialVersionUID = 42L;
 
-    private int n=0;
-    private int size = 0;
+    /**
+     * Длинна списка.
+     */
 
-    private Task[] Array = new Task[1];
+    private int n;
+
+    /**
+     * Количество внесенных задач.
+     */
+
+    private int size;
+
+    /**
+     * Массив, в который вносят задачи.
+     */
+
+    private Task[] array;
+
+    /**
+     * Конструктор ArrayTaskList().
+     * Заполняет основные переменные.
+     */
+    
+    public ArrayTaskList() {
+        this.n = 0;
+        this.size = 0;
+        this.array = new Task[0];
+    }
+    
+    /**
+     * Метод add(Task task).
+     * Добавление задачи.
+     * @param task задача.
+     */
 
     public void add(Task task) {
-        if (task == null){
+        if (task == null) {
             return;
         }
-        if (this.n == 0){
-            this.Array = new Task[10];
-            this.Array[this.size] = task;
-            this.n=10;
+        if (this.n == 0) {
+            this.array = new Task[10];
+            this.array[this.size] = task;
+            this.n = 10;
             this.size++;
-        }
-        else{
-            if (this.size == this.n){
-                this.n+=5;
-                Task[]A1=new Task[n];
-                System.arraycopy(this.Array, 0, A1, 0, n-5);
-                this.Array = A1;
+        } else{
+            if (this.size == this.n) {
+                this.n += 5;
+                Task[] A1 = new Task[this.n];
+                System.arraycopy(this.array, 0, A1, 0, this.n-5);
+                this.array = A1;
             }
-            this.Array[this.size]=task;
+            this.array[this.size] = task;
             this.size++;
         }
     }
 
-    public int size(){
-        return size;
+    /**
+     * Метод size().
+     * Возвращает количесво задач.
+     * @return количество задач.
+     */
+
+    public int size() {
+        return this.size;
     }
 
-    public boolean remove(Task task){
-        int i=0;
+    /**
+     * Метод remove(Task task).
+     * Удаление задачи.
+     * @param task задача.
+     * @return true, если удалено.
+     */
+    
+    public boolean remove(Task task) {
+        int i = 0;
         int res = -1;
-        while(i < size){
-            if(Array[i]==task){
+        while (i < this.size) {
+            if (this.array[i] == task) {
                 res = i;
                 break;
             }
             i++;
         }
-        if(res == -1){
+        if (res == -1) {
             return false;
         }
         int k = 0;
-        for (i = 0; i < size-1; i++){
-            if(i == res) k++;
-            Array[i]=Array[i+k];
+        for (i = 0; i < this.size - 1; i++){
+            if (i == res) {
+                k++;
+            }
+            this.array[i] = this.array[i + k];
         }
-        Array[size-1]=null;
+        this.array[this.size - 1] = null;
         size--;
         return true;
     }
 
+    /**
+     * Метод iterator().
+     * Реализация итератора.
+     * Задает основные функции, для
+     * интерирования по списку.
+     * @return итератор.
+     */
+    
     @Override
     public Iterator<Task> iterator() {
         return new Iterator<Task>() {
             int current = 0;
             public boolean hasNext() { return current < size; }
-            public Task next() { return Array[current++]; }
+            public Task next() { return array[current++]; }
             public void remove() {
                 if(current == 0) throw new IllegalStateException();
                 int k = 0;
                 for (int i = 0; i < size; i++){
-                    if(i == current-1) k++;
-                    Array[i]=Array[i+k];
+                    if (i == current - 1) {
+                        k++;
+                    }
+                    array[i] = array[i + k];
                 }
-                Array[size]=null;
+                array[size] = null;
                 size--;
-                current --;
+                current--;
             }
         };
     }
+
+    /**
+     * Метод hashCode().
+     * используется для хеширования данных:
+     * {@link Object#hashCode()}.
+     * @return хеш-код текущей задачи.
+     */
 
     @Override
     public int hashCode() {
@@ -93,33 +162,45 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable{
         return result;
     }
 
+    /**
+     * Метод equals(Object obj).
+     * сравнивает задачи: {@link Object#equals(Object)}.
+     * @param obj обьект для проверки.
+     * @return true, если обьекты одинаковые; false.
+     */
+    
     @Override
-    public boolean equals(Object Tasks) {
-        if(Tasks == null) return false;
-        else if(Tasks == this) return true;
-        else if(this.getClass() != Tasks.getClass()) return false;
-        else{
-            TaskList tasks = (TaskList)Tasks;
-            if(tasks.size() != size()) return false;
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        } else if(obj == this) {
+            return true;
+        } else if(this.getClass() != obj.getClass()) {
+            return false;
+        } else {
+            TaskList tasks = (TaskList) obj;
+            if(tasks.size() != size()) {
+                return false;
+            }
             Iterator<Task> i = iterator();
             for(Task t:tasks){
                 Task t1 = i.next();
                 boolean a = t.equals(t1);
-                if(!a) return false;
+                if(!a) {
+                    return false;
+                }
             }
             return true;
         }
     }
 
-    @Override
-    public String toString() {
-        String s = "ArrayTaskListTaskList, size = "+ size() + ":\n";
-        for(Task t:this){
-            s+="Title: " + t.getStart() + " Start Time: " + t.getStart() + " End Time: " + t.getEnd() + " Interval: " + t.getInterval() + " Active: " + t.isActive();
-            s+="\n";
-        }
-        return s;
-    }
+    /**
+     * Метод clone().
+     * создает копию текущей задачи
+     * {@link Object#clone()}.
+     * @return  копию текущей задачи.
+     * @throws  CloneNotSupportedException no clone.
+     */
 
     @Override
     protected TaskList clone() throws CloneNotSupportedException {

@@ -61,7 +61,8 @@ public class OperationForTime {
      * @return новая дата.
      */
 
-    public static LocalDateTime plusTime(final LocalDateTime date, final Task t) {
+    public static LocalDateTime plusTime(final LocalDateTime date,
+                                         final Task t) {
         LocalDateTime dates = date;
         if (t.getIntervalYear() != 0) {
             dates = dates.plusYears(t.getIntervalYear());
@@ -92,7 +93,8 @@ public class OperationForTime {
      * @return новая дата.
      */
 
-    public static LocalDateTime minusTime(final LocalDateTime date, final Task t) {
+    public static LocalDateTime minusTime(final LocalDateTime date,
+                                          final Task t) {
         LocalDateTime dates = date;
         if (t.getIntervalYear() != 0) {
             dates = dates.minusYears(t.getIntervalYear());

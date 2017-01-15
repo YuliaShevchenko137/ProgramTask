@@ -24,7 +24,7 @@ public class Tasks {
      * Пустой конструктор Tasks().
      */
 
-    private Tasks(){
+    private Tasks() {
 
     }
 
@@ -44,12 +44,10 @@ public class Tasks {
         for (Task t : tasks) {
             if (t.isActive()) {
                 Date s = t.nextTimeAfter(start);
-                if (s != null) {
-                    if (s.equals(end)) {
-                        list.add(t);
-                    } else if (s.before(end)) {
-                        list.add(t);
-                    }
+                if (s != null && s.equals(end)) {
+                    list.add(t);
+                } else if (s != null && s.before(end)) {
+                    list.add(t);
                 }
             }
         }
@@ -57,7 +55,7 @@ public class Tasks {
     }
 
     /**
-     *Метод calendar(Iterable<Task> tasks, Date start, Date end).
+     *Метод calendar(Iterable tasks, Date start, Date end).
      * Создание календаря для список задач.
      * @param tasks список задач.
      * @param start время начала.
@@ -74,7 +72,7 @@ public class Tasks {
         Set<Task> s;
         for (Task t : tasks1) {
             if (!t.isRepeated()) {
-                if(!res.containsKey(t.getStart())){
+                if (!res.containsKey(t.getStart())){
                     s = new HashSet<>();
                     s.add(t);
                     res.put(t.getStart(), s);
@@ -93,7 +91,8 @@ public class Tasks {
                 }
             }
             instant = Instant.ofEpochMilli(t.getEnd().getTime());
-            LocalDateTime end1 = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+            LocalDateTime end1 = LocalDateTime.ofInstant(instant,
+                    ZoneId.systemDefault());
             if (t.getEnd().after(end)) {
                 while (end1.isAfter(LocalDateTime.ofInstant(Instant.
                         ofEpochMilli(end.getTime()), ZoneId.systemDefault()))) {
