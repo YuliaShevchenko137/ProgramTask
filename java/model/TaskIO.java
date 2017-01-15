@@ -1,6 +1,12 @@
 package model;
 
-import java.io.*;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,11 +14,63 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Класс TaskIO.
+ * Работа с файлами.
+ * Чтение и запись.
+ */
+
 public class TaskIO {
 
-    private static void write(TaskList tasks, Writer out) throws IOException {
+    /**
+     * Символ ".
+     */
+
+    private static String st = "\"";
+
+    /**
+     * Символ переноса строки.
+     */
+
+    private static String enter = "\n";
+
+    /**
+     * Маркер неповторения.
+     */
+
+    private static String at = "at";
+
+    /**
+     * Маркер повторения.
+     */
+
+    private static String from = "from";
+
+    /**
+     * Формат даты.
+     */
+
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * Пустой конструктор TaskIO().
+     */
+
+    private TaskIO(){
+
+    }
+
+    /**
+     * Метод write(TaskList tasks, Writer out).
+     * Запить списка задач в поток.
+     * @param tasks список задач.
+     * @param out поток для записи.
+     * @throws IOException рабоат с файлами.
+     */
+
+    private static void write(final TaskList tasks, final Writer out) throws IOException {
         Iterator<Task> i = tasks.iterator();
-        for(; i.hasNext();){
+        for ( ; i.hasNext(); ) {
             Task t = i.next();
             String s = createMessage(t);
             out.write(s);
@@ -20,60 +78,99 @@ public class TaskIO {
         out.close();
     }
 
-    private static String createMessage(Task t) {
-        String str = "\"" + t.getTitle();
-        if(!t.isRepeated()){
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            str+="\" at [" + dateFormat.format(t.getStart()) + "]";
-            if(t.isActive()) str+=" inactive;" + "\n";
-            else str += ";" + "\n";
-        }
-        else{
+    /**
+     * Метод createMessage(final Task t).
+     * Создание сообщения про текущую задачу.
+     * @param t задача.
+     * @return строка - результат.
+     */
+
+    private static String createMessage(final Task t) {
+        String str = st + t.getTitle();
+        if (!t.isRepeated()) {
+            str += st + " " + at + " [" + dateFormat.format(t.getStart()) + "]";
+            if (t.isActive()) {
+                str += " inactive;" + enter;
+            } else {
+                str += ";" + enter;
+            }
+        } else {
             String interval = t.getInterval();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            str+="\" from [" + dateFormat.format(t.getStart()) + "] to [" + dateFormat.format(t.getEnd()) + "] every [" + interval + "] ";
-            if(t.isActive()) str+=" inactive;" + "\n";
-            else str += ";" + "\n";
+            str += st + " " + from +" [" + dateFormat.format(t.getStart()) + "] to ["
+                    + dateFormat.format(t.getEnd()) + "] every ["
+                    + interval + "] ";
+            if (t.isActive()) {
+                str += " inactive;" + enter;
+            } else {
+                str += ";" + enter;
+            }
         }
         return str;
     }
 
-    private static String takeText(Reader in) throws IOException {
+    /**
+     * Метод takeText(Reader in).
+     * Посимвольный выбор информации в текст.
+     * @param in поток.
+     * @return текст из потока.
+     * @throws IOException чтение из потока.
+     */
+
+    private static String takeText(final Reader in)
+            throws IOException {
         int a = in.read();
         String str = "";
-        while(a != -1){
+        while (a != -1) {
             str += (char) a;
             a = in.read();
         }
         return str;
     }
 
-    private static Task createNoRepeatedTask(String[] words) throws ParseException {
-        int st = 0;
+    /**
+     *Метод createNoRepeatedTask(String[] words).
+     * Создание неповторяющейся задачи.
+     * @param words набор слов о задаче.
+     * @return созданая задача.
+     * @throws ParseException преобразование дат.
+     */
+
+    private static Task createNoRepeatedTask(
+            final String[] words) throws ParseException {
+        int s = 0;
         for (int i = 0; i < words.length; i++) {
-            if ("at".equals(words[i])) {
-                st = i;
+            if (at.equals(words[i])) {
+                s = i;
                 break;
             }
         }
         String title = "";
-        for (int i = 0; i < st; i++) {
+        for (int i = 0; i < s; i++) {
             title += words[i];
         }
-        title = title.replace("\"\"", "**").replace("\"", "").replace("**","\"");
+        title = title.replace(" " + st, " ");
         boolean active = "inactive;".equals(words[words.length - 1]);
-        String date = (words[st + 1] + " " + words[st + 2]);
-        date = date.substring(1, date.length()-2);
+        String date = (words[s + 1] + " " + words[s + 2]);
+        date = date.substring(1, date.length() - 2);
         Task task = new Task(title, OperationForTime.parseDate(date));
         task.setRepeated(false);
         task.setActive(active);
         return task;
     }
 
-    private static Task createRepeatedTask(String[] words) throws ParseException {
+    /**
+     *Метод createRepeatedTask(String[] words).
+     * Создание повторяющейся задачи.
+     * @param words набор слов о задаче.
+     * @return созданая задача.
+     * @throws ParseException преобразование дат.
+     */
+
+    private static Task createRepeatedTask(
+            final String[] words) throws ParseException {
         int st = 0;
         for (int i = 0; i < words.length; i++) {
-            if ("from".equals(words[i])) {
+            if (from.equals(words[i])) {
                 st = i;
                 break;
             }
@@ -82,19 +179,29 @@ public class TaskIO {
         for (int i = 0; i < st; i++) {
             title += words[i];
         }
-        title = title.replace("\"\"", "**").replace("\"", "").replace("**","\"");
+        title = title.replace(" " + st, " ");
         boolean active = false;
-        if ("inactive;".equals(words[words.length - 1])) active = true;
-        String start = words[st + 1] + " " + words[st + 2];
+        if ("inactive;".equals(words[words.length - 1])) {
+            active = true;
+        }
+        int count = 1;
+        String start = words[st + 2 * count - 1] + " " + words[st + 2 * count];
+        count++;
         start = start.substring(1, start.length() - 2);
-        String end = words[st + 4] + " " + words[st + 5];
+        String end = words[st + 2 * count] + " " + words[st + 2 * count + 1];
         end = end.substring(1, end.length()-2);
-        int intervalYear = Integer.parseInt(words[st + 7].substring(1));
-        int intervalMonth = Integer.parseInt(words[st + 9]);
-        int intervalDay = Integer.parseInt(words[st + 11]);
-        int intervalHour = Integer.parseInt(words[st + 13]);
-        int intervalMinute = Integer.parseInt(words[st + 15]);
-        int intervalSeconds = Integer.parseInt(words[st + 17]);
+        count++;
+        int intervalYear = Integer.parseInt(words[st + 2 * count + 1].substring(1));
+        count++;
+        int intervalMonth = Integer.parseInt(words[st + 2 * count + 1]);
+        count++;
+        int intervalDay = Integer.parseInt(words[st + 2 * count + 1]);
+        count++;
+        int intervalHour = Integer.parseInt(words[st + 2 * count + 1]);
+        count++;
+        int intervalMinute = Integer.parseInt(words[st + 2 * count + 1]);
+        count++;
+        int intervalSeconds = Integer.parseInt(words[st + 2 * count + 1]);
         Task task = new Task(title, OperationForTime.parseDate(start),
                 OperationForTime.parseDate(end), intervalYear, intervalMonth,
                 intervalDay, intervalHour, intervalMinute, intervalSeconds);
@@ -103,18 +210,27 @@ public class TaskIO {
         return task;
     }
 
+    /**
+     * Метод read(TaskList tasks, Reader in).
+     * Чтение из файла.
+     * @param tasks список задач для записи.
+     * @param in поток для записи.
+     * @throws IOException работа с потоком.
+     * @throws ParseException преобразование дат.
+     */
+
     private static void read(TaskList tasks, Reader in) throws IOException, ParseException {
         String str = takeText(in);
-        String[] lines = str.split("\\n");
+        String[] lines = str.split(enter);
         if(tasks == null) tasks = new ArrayTaskList();
         for(String Str : lines) {
             String[] words = Str.split(" ");
             for (String word : words) {
-                if ("from".equals(word)) {
+                if (from.equals(word)) {
                     tasks.add(createRepeatedTask(words));
                     break;
                 }
-                if ("at".equals(word)) {
+                if (at.equals(word)) {
                     tasks.add(createNoRepeatedTask(words));
                     break;
                 }
@@ -122,19 +238,47 @@ public class TaskIO {
         }
     }
 
-    public static void writeText(TaskList tasks, File file) throws IOException {
+    /**
+     * Метод writeText(TaskList tasks, File file).
+     * Записть списка задач в файл.
+     * @param tasks список задач.
+     * @param file файл для записи.
+     * @throws IOException работа с файлами.
+     */
+
+    public static void writeText(final TaskList tasks,
+                                 final File file) throws IOException {
         Writer out = new FileWriter(file, false);
         write(tasks, out);
     }
 
-    public static void readText(TaskList tasks, File file) throws IOException, ParseException {
+    /**
+     * Метод readText(TaskList tasks, final File file).
+     * Считывание задач из файла.
+     * @param tasks список задач.
+     * @param file файл для чтения.
+     * @throws IOException работа с файлами.
+     * @throws ParseException преобразование дат.
+     */
+
+    public static void readText(TaskList tasks,
+                                final File file) throws IOException, ParseException {
         if(file.exists() || file.length() != 0){
             Reader in = new FileReader(file);
             read(tasks, in);
         }
     }
 
-    private static void write(Map<Date, Set<Task>> map, Writer out) throws IOException {
+    /**
+     * Метод write(final Map map, final Writer out).
+     * Запись карты в поток.
+     * @param map карта с задачами.
+     * @param out поток для записи.
+     * @throws IOException работа с потоками.
+     */
+
+    private static void write(final Map<Date, Set<Task>> map,
+                              final Writer out) throws IOException {
         Set<Date> dates = map.keySet();
         for(Date date : dates){
             String str = date + ": \n";
@@ -145,7 +289,16 @@ public class TaskIO {
         out.close();
     }
 
-    public static void writeMap(Map<Date, Set<Task>> maps, File file) throws IOException {
+    /**
+     * Метод writeMap(final Map maps, final File file).
+     * Запись карты в файл.
+     * @param maps карта с задачами.
+     * @param file файл для записи.
+     * @throws IOException работа с файлами.
+     */
+
+    public static void writeMap(final Map<Date, Set<Task>> maps,
+                                final File file) throws IOException {
         Writer out = new FileWriter(file);
         write(maps, out);
     }

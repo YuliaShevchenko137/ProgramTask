@@ -137,17 +137,16 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     
     @Override
     public final Iterator<Task> iterator() {
-        Task[] tasks = this.array;
         return new Iterator<Task>() {
 
             private int current = nulls;
 
             public boolean hasNext() {
-                return this.current < tasks.length;
+                return this.current < size;
             }
 
             public Task next() {
-                return tasks[this.current++];
+                return array[this.current++];
             }
 
             public void remove() {
@@ -155,13 +154,13 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
                     throw new IllegalStateException();
                 }
                 int k = 0;
-                for (int i = 0; i < tasks.length; i++) {
+                for (int i = 0; i < size(); i++) {
                     if (i == this.current - 1) {
                         k++;
                     }
-                    tasks[i] = tasks[i + k];
+                    array[i] = array[i + k];
                 }
-                tasks[tasks.length] = null;
+                array[size] = null;
                 size--;
                 this.current--;
             }
