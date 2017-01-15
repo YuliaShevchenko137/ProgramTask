@@ -134,7 +134,7 @@ public class CalendarController {
     private void showTaskDetails(final Date date) {
         Set<Task> task = this.maps.get(date);
         ObservableList<Task> tasks = FXCollections.observableArrayList();
-        for(Task t : task) {
+        for (Task t : task) {
             tasks.add(t);
         }
         this.taskTable.setItems(tasks);
@@ -147,7 +147,7 @@ public class CalendarController {
      * @throws IOException открытие файла.
      */
 
-    public final void safe(final ActionEvent actionEvent) throws IOException{
+    public final void safe(final ActionEvent actionEvent) throws IOException {
         FXMLLoader filechoosefxmlLoader = new FXMLLoader();
         Stage fileChooserStage = new Stage();
         filechoosefxmlLoader.setLocation(getClass().
@@ -156,12 +156,12 @@ public class CalendarController {
         FileChooserController fileChooserController =
                 filechoosefxmlLoader.getController();
         fileChooserStage.setTitle("Выбор файла");
-        fileChooserStage.setMaxHeight(heigth);
-        fileChooserStage.setMinWidth(width);
+        fileChooserStage.setMaxHeight(this.heigth);
+        fileChooserStage.setMinWidth(this.width);
         fileChooserStage.setResizable(false);
         fileChooserStage.setScene(new Scene(root));
         fileChooserStage.initModality(Modality.WINDOW_MODAL);
-        fileChooserStage.initOwner(((Node)actionEvent.
+        fileChooserStage.initOwner(((Node) actionEvent.
                 getSource()).getScene().getWindow());
         fileChooserStage.showAndWait();
         File f = fileChooserController.getSelectedFile();
@@ -169,7 +169,7 @@ public class CalendarController {
     }
 
     /**
-     * Метод fillingTable(final Map<Date, Set<Task>> map).
+     * Метод fillingTable(final Map map).
      * Заполнение списка дат.
      * @param map карта для выбора дат.
      */
@@ -184,12 +184,12 @@ public class CalendarController {
     }
 
     /**
-     * Метод setMaps(Map<Date, Set<Task>> maps).
+     * Метод setMaps(Map maps).
      * ПРивязывает карту к контроллеру.
-     * @param maps карта.
+     * @param map карта.
      */
 
-    final void setMaps(final Map<Date, Set<Task>> maps) {
-        this.maps = maps;
+    final void setMaps(final Map<Date, Set<Task>> map) {
+        this.maps = map;
     }
 }
