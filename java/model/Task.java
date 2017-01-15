@@ -309,43 +309,18 @@ public class Task implements Cloneable, Serializable {
         } else if (current.after(this.end)) {
             return null;
         } else {
-            LocalDateTime start1 = this.dateToLocalDateTime(this.start);
-            LocalDateTime end1 = this.dateToLocalDateTime(this.end);
-            LocalDateTime current1 = this.dateToLocalDateTime(current);
+            LocalDateTime start1 = OperationForTime.dateToLocalDateTime(this.start);
+            LocalDateTime end1 = OperationForTime.dateToLocalDateTime(this.end);
+            LocalDateTime current1 = OperationForTime.dateToLocalDateTime(current);
             do {
-                start1 = Tasks.plusTime(start1, this);
+                start1 = OperationForTime.plusTime(start1, this);
             } while (start1.isBefore(current1) || start1.equals(current1));
             if (start1.isBefore(end1) || start1.equals(end1)) {
-                return this.localDateTimeToDate(current1);
+                return OperationForTime.localDateTimeToDate(current1);
             } else {
                 return new Date(0);
             }
         }
-    }
-
-    /**
-     * Метод localDateTimeToDate(LocalDateTime localDateTime).
-     * преобразовует LocalDateTime в Date.
-     * @param localDateTime дата типа LocalDateTime.
-     * @return дата типа Date.
-     */
-
-    private Date localDateTimeToDate(final LocalDateTime localDateTime) {
-        Instant instant = localDateTime.
-                atZone(ZoneId.systemDefault()).toInstant();
-        return Date.from(instant);
-    }
-
-    /**
-     * Метод dateToLocalDateTime(Date date).
-     * преобразовует Date в LocalDateTime.
-     * @param date дата типа Date.
-     * @return дата типа LocalDateTime.
-     */
-
-    private LocalDateTime dateToLocalDateTime(final Date date) {
-        Instant instant = Instant.ofEpochMilli(date.getTime());
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
     /**

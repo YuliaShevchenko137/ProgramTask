@@ -3,9 +3,30 @@ package model;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
-public class Tasks{
+/**
+ * Класс Tasks.
+ * Обработка списка задач.
+ * Создание календаря.
+ */
+
+public class Tasks {
+
+    /**
+     * Метод incoming(Iterable tasks, Date start, Date end).
+     * выбор задач, попадающих в интервал.
+     * @param tasks список задач.
+     * @param start начало интервала.
+     * @param end конеч интервала.
+     * @return список задач.
+     */
 
     private static Iterable<Task> incoming(Iterable<Task> tasks, Date start, Date end) {
         List<Task> list = new ArrayList<>();
@@ -42,14 +63,14 @@ public class Tasks{
             LocalDateTime start1 = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
             if(t.getStart().before(start)){
                 while(start1.isBefore(LocalDateTime.ofInstant(Instant.ofEpochMilli(start.getTime()), ZoneId.systemDefault()))){
-                    start1 = plusTime(start1, t);
+                    start1 = OperationForTime.plusTime(start1, t);
                 }
             }
             instant = Instant.ofEpochMilli(t.getEnd().getTime());
             LocalDateTime end1 = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
             if(t.getEnd().after(end)){
                 while(end1.isAfter(LocalDateTime.ofInstant(Instant.ofEpochMilli(end.getTime()), ZoneId.systemDefault()))){
-                    end1 = minusTime(end1, t);
+                    end1 = OperationForTime.minusTime(end1, t);
                 }
             }
             while(start1.isBefore(end1)){
@@ -63,53 +84,10 @@ public class Tasks{
                 else{
                     res.get(startT).add(t);
                 }
-                start1 = plusTime(start1, t);
+                start1 = OperationForTime.plusTime(start1, t);
             }
         }
         return res;
     }
-    
-    static LocalDateTime plusTime(LocalDateTime date, Task t){
-        if(t.getIntervalYear() != 0) {
-            date = date.plusYears(t.getIntervalYear());
-        }
-        if(t.getIntervalMonth() != 0) {
-            date = date.plusMonths(t.getIntervalMonth());
-        }
-        if(t.getIntervalDay() != 0) {
-            date = date.plusDays(t.getIntervalDay());
-        }
-        if(t.getIntervalMinute() != 0) {
-            date = date.plusMinutes(t.getIntervalMinute());
-        }
-        if(t.getIntervalHour() != 0) {
-            date = date.plusHours(t.getIntervalHour());
-        }
-        if(t.getIntervalSecond() != 0) {
-            date = date.plusSeconds(t.getIntervalSecond());
-        }
-        return date;
-    }
 
-    private static LocalDateTime minusTime(LocalDateTime date, Task t){
-        if(t.getIntervalYear() != 0) {
-            date = date.minusYears(t.getIntervalYear());
-        }
-        if(t.getIntervalMonth() != 0) {
-            date = date.minusMonths(t.getIntervalMonth());
-        }
-        if(t.getIntervalDay() != 0) {
-            date = date.minusDays(t.getIntervalDay());
-        }
-        if(t.getIntervalMinute() != 0) {
-            date = date.minusMinutes(t.getIntervalMinute());
-        }
-        if(t.getIntervalHour() != 0) {
-            date = date.minusHours(t.getIntervalHour());
-        }
-        if(t.getIntervalSecond() != 0) {
-            date = date.minusSeconds(t.getIntervalSecond());
-        }
-        return date;
-    }
 }

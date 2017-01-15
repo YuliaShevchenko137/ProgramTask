@@ -64,7 +64,7 @@ public class ThreadTask {
         this.firstAlert = false;
         this.task = tas;
         this.thread = new Thread(() -> {
-            if (nowTime().after(this.task.getEnd())) {
+            if (this.nowTime().after(this.task.getEnd())) {
                 return;
             }
             List<Task> t = new ArrayList<>();
@@ -76,8 +76,9 @@ public class ThreadTask {
             }
             for (Date date : map.keySet()) {
                 this.firstAlert = false;
-                while (!finish && !firstAlert) {
-                    long countMSecond = date.getTime() - this.nowTime().getTime();
+                while (!this.finish && !this.firstAlert) {
+                    long countMSecond = date.getTime()
+                            - this.nowTime().getTime();
                     Set<Task> tasks = map.get(date);
                     if (countMSecond > this.halfhour) {
                         try {

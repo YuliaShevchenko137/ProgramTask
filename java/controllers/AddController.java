@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import model.OperationForTime;
 import model.Task;
 import model.TaskIO;
 import org.apache.log4j.Logger;
@@ -100,7 +101,7 @@ public class AddController {
         String str = this.dateStart.getValue().toString() + " " + this.timeStart.getText();
         Date start;
         try {
-            start = TaskIO.parseDate(str);
+            start = OperationForTime.parseDate(str);
         }
         catch(ParseException e){
             logger.error(e.getMessage(), e);
@@ -111,7 +112,7 @@ public class AddController {
         Date end;
         str = this.dateEnd.getValue().toString() + " " + this.timeEnd.getText();
         try {
-            end = TaskIO.parseDate(str);
+            end = OperationForTime.parseDate(str);
         } catch (ParseException e) {
             logger.error(e.getMessage(), e);
             str1 += "Неправильно введено время конца задачи\n";
@@ -163,7 +164,7 @@ public class AddController {
         String str = this.dateStart.getValue().toString() + " " + this.timeStart.getText();
         Date start;
         try{
-            start = TaskIO.parseDate(str);
+            start = OperationForTime.parseDate(str);
         }
         catch(ParseException e){
             logger.error(e.getMessage(), e);

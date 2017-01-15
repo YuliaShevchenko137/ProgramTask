@@ -38,11 +38,6 @@ public class TaskIO {
         return str;
     }
 
-    public static Date parseDate(String str) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return format.parse(str);
-    }
-
     private static String takeText(Reader in) throws IOException {
         int a = in.read();
         String str = "";
@@ -69,7 +64,7 @@ public class TaskIO {
         boolean active = "inactive;".equals(words[words.length - 1]);
         String date = (words[st + 1] + " " + words[st + 2]);
         date = date.substring(1, date.length()-2);
-        Task task = new Task(title, parseDate(date));
+        Task task = new Task(title, OperationForTime.parseDate(date));
         task.setRepeated(false);
         task.setActive(active);
         return task;
@@ -100,8 +95,9 @@ public class TaskIO {
         int intervalHour = Integer.parseInt(words[st + 13]);
         int intervalMinute = Integer.parseInt(words[st + 15]);
         int intervalSeconds = Integer.parseInt(words[st + 17]);
-        Task task = new Task(title, parseDate(start), parseDate(end), intervalYear,
-                intervalMonth, intervalDay, intervalHour, intervalMinute, intervalSeconds);
+        Task task = new Task(title, OperationForTime.parseDate(start),
+                OperationForTime.parseDate(end), intervalYear, intervalMonth,
+                intervalDay, intervalHour, intervalMinute, intervalSeconds);
         task.setRepeated(true);
         task.setActive(active);
         return task;

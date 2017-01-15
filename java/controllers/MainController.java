@@ -282,8 +282,8 @@ public class MainController {
         calendarStage.setScene(new Scene(root));
         calendarStage.initModality(Modality.WINDOW_MODAL);
         calendarStage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
-        Date dateSt = TaskIO.parseDate(dateStart + " " + timestart);
-        Date dateEn = TaskIO.parseDate(dateEnd + " " + timeend);
+        Date dateSt = OperationForTime.parseDate(dateStart + " " + timestart);
+        Date dateEn = OperationForTime.parseDate(dateEnd + " " + timeend);
         Map<Date, java.util.Set<Task>> maps = Tasks.calendar(this.getObs().getObs(), dateSt, dateEn);
         calendarController.setMaps(maps);
         calendarController.fillingTable(maps);
@@ -342,13 +342,13 @@ public class MainController {
         task.setTitle(this.taskNameField.getText());
         task.setActive(this.activeTrue.isSelected());
         try{
-            task.setStart(TaskIO.parseDate(this.dateStart.getValue() + " " + this.timeStart.getText()));
+            task.setStart(OperationForTime.parseDate(this.dateStart.getValue() + " " + this.timeStart.getText()));
         } catch (ParseException e){
             task.setStart(task1.getStart());
             str1 += "Неверное время начала \n";
         }
         try{
-            task.setEnd(TaskIO.parseDate(this.dateEnd.getValue() + " " + this.timeEnd.getText()));
+            task.setEnd(OperationForTime.parseDate(this.dateEnd.getValue() + " " + this.timeEnd.getText()));
         } catch(ParseException e) {
             task.setEnd(task1.getEnd());
             str1 += "Неверное время конца \n";
@@ -382,7 +382,7 @@ public class MainController {
         task.setTitle(this.taskNameField.getText());
         task.setActive(this.activeTrue.isSelected());
         try {
-            task.setTime(TaskIO.parseDate(this.dateStart.getValue() + " " + this.timeStart.getText()));
+            task.setTime(OperationForTime.parseDate(this.dateStart.getValue() + " " + this.timeStart.getText()));
         } catch (ParseException e){
             str += "Неверное время \n";
             task.setTime(task1.getStart());
