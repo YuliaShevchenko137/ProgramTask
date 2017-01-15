@@ -171,7 +171,7 @@ public final class TaskIO {
         }
         title = title.replace(space + st, space);
         boolean actives = active.equals(words[words.length - 1]);
-        String date = (words[s + 1] + space + words[s + 2]);
+        String date = words[s + 1] + space + words[s + 2];
         date = date.substring(1, date.length() - 2);
         Task task = new Task(title, OperationForTime.parseDate(date));
         task.setRepeated(false);
@@ -208,9 +208,10 @@ public final class TaskIO {
         start = start.substring(1, start.length() - 2);
         String end = words[s + 2 * count] + space
                 + words[s + 2 * count + 1];
-        end = end.substring(1, end.length()-2);
+        end = end.substring(1, end.length() - 2);
         count++;
-        final int intervalYear = Integer.parseInt(words[s + 2 * count + 1].substring(1));
+        final int intervalYear = Integer.parseInt(words[s + 2 * count + 1]
+                .substring(1));
         count++;
         final int intervalMonth = Integer.parseInt(words[s + 2 * count + 1]);
         count++;
@@ -282,7 +283,7 @@ public final class TaskIO {
 
     public static void readText(final TaskList tasks, final File file)
             throws IOException, ParseException {
-        if(file.exists() || file.length() != 0){
+        if (file.exists() || file.length() != 0){
             Reader in = new FileReader(file);
             read(tasks, in);
         }
@@ -296,7 +297,8 @@ public final class TaskIO {
      * @throws IOException работа с потоками.
      */
 
-    private static void write(final Map<Date, Set<Task>> map, final Writer out)
+    private static void writeMaps(final Map<Date, Set<Task>> map,
+                                  final Writer out)
             throws IOException {
         Set<Date> dates = map.keySet();
         for (Date date : dates) {
@@ -318,9 +320,10 @@ public final class TaskIO {
      * @throws IOException работа с файлами.
      */
 
-    public static void writeMap(final Map<Date, Set<Task>> maps, final File file)
+    public static void writeMap(final Map<Date, Set<Task>> maps,
+                                final File file)
             throws IOException {
         Writer out = new FileWriter(file);
-        write(maps, out);
+        writeMaps(maps, out);
     }
 }
