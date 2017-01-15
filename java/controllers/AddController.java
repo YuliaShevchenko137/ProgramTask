@@ -231,29 +231,20 @@ public class AddController {
     public void repeated() {
         if (!this.checkboxrepeated.isSelected()){
             this.labelStart.setText("Время");
-            visibleObj(false);
+            info.visibleObj(false, this.labelEnd, this.dateEnd,
+                    this.timeEnd, this.labelInterval,
+                    this.year, this.month, this.day,
+                    this.hour, this.minute, this.second,
+                    this.labelYear, this.labelMonth, this.labelDay,
+                    this.labelHour, this.labelMinute, this.labelSecond);
         } else{
             this.labelStart.setText("Начало");
-            visibleObj(true);
+            info.visibleObj(true, this.labelEnd, this.dateEnd,
+                    this.timeEnd, this.labelInterval,
+                    this.year, this.month, this.day,
+                    this.hour, this.minute, this.second,
+                    this.labelYear, this.labelMonth, this.labelDay,
+                    this.labelHour, this.labelMinute, this.labelSecond);
         }
-    }
-
-    private void visibleObj(boolean bool){
-        this.labelEnd.setVisible(bool);
-        this.dateEnd.setVisible(bool);
-        this.timeEnd.setVisible(bool);
-        this.labelInterval.setVisible(bool);
-        this.year.setVisible(bool);
-        this.month.setVisible(bool);
-        this.day.setVisible(bool);
-        this.hour.setVisible(bool);
-        this.minute.setVisible(bool);
-        this.second.setVisible(bool);
-        this.labelYear.setVisible(bool);
-        this.labelMonth.setVisible(bool);
-        this.labelDay.setVisible(bool);
-        this.labelHour.setVisible(bool);
-        this.labelMinute.setVisible(bool);
-        this.labelSecond.setVisible(bool);
     }
 }

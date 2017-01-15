@@ -3,6 +3,7 @@ package model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -115,5 +116,18 @@ public class OperationForTime {
             dates = dates.minusSeconds(t.getIntervalSecond());
         }
         return dates;
+    }
+
+    /**
+     * Метод dateToLocalDate(Date date).
+     * преобразовует Date в LocalDateTime.
+     * @param date дата типа Date.
+     * @return дата типа LocalDate.
+     */
+
+    public static LocalDate dateToLocalDate(Date date){
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        Instant instant = date.toInstant();
+        return instant.atZone(defaultZoneId).toLocalDate();
     }
 }

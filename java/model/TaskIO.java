@@ -120,7 +120,8 @@ public final class TaskIO {
     private static String createMessage(final Task t) {
         String str = st + t.getTitle();
         if (!t.isRepeated()) {
-            str += st + space + at + leftbrasket + dateFormat.format(t.getStart()) + rightbrasket;
+            str += st + space + at + leftbrasket
+                    + dateFormat.format(t.getStart()) + rightbrasket;
             if (t.isActive()) {
                 str += active + enter;
             } else {
@@ -181,7 +182,7 @@ public final class TaskIO {
         for (int i = 0; i < s; i++) {
             title += words[i];
         }
-        title = title.replace(space + st, space);
+        title = title.substring(1, title.length() - 2);
         boolean actives = active.equals(words[words.length - 1]);
         String date = words[s + 1] + space + words[s + 2];
         date = date.substring(1, date.length() - 2);
