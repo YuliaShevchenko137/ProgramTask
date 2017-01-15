@@ -257,7 +257,7 @@ public class MainController {
         delete.setHeaderText("Вы уверены?");
         Optional<ButtonType> result = delete.showAndWait();
         if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-            t.getThreadTask().stop();
+            t.getThreadTask().setFinish();
             getObs().remove(t);
             TaskIO.writeText(getObs().getTasks(), new File("temp.txt"));
             this.labelSize.setText("Количество задач: " + getObs().getObs().size());
@@ -290,7 +290,7 @@ public class MainController {
         calendarStage.showAndWait();
     }
 
-    private CollectionsTasks getObs() {
+    public CollectionsTasks getObs() {
         return obs;
     }
 

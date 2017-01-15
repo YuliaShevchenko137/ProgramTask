@@ -3,41 +3,91 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.IOException;
+/**
+ * Класс CollectionsTasks.
+ * Используется для создание обертки TaskList
+ * и необходим для отображения данных в tableView.
+ */
 
 public class CollectionsTasks {
 
+    /**
+     * Класс-обертка TaskList-а.
+     */
+
     private ObservableList<Task> obs;
+
+    /**
+     * Список задач.
+     */
 
     private TaskList tasks;
 
-    public CollectionsTasks(){
+    /**
+     * Конструктор CollectionsTasks().
+     * Создает новый список задач и
+     * класс-обертку для него.
+     */
+
+    public CollectionsTasks() {
         this.obs = FXCollections.observableArrayList();
         this.tasks = new ArrayTaskList();
     }
 
-    public void add(Task t){
+    /**
+     * Метод add(Task t).
+     * Добавление новой залачи.
+     * @param t задача.
+     */
+
+    public final void add(final Task t) {
         this.obs.add(t);
         this.tasks.add(t);
     }
 
-    public void remove(Task t) {
+    /**
+     * Метод remove(Task t).
+     * Удаление задачи.
+     * @param t задача.
+     */
+
+    public final void remove(final Task t) {
         this.obs.remove(t);
         this.tasks.remove(t);
     }
 
-    public ObservableList<Task> getObs() {
-        return obs;
+    /**
+     *Метод getObs().
+     * Возвращает ObservableList
+     * текущего списка задач.
+     * @return класс-обертку списка.
+     */
+
+    public final ObservableList<Task> getObs() {
+        return this.obs;
     }
 
-    public TaskList getTasks(){
-        return tasks;
+    /**
+     * Метод getTasks().
+     * Возвращает список задач.
+     * @return список задач.
+     */
+
+    public final TaskList getTasks() {
+        return this.tasks;
     }
 
-    public void setTasks(TaskList tasks) {
-        this.tasks = tasks;
+    /**
+     * Метод setTasks(TaskList tasks).
+     * Устанавливает список задач и
+     * делает для них обертку.
+     * @param taskss список задач.
+     */
+
+    public final void setTasks(final TaskList taskss) {
+        this.tasks = taskss;
         for (Task t :tasks) {
-            obs.add(t);
+            this.obs.add(t);
         }
     }
 }

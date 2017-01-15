@@ -123,6 +123,6 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable{
 
     @Override
     protected TaskList clone() throws CloneNotSupportedException {
-        return super.clone();
+        return (TaskList) super.clone();
     }
 }

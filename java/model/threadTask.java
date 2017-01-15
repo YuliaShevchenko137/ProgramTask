@@ -3,30 +3,30 @@ package model;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 
 import static java.lang.Thread.sleep;
 
-public class threadTask implements Runnable {
+
+public class threadTask{
 
     private Task task;
 
     private boolean finish = false;
     private boolean firstAlert = false;
 
-    threadTask(Task task) {
-        this.task = task;
-    }
+    private Thread thread;
 
     private Date nowTime(){
         return Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    public void run() {
-        Platform.setImplicitExit(false);
-        Platform.runLater(() -> {
+    public threadTask(Task tas) {
+        this. task = tas;
+        this.thread = new Thread(() -> {
             if(nowTime().after(task.getEnd())) {
                 return;
             }
@@ -44,30 +44,29 @@ public class threadTask implements Runnable {
                     Set<Task> tasks = map.get(date);
                     if (countMSecond > halfHour) {
                         try {
-                            sleep(1000*60);
+                            sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else {
+                    } else {
                         for (Task thisTask : tasks) {
-                            createAlert(date, thisTask);
+                            Platform.runLater(() -> {
+                                Alert inf = new Alert(Alert.AlertType.INFORMATION);
+                                inf.setTitle("Напоминание");
+                                inf.setHeaderText("В " + date + " необходимо выполнить: " + thisTask.getTitle());
+                                inf.show();
+                            });
                             firstAlert = true;
                         }
                     }
                 }
             }
         });
-    }
+        thread.start();
+        }
 
-    private void createAlert(Date date, Task task){
-        Alert delete = new Alert(Alert.AlertType.INFORMATION);
-        delete.setTitle("Напоминание");
-        delete.setHeaderText("В " + date + " необходимо выполнить: " + task.getTitle());
-        delete.showAndWait();
-    }
 
-    public void stop() {
+    public void setFinish() {
         this.finish =true;
     }
 }

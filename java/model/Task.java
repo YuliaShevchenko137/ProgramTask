@@ -84,10 +84,6 @@ public class Task implements Cloneable, Serializable {
      * о ближайшей задачею.
      */
 
-    private Thread thread;
-
-    /**Обьект, который создает оповещение.*/
-
     private threadTask threadTask;
 
 
@@ -107,8 +103,6 @@ public class Task implements Cloneable, Serializable {
         this.setTime(times);
         this.interval = this.getInterval();
         this.threadTask = new threadTask(this);
-        this.thread = new Thread(this.getThreadTask());
-        this.thread.start();
     }
 
     /**
@@ -142,8 +136,6 @@ public class Task implements Cloneable, Serializable {
                 intervalSeconds);
         this.interval = this.getInterval();
         this.threadTask = new threadTask(this);
-        this.thread = new Thread(this.getThreadTask());
-        this.thread.start();
     }
 
     /**
@@ -373,7 +365,8 @@ public class Task implements Cloneable, Serializable {
             Task task = (Task) obj;
             boolean a2 = this.start.equals(task.getStart());
             boolean a3 = this.isActive() == task.isActive();
-            boolean a4 = this.getRepeatInterval().equals(task.getRepeatInterval());
+            boolean a4 = this.getRepeatInterval().
+                    equals(task.getRepeatInterval());
             boolean a = this.end.equals(task.getEnd());
             return a & a2 & a3 & a4;
         }
