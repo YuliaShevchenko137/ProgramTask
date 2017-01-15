@@ -9,12 +9,21 @@ import java.util.Date;
 
 /**
  * Класс OperationForTime.
- * Вспомагательный класс для обработки времени.
+ * Вспомагательный класс для
+ * обработки времени.
  */
 
 public class OperationForTime {
 
-    public static Date parseDate(String str) throws ParseException {
+    /**
+     * Метод parseDate(String str).
+     * создание даты по входной строке.
+     * @param str строка.
+     * @return дата.
+     * @throws ParseException преобраз. даты.
+     */
+
+    public static Date parseDate(final String str) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.parse(str);
     }
@@ -52,26 +61,27 @@ public class OperationForTime {
      * @return новая дата.
      */
 
-    public static LocalDateTime plusTime(LocalDateTime date, Task t){
-        if(t.getIntervalYear() != 0) {
-            date = date.plusYears(t.getIntervalYear());
+    public static LocalDateTime plusTime(final LocalDateTime date, final Task t) {
+        LocalDateTime dates = date;
+        if (t.getIntervalYear() != 0) {
+            dates = dates.plusYears(t.getIntervalYear());
         }
-        if(t.getIntervalMonth() != 0) {
-            date = date.plusMonths(t.getIntervalMonth());
+        if (t.getIntervalMonth() != 0) {
+            dates = dates.plusMonths(t.getIntervalMonth());
         }
-        if(t.getIntervalDay() != 0) {
-            date = date.plusDays(t.getIntervalDay());
+        if (t.getIntervalDay() != 0) {
+            dates = dates.plusDays(t.getIntervalDay());
         }
-        if(t.getIntervalMinute() != 0) {
-            date = date.plusMinutes(t.getIntervalMinute());
+        if (t.getIntervalMinute() != 0) {
+            dates = dates.plusMinutes(t.getIntervalMinute());
         }
-        if(t.getIntervalHour() != 0) {
-            date = date.plusHours(t.getIntervalHour());
+        if (t.getIntervalHour() != 0) {
+            dates = dates.plusHours(t.getIntervalHour());
         }
-        if(t.getIntervalSecond() != 0) {
-            date = date.plusSeconds(t.getIntervalSecond());
+        if (t.getIntervalSecond() != 0) {
+            dates = dates.plusSeconds(t.getIntervalSecond());
         }
-        return date;
+        return dates;
     }
 
     /**
@@ -82,25 +92,26 @@ public class OperationForTime {
      * @return новая дата.
      */
 
-    public static LocalDateTime minusTime(LocalDateTime date, Task t){
-        if(t.getIntervalYear() != 0) {
-            date = date.minusYears(t.getIntervalYear());
+    public static LocalDateTime minusTime(final LocalDateTime date, final Task t) {
+        LocalDateTime dates = date;
+        if (t.getIntervalYear() != 0) {
+            dates = dates.minusYears(t.getIntervalYear());
         }
-        if(t.getIntervalMonth() != 0) {
-            date = date.minusMonths(t.getIntervalMonth());
+        if (t.getIntervalMonth() != 0) {
+            dates = dates.minusMonths(t.getIntervalMonth());
         }
-        if(t.getIntervalDay() != 0) {
-            date = date.minusDays(t.getIntervalDay());
+        if (t.getIntervalDay() != 0) {
+            dates = dates.minusDays(t.getIntervalDay());
         }
-        if(t.getIntervalMinute() != 0) {
-            date = date.minusMinutes(t.getIntervalMinute());
+        if (t.getIntervalMinute() != 0) {
+            dates = dates.minusMinutes(t.getIntervalMinute());
         }
-        if(t.getIntervalHour() != 0) {
-            date = date.minusHours(t.getIntervalHour());
+        if (t.getIntervalHour() != 0) {
+            dates = dates.minusHours(t.getIntervalHour());
         }
-        if(t.getIntervalSecond() != 0) {
-            date = date.minusSeconds(t.getIntervalSecond());
+        if (t.getIntervalSecond() != 0) {
+            dates = dates.minusSeconds(t.getIntervalSecond());
         }
-        return date;
+        return dates;
     }
 }

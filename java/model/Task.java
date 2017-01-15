@@ -302,25 +302,32 @@ public class Task implements Cloneable, Serializable {
      */
 
     public final  Date nextTimeAfter(final Date current) {
+        Date a = null;
+        boolean b = false;
         if (!this.active) {
-            return null;
+            a = null;
+            b = true;
         } else if (current.before(this.start)) {
-            return this.start;
+            a = this.start;
+            b = true;
         } else if (current.after(this.end)) {
-            return null;
-        } else {
-            LocalDateTime start1 = OperationForTime.dateToLocalDateTime(this.start);
-            LocalDateTime end1 = OperationForTime.dateToLocalDateTime(this.end);
-            LocalDateTime current1 = OperationForTime.dateToLocalDateTime(current);
+            a = null;
+            b = true;
+        } else if (!b) {
+            LocalDateTime start1 =
+                    OperationForTime.dateToLocalDateTime(this.start);
+            LocalDateTime end1 =
+                    OperationForTime.dateToLocalDateTime(this.end);
+            LocalDateTime current1 =
+                    OperationForTime.dateToLocalDateTime(current);
             do {
                 start1 = OperationForTime.plusTime(start1, this);
             } while (start1.isBefore(current1) || start1.equals(current1));
             if (start1.isBefore(end1) || start1.equals(end1)) {
-                return OperationForTime.localDateTimeToDate(current1);
-            } else {
-                return new Date(0);
+                a =  OperationForTime.localDateTimeToDate(current1);
             }
         }
+        return a;
     }
 
     /**
