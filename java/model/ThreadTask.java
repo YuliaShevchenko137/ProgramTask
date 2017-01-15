@@ -27,13 +27,13 @@ public class ThreadTask {
      * Закрытие потока.
      */
 
-    private boolean finish = false;
+    private boolean finish;
 
     /**
      * Первое оповещение.
      */
 
-    private boolean firstAlert = false;
+    private boolean firstAlert;
 
     /**
      * Поток уведомления.
@@ -51,7 +51,7 @@ public class ThreadTask {
      * Пол часа.
      */
 
-    private final int halfhour = 30*60*1000;
+    private final int halfhour = 30 * 60 * 1000;
 
     /**
      * Конструктор ThreadTask(Task tas).
@@ -60,26 +60,28 @@ public class ThreadTask {
      */
 
     public ThreadTask(final Task tas) {
+        this.finish = false;
+        this.firstAlert = false;
         this.task = tas;
         this.thread = new Thread(() -> {
-            if (this.nowTime().after(task.getEnd())) {
+            if (nowTime().after(this.task.getEnd())) {
                 return;
             }
             List<Task> t = new ArrayList<>();
             t.add(this.task);
-            Map<Date, Set<Task>> map = Tasks.calendar (t,
-                    nowTime(), task.getEnd());
+            Map<Date, Set<Task>> map =
+                    Tasks.calendar(t, nowTime(), task.getEnd());
             if (map == null) {
                 return;
             }
             for (Date date : map.keySet()) {
                 this.firstAlert = false;
-                while(!finish && !firstAlert) {
-                    long countMSecond = date.getTime() - nowTime().getTime();
+                while (!finish && !firstAlert) {
+                    long countMSecond = date.getTime() - this.nowTime().getTime();
                     Set<Task> tasks = map.get(date);
-                    if (countMSecond > halfhour) {
+                    if (countMSecond > this.halfhour) {
                         try {
-                            Thread.sleep(second);
+                            Thread.sleep(this.second);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -90,7 +92,8 @@ public class ThreadTask {
                                         AlertType.INFORMATION);
                                 inf.setTitle("Напоминание");
                                 inf.setHeaderText("В " + date
-                                        + " необходимо выполнить: "
+                                        + " необходимо "
+                                        + "выполнить: "
                                         + thisTask.getTitle());
                                 inf.show();
                             });
@@ -109,7 +112,8 @@ public class ThreadTask {
      */
 
     private Date nowTime() {
-        return Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+        return Date.from(LocalDateTime.now().
+                atZone(ZoneId.systemDefault()).toInstant());
     }
 
     /**

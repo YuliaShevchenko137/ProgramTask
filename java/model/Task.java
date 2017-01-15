@@ -73,13 +73,18 @@ public class Task implements Cloneable, Serializable {
 
     private Date end;
 
-    /**текстовое представление интервала
+    /**
+     * текстовое представление интервала
      * задачи.
      */
 
     private String interval;
 
-    private ThreadTask ThreadTask;
+    /**
+     * Потом оповещения.
+     */
+
+    private ThreadTask threadTask;
 
 
     /**
@@ -571,16 +576,16 @@ public class Task implements Cloneable, Serializable {
      */
 
     public final ThreadTask getThreadTask() {
-        return this.ThreadTask;
+        return this.threadTask;
     }
 
     /**
      * Метод setThreadTask(model.ThreadTask threadTask).
      * Связывает поток с задачей.
-     * @param threadTask новый поток.
+     * @param threadTasks новый поток.
      */
 
-    public final void setThreadTask(final model.ThreadTask threadTask) {
-        ThreadTask = threadTask;
+    public final void setThreadTask(final model.ThreadTask threadTasks) {
+        this.threadTask = threadTasks;
     }
 }
