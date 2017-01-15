@@ -189,45 +189,43 @@ public final class TaskIO {
 
     private static Task createRepeatedTask(
             final String[] words) throws ParseException {
-        int st = 0;
+        int s = 0;
         for (int i = 0; i < words.length; i++) {
             if (from.equals(words[i])) {
-                st = i;
+                s = i;
                 break;
             }
         }
         String title = "";
-        for (int i = 0; i < st; i++) {
+        for (int i = 0; i < s; i++) {
             title += words[i];
         }
         title = title.replace(space + st, space);
-        boolean actives = false;
-        if (active.equals(words[words.length - 1])) {
-            actives = true;
-        }
         int count = 1;
-        String start = words[st + 2 * count - 1] + space + words[st + 2 * count];
+        String start = words[s + 2 * count - 1] + space
+                + words[s + 2 * count];
         count++;
         start = start.substring(1, start.length() - 2);
-        String end = words[st + 2 * count] + space + words[st + 2 * count + 1];
+        String end = words[s + 2 * count] + space
+                + words[s + 2 * count + 1];
         end = end.substring(1, end.length()-2);
         count++;
-        int intervalYear = Integer.parseInt(words[st + 2 * count + 1].substring(1));
+        final int intervalYear = Integer.parseInt(words[s + 2 * count + 1].substring(1));
         count++;
-        int intervalMonth = Integer.parseInt(words[st + 2 * count + 1]);
+        final int intervalMonth = Integer.parseInt(words[s + 2 * count + 1]);
         count++;
-        int intervalDay = Integer.parseInt(words[st + 2 * count + 1]);
+        final int intervalDay = Integer.parseInt(words[s + 2 * count + 1]);
         count++;
-        int intervalHour = Integer.parseInt(words[st + 2 * count + 1]);
+        final int intervalHour = Integer.parseInt(words[s + 2 * count + 1]);
         count++;
-        int intervalMinute = Integer.parseInt(words[st + 2 * count + 1]);
+        final int intervalMinute = Integer.parseInt(words[s + 2 * count + 1]);
         count++;
-        int intervalSeconds = Integer.parseInt(words[st + 2 * count + 1]);
+        final int intervalSeconds = Integer.parseInt(words[s + 2 * count + 1]);
         Task task = new Task(title, OperationForTime.parseDate(start),
                 OperationForTime.parseDate(end), intervalYear, intervalMonth,
                 intervalDay, intervalHour, intervalMinute, intervalSeconds);
         task.setRepeated(true);
-        task.setActive(actives);
+        task.setActive(active.equals(words[words.length - 1]));
         return task;
     }
 
@@ -240,12 +238,12 @@ public final class TaskIO {
      * @throws ParseException преобразование дат.
      */
 
-    private static void read(TaskList tasks, Reader in) throws IOException, ParseException {
+    private static void read(final TaskList tasks, final Reader in)
+            throws IOException, ParseException {
         String str = takeText(in);
         String[] lines = str.split(enter);
-        if(tasks == null) tasks = new ArrayTaskList();
-        for(String Str : lines) {
-            String[] words = Str.split(space);
+        for (String strs : lines) {
+            String[] words = strs.split(space);
             for (String word : words) {
                 if (from.equals(word)) {
                     tasks.add(createRepeatedTask(words));
@@ -267,8 +265,8 @@ public final class TaskIO {
      * @throws IOException работа с файлами.
      */
 
-    public static void writeText(final TaskList tasks,
-                                 final File file) throws IOException {
+    public static void writeText(final TaskList tasks, final File file)
+            throws IOException {
         Writer out = new FileWriter(file, false);
         write(tasks, out);
     }
@@ -282,8 +280,8 @@ public final class TaskIO {
      * @throws ParseException преобразование дат.
      */
 
-    public static void readText(TaskList tasks,
-                                final File file) throws IOException, ParseException {
+    public static void readText(final TaskList tasks, final File file)
+            throws IOException, ParseException {
         if(file.exists() || file.length() != 0){
             Reader in = new FileReader(file);
             read(tasks, in);
@@ -298,14 +296,16 @@ public final class TaskIO {
      * @throws IOException работа с потоками.
      */
 
-    private static void write(final Map<Date, Set<Task>> map,
-                              final Writer out) throws IOException {
+    private static void write(final Map<Date, Set<Task>> map, final Writer out)
+            throws IOException {
         Set<Date> dates = map.keySet();
-        for(Date date : dates){
+        for (Date date : dates) {
             String str = date + ": \n";
             out.write(str);
             Set<Task> tasks = map.get(date);
-            for(Task t : tasks) out.write(createMessage(t));
+            for (Task t : tasks) {
+                out.write(createMessage(t));
+            }
         }
         out.close();
     }
@@ -318,8 +318,8 @@ public final class TaskIO {
      * @throws IOException работа с файлами.
      */
 
-    public static void writeMap(final Map<Date, Set<Task>> maps,
-                                final File file) throws IOException {
+    public static void writeMap(final Map<Date, Set<Task>> maps, final File file)
+            throws IOException {
         Writer out = new FileWriter(file);
         write(maps, out);
     }
