@@ -5,8 +5,9 @@ import javafx.collections.ObservableList;
 
 /**
  * Класс CollectionsTasks.
- * Используется для создание обертки TaskList
- * и необходим для отображения данных в tableView.
+ * Используется для создание обертки
+ * TaskList и необходим для отображения
+ * данных в tableView.
  */
 
 public class CollectionsTasks {
@@ -86,7 +87,7 @@ public class CollectionsTasks {
 
     public final void setTasks(final TaskList taskss) {
         this.tasks = taskss;
-        for (Task t :tasks) {
+        for (Task t : this.tasks) {
             this.obs.add(t);
         }
     }

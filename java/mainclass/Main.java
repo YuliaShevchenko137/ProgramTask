@@ -2,7 +2,6 @@ package mainclass;
 
 import java.io.IOException;
 
-import controllers.AddController;
 import controllers.MainController;
 import javafx.application.Application;
 
@@ -42,7 +41,7 @@ public final class Main extends Application {
      */
 
     @Override
-    public final void start(final Stage primaryStage) throws IOException {
+    public void start(final Stage primaryStage) throws IOException {
         FXMLLoader mainfxmlLoader = new FXMLLoader();
         mainfxmlLoader.setLocation(getClass().getResource("../view/main.fxml"));
         Parent root = mainfxmlLoader.load();
@@ -53,10 +52,10 @@ public final class Main extends Application {
         primaryStage.setMinWidth(this.width);
         primaryStage.show();
         primaryStage.setOnCloseRequest(closeEvent -> {
-           ObservableList<Task> obs = mainController.getObs().getObs();
-           for (Task t : obs) {
-               t.getThreadTask().setFinish();
-           }
+            ObservableList<Task> obs = mainController.getObs().getObs();
+            for (Task t : obs) {
+                t.getThreadTask().setFinish();
+            }
         });
     }
 

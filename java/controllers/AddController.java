@@ -117,9 +117,9 @@ public class AddController {
             str1 += "Неправильно введено время конца задачи\n";
             end = new Date(0);
         }
-        if (end.before(start)) {
+        if (end.before(start) || end.equals(start)) {
             logger.warn("end.before(start)");
-            str1 += "Конец выполнения задачи перед его началом \n";
+            str1 += "Конец выполнения задачи перед его началом или они соврадают\n";
         }
         int intervalYear = Integer.parseInt(this.year.getText());
         int intervalMonth = Integer.parseInt(this.month.getText());
