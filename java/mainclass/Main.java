@@ -1,17 +1,16 @@
 package mainclass;
 
+import controllers.MainController;
+
 import java.io.IOException;
 
-import controllers.MainController;
 import javafx.application.Application;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.stage.Stage;
+
 import model.Task;
 
 /**
@@ -28,7 +27,7 @@ public final class Main extends Application {
     private final int width = 900;
 
     /**
-     * Длинна экрана.
+     * Высота экрана.
      */
 
     private final int height = 500;
@@ -57,15 +56,5 @@ public final class Main extends Application {
                 t.getThreadTask().setFinish();
             }
         });
-    }
-
-    /**
-     *Метод main(String[] args).
-     * запускает приложение.
-     * @param args стандартный набор аргументов.
-     */
-
-    public static void main(final String[] args) {
-        launch(args);
     }
 }

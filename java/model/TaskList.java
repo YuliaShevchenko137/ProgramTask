@@ -34,7 +34,7 @@ public abstract class TaskList implements Iterable<Task>, Serializable {
     /**
      * Метод iterator().
      * Реализация итератора.
-     * Задает основные функции, для возможности
+     * Задает основные функции, для
      * интерирования по списку.
      * @return итератор.
      */
