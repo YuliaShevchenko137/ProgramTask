@@ -20,7 +20,7 @@ import java.util.Set;
  * Чтение и запись.
  */
 
-public class TaskIO {
+public final class TaskIO {
 
     /**
      * Символ ".
@@ -47,16 +47,35 @@ public class TaskIO {
     private static String from = "from";
 
     /**
+     * Маркер пробела.
+     */
+
+    private static String space = " ";
+
+    /**
+     * Маркер активной задачи.
+     */
+
+    private static String active = "inactive;";
+
+    /**
+     * Маркер неактивной задачи.
+     */
+
+    private static String noactive = ";";
+
+    /**
      * Формат даты.
      */
 
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat dateFormat =
+            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Пустой конструктор TaskIO().
      */
 
-    private TaskIO(){
+    private TaskIO() {
 
     }
 
@@ -68,9 +87,10 @@ public class TaskIO {
      * @throws IOException рабоат с файлами.
      */
 
-    private static void write(final TaskList tasks, final Writer out) throws IOException {
+    private static void write(final TaskList tasks,
+                              final Writer out) throws IOException {
         Iterator<Task> i = tasks.iterator();
-        for ( ; i.hasNext(); ) {
+        for (; i.hasNext();) {
             Task t = i.next();
             String s = createMessage(t);
             out.write(s);
@@ -88,21 +108,22 @@ public class TaskIO {
     private static String createMessage(final Task t) {
         String str = st + t.getTitle();
         if (!t.isRepeated()) {
-            str += st + " " + at + " [" + dateFormat.format(t.getStart()) + "]";
+            str += st + space + at + " [" + dateFormat.format(t.getStart()) + "]";
             if (t.isActive()) {
-                str += " inactive;" + enter;
+                str += active + enter;
             } else {
-                str += ";" + enter;
+                str += noactive + enter;
             }
         } else {
             String interval = t.getInterval();
-            str += st + " " + from +" [" + dateFormat.format(t.getStart()) + "] to ["
+            str += st + space + from + " ["
+                    + dateFormat.format(t.getStart()) + "] to ["
                     + dateFormat.format(t.getEnd()) + "] every ["
                     + interval + "] ";
             if (t.isActive()) {
-                str += " inactive;" + enter;
+                str += space + active + enter;
             } else {
-                str += ";" + enter;
+                str += noactive + enter;
             }
         }
         return str;
@@ -148,13 +169,13 @@ public class TaskIO {
         for (int i = 0; i < s; i++) {
             title += words[i];
         }
-        title = title.replace(" " + st, " ");
-        boolean active = "inactive;".equals(words[words.length - 1]);
-        String date = (words[s + 1] + " " + words[s + 2]);
+        title = title.replace(space + st, space);
+        boolean actives = active.equals(words[words.length - 1]);
+        String date = (words[s + 1] + space + words[s + 2]);
         date = date.substring(1, date.length() - 2);
         Task task = new Task(title, OperationForTime.parseDate(date));
         task.setRepeated(false);
-        task.setActive(active);
+        task.setActive(actives);
         return task;
     }
 
@@ -179,16 +200,16 @@ public class TaskIO {
         for (int i = 0; i < st; i++) {
             title += words[i];
         }
-        title = title.replace(" " + st, " ");
-        boolean active = false;
-        if ("inactive;".equals(words[words.length - 1])) {
-            active = true;
+        title = title.replace(space + st, space);
+        boolean actives = false;
+        if (active.equals(words[words.length - 1])) {
+            actives = true;
         }
         int count = 1;
-        String start = words[st + 2 * count - 1] + " " + words[st + 2 * count];
+        String start = words[st + 2 * count - 1] + space + words[st + 2 * count];
         count++;
         start = start.substring(1, start.length() - 2);
-        String end = words[st + 2 * count] + " " + words[st + 2 * count + 1];
+        String end = words[st + 2 * count] + space + words[st + 2 * count + 1];
         end = end.substring(1, end.length()-2);
         count++;
         int intervalYear = Integer.parseInt(words[st + 2 * count + 1].substring(1));
@@ -206,7 +227,7 @@ public class TaskIO {
                 OperationForTime.parseDate(end), intervalYear, intervalMonth,
                 intervalDay, intervalHour, intervalMinute, intervalSeconds);
         task.setRepeated(true);
-        task.setActive(active);
+        task.setActive(actives);
         return task;
     }
 
@@ -224,7 +245,7 @@ public class TaskIO {
         String[] lines = str.split(enter);
         if(tasks == null) tasks = new ArrayTaskList();
         for(String Str : lines) {
-            String[] words = Str.split(" ");
+            String[] words = Str.split(space);
             for (String word : words) {
                 if (from.equals(word)) {
                     tasks.add(createRepeatedTask(words));
