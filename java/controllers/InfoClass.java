@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
  * повторяемости.
  */
 
-public class InfoClass {
+public final class InfoClass {
 
     /**
      * Пустой конструктор InfoClass().
@@ -49,14 +49,22 @@ public class InfoClass {
      * @param labelSecond Надпись Секунда.
      */
 
-    public static void visibleObj(final boolean bool, final Label labelEnd,
-                                  final DatePicker dateEnd, final TextField timeEnd,
-                                  final Label labelInterval, final TextField year,
-                                  final TextField month, final TextField day,
-                                  final TextField hour, final TextField minute,
-                                  final TextField second, final Label labelYear,
-                                  final Label labelMonth, final Label labelDay,
-                                  final Label labelHour, final Label labelMinute,
+    public static void visibleObj(final boolean bool,
+                                  final Label labelEnd,
+                                  final DatePicker dateEnd,
+                                  final TextField timeEnd,
+                                  final Label labelInterval,
+                                  final TextField year,
+                                  final TextField month,
+                                  final TextField day,
+                                  final TextField hour,
+                                  final TextField minute,
+                                  final TextField second,
+                                  final Label labelYear,
+                                  final Label labelMonth,
+                                  final Label labelDay,
+                                  final Label labelHour,
+                                  final Label labelMinute,
                                   final Label labelSecond) {
         labelEnd.setVisible(bool);
         dateEnd.setVisible(bool);
