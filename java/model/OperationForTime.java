@@ -14,7 +14,15 @@ import java.util.Date;
  * обработки времени.
  */
 
-public class OperationForTime {
+public final class OperationForTime {
+
+    /**
+     * Пустой конструктор.
+     */
+
+    private OperationForTime() {
+
+    }
 
     /**
      * Метод parseDate(String str).
@@ -125,7 +133,7 @@ public class OperationForTime {
      * @return дата типа LocalDate.
      */
 
-    public static LocalDate dateToLocalDate(Date date){
+    public static LocalDate dateToLocalDate(final Date date) {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Instant instant = date.toInstant();
         return instant.atZone(defaultZoneId).toLocalDate();
