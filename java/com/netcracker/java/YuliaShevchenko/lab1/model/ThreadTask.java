@@ -60,7 +60,8 @@ public class ThreadTask {
             List<Task> t = new ArrayList<>();
             t.add(this.task);
             Map<Date, Set<Task>> map =
-                    Tasks.calendar(t, OperationForTime.nowTime(), task.getEnd());
+                    Tasks.calendar(t, OperationForTime.nowTime(),
+                            this.task.getEnd());
             if (map == null) {
                 return;
             }

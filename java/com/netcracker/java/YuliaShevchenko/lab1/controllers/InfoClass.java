@@ -63,7 +63,7 @@ public final class InfoClass {
                                                 final TextField day,
                                                 final TextField hour,
                                                 final TextField minute,
-                                                final TextField second ) {
+                                                final TextField second) {
         year.setVisible(bool);
         month.setVisible(bool);
         day.setVisible(bool);
@@ -86,12 +86,13 @@ public final class InfoClass {
      * @param labelSecond label of the seconds.
      */
 
-    public static void visibleLabelsInterval(final boolean bool, final Label labelYear,
-                                    final Label labelMonth,
-                                    final Label labelDay,
-                                    final Label labelHour,
-                                    final Label labelMinute,
-                                    final Label labelSecond) {
+    public static void visibleLabelsInterval(final boolean bool,
+                                             final Label labelYear,
+                                             final Label labelMonth,
+                                             final Label labelDay,
+                                             final Label labelHour,
+                                             final Label labelMinute,
+                                             final Label labelSecond) {
         labelYear.setVisible(bool);
         labelMonth.setVisible(bool);
         labelDay.setVisible(bool);

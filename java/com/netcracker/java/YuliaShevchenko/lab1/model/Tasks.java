@@ -12,16 +12,15 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * Класс Tasks.
- * Обработка списка задач.
- * Создание календаря.
- * Все методы статичесткие.
+ * Class Tasks.
+ * Task List Processing. Create a calendar.
+ * All methods are static.
  */
 
-public class Tasks {
+public final class Tasks {
 
     /**
-     * Пустой конструктор Tasks().
+     * Empty constructor Tasks().
      */
 
     private Tasks() {
@@ -29,12 +28,12 @@ public class Tasks {
     }
 
     /**
-     * Метод incoming(Iterable tasks, Date start, Date end).
-     * выбор задач, попадающих в интервал.
-     * @param tasks список задач.
-     * @param start начало интервала.
-     * @param end конеч интервала.
-     * @return список задач.
+     * Method incoming(Iterable tasks, Date start, Date end).
+     * Create list of the tasks that enter within the range of.
+     * @param tasks task list.
+     * @param start start date of the interval.
+     * @param end end date of the interval.
+     * @return list of the tasks.
      */
 
     private static Iterable<Task> incoming(
@@ -55,12 +54,12 @@ public class Tasks {
     }
 
     /**
-     *Метод calendar(Iterable tasks, Date start, Date end).
-     * Создание календаря для список задач.
-     * @param tasks список задач.
-     * @param start время начала.
-     * @param end время конца.
-     * @return карту задач.
+     * Method calendar(Iterable tasks, Date start, Date end).
+     * Creating calendar on the current task list.
+     * @param tasks task list.
+     * @param start start date.
+     * @param end end date.
+     * @return map on the current task list.
      */
 
     public static SortedMap<Date, Set<Task>> calendar(
@@ -72,7 +71,7 @@ public class Tasks {
         Set<Task> s;
         for (Task t : tasks1) {
             if (!t.isRepeated()) {
-                if (!res.containsKey(t.getStart())){
+                if (!res.containsKey(t.getStart())) {
                     s = new HashSet<>();
                     s.add(t);
                     res.put(t.getStart(), s);
