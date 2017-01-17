@@ -21,8 +21,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
@@ -185,14 +185,14 @@ public final class MainController {
     private Label labelSecond;
 
     /**
-     * Кнопка Изменить задачу.
+     * Кнопка Измения.
      */
 
     @FXML
     private Button change;
 
     /**
-     * Кнопка Применить изменения.
+     * Кнопка Применения изменений.
      */
 
     @FXML
@@ -363,7 +363,7 @@ public final class MainController {
     private final String applystr = "Применить";
 
     /**
-     * Строка Изменить.
+     * Название кнопки Изменения.
      */
 
     private final String changestr = "Изменить";
@@ -396,7 +396,19 @@ public final class MainController {
      * Слово Начало.
       */
 
-    private final String start = "Начало.";
+    private final String start = "Начало";
+
+    /**
+     * Файл для записи и считывания.
+     */
+
+    private final File temp = new File("temp.txt");
+
+    /**
+     * Пробел.
+     */
+
+    private final String space = " ";
 
     /**
      * Метод MainController().
@@ -419,7 +431,7 @@ public final class MainController {
     public void initialize() throws ParseException, IOException {
         this.obs = new CollectionsTasks();
         TaskList tasks = new ArrayTaskList();
-        TaskIO.readText(tasks, new File("temp.txt"));
+        TaskIO.readText(tasks, temp);
         this.obs.setTasks(tasks);
         this.taskTable.setItems(this.obs.getObs());
         this.taskName.setCellValueFactory(
@@ -431,14 +443,14 @@ public final class MainController {
         this.activeFalse.setToggleGroup(group);
         this.taskTable.setItems(this.getObs().getObs());
         this.taskTable.getSelectionModel().selectedItemProperty().addListener(
-            (observableValue, oldValue, newValue) -> showTaskDetails(newValue));
+            (observableValue, oldValue, newValue) -> this.showTaskDetails(newValue));
         this.gridChange.setVisible(false);
         this.gridView.setVisible(true);
         this.showNoting();
         this.apply.setVisible(false);
-        this.apply.setText(applystr);
-        this.change.setText(changestr);
-        this.labelSize.setText(countTask + this.obs.getObs().size());
+        this.apply.setText(this.applystr);
+        this.change.setText(this.changestr);
+        this.labelSize.setText(this.countTask + this.obs.getObs().size());
     }
 
     /**
@@ -482,15 +494,15 @@ public final class MainController {
     private void showDetailsForChange(final Task task) {
         this.taskNameField.setText(task.getTitle());
         String str = String.valueOf(task.getStart());
-        String[] words = str.split(regexp);
+        String[] words = str.split(this.regexp);
         this.dateStart.setValue(OperationForTime.dateToLocalDate(
                 task.getStart()));
-        this.timeStart.setText(words[counttime]);
+        this.timeStart.setText(words[this.counttime]);
         this.dateEnd.setValue(OperationForTime.dateToLocalDate(
                 task.getEnd()));
         str = String.valueOf(task.getStart());
-        words = str.split(regexp);
-        this.timeEnd.setText(words[counttime]);
+        words = str.split(this.regexp);
+        this.timeEnd.setText(words[this.counttime]);
         final ToggleGroup group = new ToggleGroup();
         this.activeTrue.setToggleGroup(group);
         this.activeFalse.setToggleGroup(group);
@@ -527,15 +539,15 @@ public final class MainController {
         addStage.setResizable(false);
         addStage.setScene(new Scene(root));
         addStage.initModality(Modality.WINDOW_MODAL);
-        addStage.initOwner(((Node) actionEvent.getSource()).getScene()
-                .getWindow());
+        addStage.initOwner(((Node)
+                actionEvent.getSource()).getScene().getWindow());
         addStage.showAndWait();
         AddController addController = addfxmlLoader.getController();
         if (addController.bool) {
-            getObs().add(addController.T);
+            this.obs.add(addController.T);
             this.taskTable.setItems(this.getObs().getObs());
-            this.labelSize.setText(countTask + getObs().getObs().size());
-            TaskIO.writeText(this.obs.getTasks(), new File("temp.txt"));
+            this.labelSize.setText(this.countTask + getObs().getObs().size());
+            TaskIO.writeText(this.obs.getTasks(), temp);
         }
     }
 
@@ -557,8 +569,8 @@ public final class MainController {
         if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
             t.getThreadTask().setFinish();
             this.obs.remove(t);
-            TaskIO.writeText(getObs().getTasks(), new File("temp.txt"));
-            this.labelSize.setText(countTask + getObs().getObs().size());
+            TaskIO.writeText(this.obs.getTasks(), temp);
+            this.labelSize.setText(this.countTask + this.obs.getObs().size());
         }
     }
 
@@ -571,12 +583,13 @@ public final class MainController {
      * @throws ParseException преобразование дат.
      */
 
-    public void calendar(ActionEvent actionEvent) throws IOException, ParseException {
+    public void calendar(final ActionEvent actionEvent)
+            throws IOException, ParseException {
         LocalDate dateStart = this.calendarDateStart.getValue();
         LocalDate dateEnd = this.calendarDateEnd.getValue();
         String timestart = this.calendarTimeStart.getText();
         String timeend = this.calendarTimeEnd.getText();
-        if(dateStart == null
+        if (dateStart == null
                 || dateEnd == null
                 || "".equals(timestart)
                 || "".equals(timeend)) {
@@ -584,20 +597,22 @@ public final class MainController {
         }
         Stage calendarStage = new Stage();
         FXMLLoader calendarfxmlLoader = new FXMLLoader();
-        calendarfxmlLoader.setLocation(getClass().
-                getResource("../view/calendar.fxml"));
+        calendarfxmlLoader.setLocation(
+                getClass().getResource("../view/calendar.fxml"));
         Parent root = calendarfxmlLoader.load();
-        CalendarController calendarController
-                = calendarfxmlLoader.getController();
         calendarStage.setTitle("Календарь");
         calendarStage.setMinHeight(this.minHeight);
         calendarStage.setMinWidth(this.minWidth);
         calendarStage.setScene(new Scene(root));
         calendarStage.initModality(Modality.WINDOW_MODAL);
-        calendarStage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
-        Date dateSt = OperationForTime.parseDate(dateStart + " " + timestart);
-        Date dateEn = OperationForTime.parseDate(dateEnd + " " + timeend);
-        Map<Date, java.util.Set<Task>> maps = Tasks.calendar(this.obs.getObs(), dateSt, dateEn);
+        calendarStage.initOwner(((Node)
+                actionEvent.getSource()).getScene().getWindow());
+        Date dateSt = OperationForTime.parseDate(dateStart + this.space + timestart);
+        Date dateEn = OperationForTime.parseDate(dateEnd + this.space + timeend);
+        Map<Date, java.util.Set<Task>> maps
+                = Tasks.calendar(this.obs.getObs(), dateSt, dateEn);
+        CalendarController calendarController
+                = calendarfxmlLoader.getController();
         calendarController.setMaps(maps);
         calendarController.fillingTable(maps);
         calendarStage.showAndWait();
@@ -619,16 +634,16 @@ public final class MainController {
      */
 
     public void repeated() {
-        if (!this.checkboxrepeated.isSelected()){
-            this.labelStart.setText(time);
+        if (!this.checkboxrepeated.isSelected()) {
+            this.labelStart.setText(this.time);
             InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
                     this.hour, this.minute, this.second,
                     this.labelYear, this.labelMonth, this.labelDay,
                     this.labelHour, this.labelMinute, this.labelSecond);
-        } else{
-            this.labelStart.setText(start);
+        } else {
+            this.labelStart.setText(this.start);
             InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
@@ -647,18 +662,20 @@ public final class MainController {
      * @throws IOException запись в файл.
      */
 
-    public void applyChanges() throws CloneNotSupportedException, ParseException, IOException {
+    public void applyChanges() throws CloneNotSupportedException,
+            ParseException, IOException {
         if (this.countChanges == -1) {
-            this.countChanges = this.taskTable.getSelectionModel().getSelectedIndex();
+            this.countChanges
+                    = this.taskTable.getSelectionModel().getSelectedIndex();
         }
         Task task = this.obs.getObs().get(this.countChanges);
         Task task1 = task.clone();
         String str1;
         this.obs.getObs().remove(task);
         if (this.checkboxrepeated.isSelected()) {
-            str1 = changeRepeatedTask(task, task1);
+            str1 = this.changeRepeatedTask(task, task1);
         } else {
-            str1 = changeNoRepeatedTask(task, task1);
+            str1 = this.changeNoRepeatedTask(task, task1);
         }
         this.taskTable.setItems(this.obs.getObs());
         if ("".equals(str1)) {
@@ -668,7 +685,7 @@ public final class MainController {
             task.getThreadTask().setFinish();
             task.setThreadTask(new ThreadTask(task));
             this.obs.getObs().add(task);
-            TaskIO.writeText(this.obs.getTasks(), new File("temp.txt"));
+            TaskIO.writeText(this.obs.getTasks(), temp);
             this.countChanges = -1;
             this.change.setVisible(true);
             this.apply.setVisible(false);
@@ -688,19 +705,21 @@ public final class MainController {
      * @return сообщение об ошибках.
      */
 
-    private String changeRepeatedTask(Task task, Task task1) {
+    private String changeRepeatedTask(Task task, final Task task1) {
         String str1 = "";
         task.setTitle(this.taskNameField.getText());
         task.setActive(this.activeTrue.isSelected());
         try {
-            task.setStart(OperationForTime.parseDate(this.dateStart.getValue() + " " + this.timeStart.getText()));
+            task.setStart(OperationForTime.parseDate(this.dateStart.getValue()
+                    + this.space + this.timeStart.getText()));
         } catch (ParseException e) {
             task.setStart(task1.getStart());
             str1 += "Неверное время начала \n";
         }
         try {
-            task.setEnd(OperationForTime.parseDate(this.dateEnd.getValue() + " " + this.timeEnd.getText()));
-        } catch(ParseException e) {
+            task.setEnd(OperationForTime.parseDate(this.dateEnd.getValue()
+                    + this.space + this.timeEnd.getText()));
+        } catch (ParseException e) {
             task.setEnd(task1.getEnd());
             str1 += "Неверное время конца \n";
         }
@@ -710,19 +729,28 @@ public final class MainController {
         task.setIntervalHour(Integer.parseInt(this.hour.getText()));
         task.setIntervalMinute(Integer.parseInt(this.minute.getText()));
         task.setIntervalSecond(Integer.parseInt(this.second.getText()));
-        if(Integer.parseInt(this.month.getText()) < 0 || Integer.parseInt(this.month.getText()) >11) {
+        final int countmonth = 11;
+        if (Integer.parseInt(this.month.getText()) < 0
+                || Integer.parseInt(this.month.getText()) > countmonth) {
             str1 += "Неверно указано количество месяцев \n";
         }
-        if(Integer.parseInt(this.day.getText())<0 || Integer.parseInt(this.day.getText()) >29) {
+        final int countday = 29;
+        if (Integer.parseInt(this.day.getText())<0
+                || Integer.parseInt(this.day.getText()) > countday) {
             str1 += "Неверно указано количество дней \n";
         }
-        if(Integer.parseInt(this.hour.getText())<0 || Integer.parseInt(this.hour.getText()) >23) {
+        final int counthour = 23;
+        if (Integer.parseInt(this.hour.getText())<0
+                || Integer.parseInt(this.hour.getText()) > counthour) {
             str1 += "Неверно указано количество часов \n";
         }
-        if(Integer.parseInt(this.minute.getText()) <0 || Integer.parseInt(this.minute.getText()) >59) {
+        final int countMinuteOrSecond = 59;
+        if (Integer.parseInt(this.minute.getText()) <0
+                || Integer.parseInt(this.minute.getText()) > countMinuteOrSecond) {
             str1 += "Неверно указано количество минут \n";
         }
-        if(Integer.parseInt(this.second.getText())<0 || Integer.parseInt(this.second.getText()) >59) {
+        if (Integer.parseInt(this.second.getText()) < 0
+                || Integer.parseInt(this.second.getText()) > countMinuteOrSecond) {
             str1 += "Неверно указано количество секунд \n";
         }
         return str1;
@@ -742,7 +770,7 @@ public final class MainController {
         task.setTitle(this.taskNameField.getText());
         task.setActive(this.activeTrue.isSelected());
         try {
-            task.setTime(OperationForTime.parseDate(this.dateStart.getValue() + " " + this.timeStart.getText()));
+            task.setTime(OperationForTime.parseDate(this.dateStart.getValue() + this.space + this.timeStart.getText()));
         } catch (ParseException e){
             str += "Неверное время \n";
             task.setTime(task1.getStart());
