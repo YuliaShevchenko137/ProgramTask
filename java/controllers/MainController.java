@@ -21,16 +21,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.File;
 import java.io.IOException;
+import java.io.File;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-import model.OperationForTime;
 import model.ArrayTaskList;
 import model.CollectionsTasks;
+import model.OperationForTime;
 import model.Task;
 import model.TaskIO;
 import model.TaskList;
@@ -43,7 +43,7 @@ import model.ThreadTask;
  * Основное окно программы.
  */
 
-public class MainController {
+public final class MainController {
 
     /**
      * Обертка списка задач.
@@ -357,11 +357,53 @@ public class MainController {
     private final int minWidth = 350;
 
     /**
+     * Строка применить.
+     */
+
+    private final String applystr = "Применить";
+
+    /**
+     * Строка Изменить.
+     */
+
+    private final String changestr = "Изменить";
+
+    /**
+     * Строка Количество задач.
+     */
+
+    private final String countTask = "Количество задач: ";
+
+    /**
+     * Регулярное выражение.
+     */
+
+    private final String regexp = "[ \\t\\n]+";
+
+    /**
+     * Номер, обозначающий время.
+     */
+
+    private final int counttime = 3;
+
+    /**
+     * Слово Время.
+     */
+
+    private final String time = "Время";
+
+    /**
+     * Слово Начало.
+      */
+
+    private final String start = "Начало.";
+
+    /**
      * Метод MainController().
      * Пустой конструктор контроллера.
      */
 
-    private MainController(){
+    public MainController() {
 
     }
 
@@ -375,7 +417,7 @@ public class MainController {
 
     @FXML
     public void initialize() throws ParseException, IOException {
-        this.obs= new CollectionsTasks();
+        this.obs = new CollectionsTasks();
         TaskList tasks = new ArrayTaskList();
         TaskIO.readText(tasks, new File("temp.txt"));
         this.obs.setTasks(tasks);
@@ -389,14 +431,14 @@ public class MainController {
         this.activeFalse.setToggleGroup(group);
         this.taskTable.setItems(this.getObs().getObs());
         this.taskTable.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldValue, newValue) -> showTaskDetails(newValue));
+            (observableValue, oldValue, newValue) -> showTaskDetails(newValue));
         this.gridChange.setVisible(false);
         this.gridView.setVisible(true);
         this.showNoting();
         this.apply.setVisible(false);
-        this.apply.setText("Применить");
-        this.change.setText("Изменить");
-        this.labelSize.setText("Количество задач: " + this.obs.getObs().size());
+        this.apply.setText(applystr);
+        this.change.setText(changestr);
+        this.labelSize.setText(countTask + this.obs.getObs().size());
     }
 
     /**
@@ -419,15 +461,15 @@ public class MainController {
      * @param task выбраная задача.
      */
 
-    private void showTaskDetails(Task task) {
+    private void showTaskDetails(final Task task) {
         if (task != null) {
             this.currentTaskName.setText(task.getTitle());
             this.currentTaskStart.setText(String.valueOf(task.getStart()));
             this.currentTaskEnd.setText(String.valueOf(task.getEnd()));
             this.currentTaskInterval.setText(task.getInterval());
             this.currentTaskActive.setText(String.valueOf(task.isActive()));
-        } else{
-            showNoting();
+        } else {
+            this.showNoting();
         }
     }
 
@@ -437,16 +479,18 @@ public class MainController {
      * @param task задача для изменения.
      */
 
-    private void showDetailsForChange(Task task) {
+    private void showDetailsForChange(final Task task) {
         this.taskNameField.setText(task.getTitle());
         String str = String.valueOf(task.getStart());
-        String[] words = str.split("[ \\t\\n]+");
-        this.dateStart.setValue(OperationForTime.dateToLocalDate(task.getStart()));
-        this.timeStart.setText(words[3]);
-        this.dateEnd.setValue(OperationForTime.dateToLocalDate(task.getEnd()));
+        String[] words = str.split(regexp);
+        this.dateStart.setValue(OperationForTime.dateToLocalDate(
+                task.getStart()));
+        this.timeStart.setText(words[counttime]);
+        this.dateEnd.setValue(OperationForTime.dateToLocalDate(
+                task.getEnd()));
         str = String.valueOf(task.getStart());
-        words = str.split("[ \\t\\n]+");
-        this.timeEnd.setText(words[3]);
+        words = str.split(regexp);
+        this.timeEnd.setText(words[counttime]);
         final ToggleGroup group = new ToggleGroup();
         this.activeTrue.setToggleGroup(group);
         this.activeFalse.setToggleGroup(group);
@@ -461,23 +505,7 @@ public class MainController {
         this.second.setText(String.valueOf(task.getIntervalSecond()));
         task.getInterval();
         this.checkboxrepeated.setSelected(task.isRepeated());
-        if (!task.isRepeated()) {
-            this.labelStart.setText("Время");
-            info.visibleObj(false, this.labelEnd, this.dateEnd,
-                    this.timeEnd, this.labelInterval,
-                    this.year, this.month, this.day,
-                    this.hour, this.minute, this.second,
-                    this.labelYear, this.labelMonth, this.labelDay,
-                    this.labelHour, this.labelMinute, this.labelSecond);
-        } else {
-            this.labelStart.setText("Начало");
-            info.visibleObj(true, this.labelEnd, this.dateEnd,
-                    this.timeEnd, this.labelInterval,
-                    this.year, this.month, this.day,
-                    this.hour, this.minute, this.second,
-                    this.labelYear, this.labelMonth, this.labelDay,
-                    this.labelHour, this.labelMinute, this.labelSecond);
-        }
+        this.repeated();
     }
 
     /**
@@ -488,25 +516,26 @@ public class MainController {
      * @throws IOException открытие файла.
      */
 
-    public void add(ActionEvent actionEvent) throws IOException {
+    public void add(final ActionEvent actionEvent) throws IOException {
         Stage addStage = new Stage();
         FXMLLoader addfxmlLoader = new FXMLLoader();
         addfxmlLoader.setLocation(getClass().getResource("../view/add.fxml"));
         Parent root = addfxmlLoader.load();
-        AddController addController = addfxmlLoader.getController();
         addStage.setTitle("Добавление задачи");
         addStage.setMinHeight(this.minHeight);
         addStage.setMinWidth(this.minWidth);
         addStage.setResizable(false);
         addStage.setScene(new Scene(root));
         addStage.initModality(Modality.WINDOW_MODAL);
-        addStage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
+        addStage.initOwner(((Node) actionEvent.getSource()).getScene()
+                .getWindow());
         addStage.showAndWait();
+        AddController addController = addfxmlLoader.getController();
         if (addController.bool) {
-           getObs().add(addController.T);
-           this.taskTable.setItems(this.getObs().getObs());
-           this.labelSize.setText("Количество задач: " + getObs().getObs().size());
-           TaskIO.writeText(getObs().getTasks(), new File("temp.txt"));
+            getObs().add(addController.T);
+            this.taskTable.setItems(this.getObs().getObs());
+            this.labelSize.setText(countTask + getObs().getObs().size());
+            TaskIO.writeText(this.obs.getTasks(), new File("temp.txt"));
         }
     }
 
@@ -518,7 +547,7 @@ public class MainController {
 
     public void remove() throws IOException {
         Task t = this.taskTable.getSelectionModel().getSelectedItem();
-        if (t == null){
+        if (t == null) {
             return;
         }
         Alert delete = new Alert(Alert.AlertType.CONFIRMATION);
@@ -527,15 +556,16 @@ public class MainController {
         Optional<ButtonType> result = delete.showAndWait();
         if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
             t.getThreadTask().setFinish();
-            getObs().remove(t);
+            this.obs.remove(t);
             TaskIO.writeText(getObs().getTasks(), new File("temp.txt"));
-            this.labelSize.setText("Количество задач: " + getObs().getObs().size());
+            this.labelSize.setText(countTask + getObs().getObs().size());
         }
     }
 
     /**
      * Метод calendar(ActionEvent actionEvent).
-     * Открывает календарь для выбраного времени.
+     * Открывает календарь для выбраного
+     * времени.
      * @param actionEvent нажатие кнопки.
      * @throws IOException открытие файла.
      * @throws ParseException преобразование дат.
@@ -546,13 +576,19 @@ public class MainController {
         LocalDate dateEnd = this.calendarDateEnd.getValue();
         String timestart = this.calendarTimeStart.getText();
         String timeend = this.calendarTimeEnd.getText();
-        if(dateStart == null || dateEnd == null ||
-                "".equals(timestart) || "".equals(timeend)) return;
+        if(dateStart == null
+                || dateEnd == null
+                || "".equals(timestart)
+                || "".equals(timeend)) {
+            return;
+        }
         Stage calendarStage = new Stage();
         FXMLLoader calendarfxmlLoader = new FXMLLoader();
-        calendarfxmlLoader.setLocation(getClass().getResource("../view/calendar.fxml"));
+        calendarfxmlLoader.setLocation(getClass().
+                getResource("../view/calendar.fxml"));
         Parent root = calendarfxmlLoader.load();
-        CalendarController calendarController = calendarfxmlLoader.getController();
+        CalendarController calendarController
+                = calendarfxmlLoader.getController();
         calendarStage.setTitle("Календарь");
         calendarStage.setMinHeight(this.minHeight);
         calendarStage.setMinWidth(this.minWidth);
@@ -584,16 +620,16 @@ public class MainController {
 
     public void repeated() {
         if (!this.checkboxrepeated.isSelected()){
-            this.labelStart.setText("Время");
-            info.visibleObj(false, this.labelEnd, this.dateEnd,
+            this.labelStart.setText(time);
+            InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
                     this.hour, this.minute, this.second,
                     this.labelYear, this.labelMonth, this.labelDay,
                     this.labelHour, this.labelMinute, this.labelSecond);
         } else{
-            this.labelStart.setText("Начало");
-            info.visibleObj(true, this.labelEnd, this.dateEnd,
+            this.labelStart.setText(start);
+            InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
                     this.hour, this.minute, this.second,

@@ -152,6 +152,12 @@ public class AddController {
             logger.warn("intervalSecond<0 || intervalSecond >59");
             str1 += "Неверно указано количество секунд \n";
         }
+        if (intervalYear == 0 && intervalMonth == 0
+                && intervalDay == 0 && intervalHour == 0
+                && intervalMinute == 0 && intervalSecond == 0) {
+            logger.warn("interval = 0 for repeated task");
+            str1 += "Нулевой интервал для повторяющейся задачи";
+        }
         if("".equals(str1)) {
             Task task = new Task(title, start, end, intervalYear, intervalMonth, intervalDay, intervalHour, intervalMinute, intervalSecond);
             task.setRepeated(true);
@@ -231,7 +237,7 @@ public class AddController {
     public void repeated() {
         if (!this.checkboxrepeated.isSelected()){
             this.labelStart.setText("Время");
-            info.visibleObj(false, this.labelEnd, this.dateEnd,
+            InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
                     this.hour, this.minute, this.second,
@@ -239,7 +245,7 @@ public class AddController {
                     this.labelHour, this.labelMinute, this.labelSecond);
         } else{
             this.labelStart.setText("Начало");
-            info.visibleObj(true, this.labelEnd, this.dateEnd,
+            InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
                     this.hour, this.minute, this.second,
