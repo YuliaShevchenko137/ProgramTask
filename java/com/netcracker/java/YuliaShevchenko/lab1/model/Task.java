@@ -85,7 +85,8 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     *  Method Task(String title, Date start, Date end,  CreateInterval interval).
+     *  Method Task(String title, Date start, Date end,
+     *  CreateInterval interval).
      * Constructor creation repeated task and thread for alert.
      * @param titles title task.
      * @param starts start date performance.

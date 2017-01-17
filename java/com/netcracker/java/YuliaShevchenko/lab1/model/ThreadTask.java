@@ -83,7 +83,7 @@ public class ThreadTask {
                                         AlertType.INFORMATION);
                                 inf.setTitle("Notification");
                                 inf.setHeaderText("At " + date
-                                        + " it is necessary to perform"
+                                        + " it is necessary to perform "
                                         + thisTask.getTitle());
                                 inf.show();
                             });

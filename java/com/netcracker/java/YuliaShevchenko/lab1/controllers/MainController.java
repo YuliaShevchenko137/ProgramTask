@@ -563,7 +563,7 @@ public final class MainController {
         CalendarController calendarController
                 = calendarfxmlLoader.getController();
         calendarController.setMaps(maps);
-        calendarController.fillingTable(maps);
+        calendarController.fillingList(maps);
         calendarStage.showAndWait();
     }
 

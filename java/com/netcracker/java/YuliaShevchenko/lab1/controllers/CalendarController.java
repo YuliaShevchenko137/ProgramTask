@@ -1,14 +1,13 @@
 package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
+import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
+import com.netcracker.java.YuliaShevchenko.lab1.model.TaskIO;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
-
-import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
-import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
-import com.netcracker.java.YuliaShevchenko.lab1.model.TaskIO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,83 +24,97 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Класс CalendarController.
- * Реализация отображения списка задач
- * в виде календаря.
+ * Class CalendarController.
+ * Realization of the calendar.
  */
 
 public class CalendarController {
 
     /**
-     * Список с временем выполнения задач.
+     * listView.
+     * List dates.
      */
 
     @FXML
     private ListView<Date> listView;
 
     /**
-     * Таблица задач за текущее время.
+     * taskTable.
+     * Table of the tasks for the current date.
      */
 
     @FXML
     private TableView<Task> taskTable;
 
     /**
-     * Колонка названия задачи.
+     * taskName.
+     * Column of the title of the task.
      */
 
     @FXML
     private TableColumn<Task, String> taskName;
 
     /**
-     * Колонка времени начала задачи.
+     * taskStart.
+     * Column of the start date of the task.
      */
 
     @FXML
     private TableColumn<Task, Date> taskStart;
 
     /**
-     * Колонка времени конца задачи.
+     * taskEnd.
+     * Column of the end date of the task.
      */
 
     @FXML
     private TableColumn<Task, Date> taskEnd;
 
     /**
-     * Колонка интервала повторения.
+     * taskInterval.
+     * Column of the repetition interval of the task.
      */
 
     @FXML
     private TableColumn<Task, String> taskInterval;
 
     /**
-     * Колонка активности.
+     * taskActive.
+     * Column of the activity of the task.
      */
 
     @FXML
     private TableColumn<Task, Boolean> taskActive;
 
     /**
-     * Карта, по которой строится список.
+     * Map with date and tasks set.
      */
 
     private Map<Date, Set<Task>> maps;
 
     /**
-     * Высота окна.
+     * Height window.
      */
 
-    private final int heigth = 500;
+    private final int height = 500;
 
     /**
-     * Ширина окна.
+     * Width window.
      */
 
     private final int width = 150;
 
     /**
-     * Метод initialize().
-     * Выполняется при загрузке контроллера.
+     * Empty constructor.
+     */
+
+    public CalendarController() {
+
+    }
+
+    /**
+     * Method initialize().
+     * Executed when a controller is loaded.
      */
 
     @FXML
@@ -132,10 +145,9 @@ public class CalendarController {
     }
 
     /**
-     * Метод showTaskDetails(Date date).
-     * Выполняется при выборе даты.
-     * Заполнение таблицы.
-     * @param date выбраная дата.
+     * Method showTaskDetails(Date date).
+     * Executed when you select a date. Filling a table.
+     * @param date selected date.
      */
 
     private void showTaskDetails(final Date date) {
@@ -148,10 +160,10 @@ public class CalendarController {
     }
 
     /**
-     * Метод safe(ActionEvent actionEvent).
-     * СОхраняет карту в файл.
-     * @param actionEvent нажатие кнопки.
-     * @throws IOException открытие файла.
+     * Method safe(ActionEvent actionEvent).
+     * Saving map at file.
+     * @param actionEvent button press.
+     * @throws IOException appears when opening a file.
      */
 
     public final void safe(final ActionEvent actionEvent) throws IOException {
@@ -163,7 +175,7 @@ public class CalendarController {
         FileChooserController fileChooserController =
                 filechoosefxmlLoader.getController();
         fileChooserStage.setTitle("Choose file");
-        fileChooserStage.setMaxHeight(this.heigth);
+        fileChooserStage.setMaxHeight(this.height);
         fileChooserStage.setMinWidth(this.width);
         fileChooserStage.setResizable(false);
         fileChooserStage.setScene(new Scene(root));
@@ -176,12 +188,12 @@ public class CalendarController {
     }
 
     /**
-     * Метод fillingTable(final Map map).
-     * Заполнение списка дат.
-     * @param map карта для выбора дат.
+     * Method fillingList(final Map map).
+     * Filling by key map list.
+     * @param map map with key.
      */
 
-    final void fillingTable(final Map<Date, Set<Task>> map) {
+    final void fillingList(final Map<Date, Set<Task>> map) {
         Set<Date> dateSet = map.keySet();
         ObservableList<Date> dateObs = FXCollections.observableArrayList();
         for (Date t : dateSet) {
@@ -191,9 +203,9 @@ public class CalendarController {
     }
 
     /**
-     * Метод setMaps(Map maps).
-     * ПРивязывает карту к контроллеру.
-     * @param map карта.
+     * Method setMaps(Map maps).
+     * Setter for map.
+     * @param map new map.
      */
 
     final void setMaps(final Map<Date, Set<Task>> map) {

@@ -24,10 +24,18 @@ public final class Main extends Application {
     private final int width = 900;
 
     /**
-     * Heigth window.
+     * Height window.
      */
 
     private final int height = 500;
+
+    /**
+     * Empty constructor.
+     */
+
+    public Main() {
+
+    }
 
     /**
      * Method start(final Stage primaryStage).
