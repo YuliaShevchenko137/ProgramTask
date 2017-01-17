@@ -1,4 +1,4 @@
-package model;
+package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -42,18 +42,6 @@ public class ThreadTask {
     private Thread thread;
 
     /**
-     * Секунда.
-     */
-
-    private final int second = 1000;
-
-    /**
-     * Пол часа.
-     */
-
-    private final int halfhour = 30 * 60 * 1000;
-
-    /**
      * Конструктор ThreadTask(Task tas).
      * Создание потока.
      * @param tas задача для открытия потока.
@@ -80,9 +68,9 @@ public class ThreadTask {
                     long countMSecond = date.getTime()
                             - this.nowTime().getTime();
                     Set<Task> tasks = map.get(date);
-                    if (countMSecond > this.halfhour) {
+                    if (countMSecond > Constants.getHalfhour()) {
                         try {
-                            Thread.sleep(this.second);
+                            Thread.sleep(Constants.getSecond());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -91,10 +79,9 @@ public class ThreadTask {
                             Platform.runLater(() -> {
                                 Alert inf = new Alert(Alert.
                                         AlertType.INFORMATION);
-                                inf.setTitle("Напоминание");
-                                inf.setHeaderText("В " + date
-                                        + " необходимо "
-                                        + "выполнить: "
+                                inf.setTitle("Notification");
+                                inf.setHeaderText("At " + date
+                                        + " it is necessary to perform"
                                         + thisTask.getTitle());
                                 inf.show();
                             });

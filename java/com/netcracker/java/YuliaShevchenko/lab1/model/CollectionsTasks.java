@@ -1,4 +1,4 @@
-package model;
+package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,9 +1,8 @@
-package mainclass;
+package com.netcracker.java.YuliaShevchenko.lab1.mainclass;
 
-import controllers.MainController;
-
+import com.netcracker.java.YuliaShevchenko.lab1.controllers.MainController;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -11,32 +10,30 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import model.Task;
-
 /**
- * Класс Main.
- * Запуск приложения.
+ * Class Main.
+ * Start application.
  */
 
 public final class Main extends Application {
 
     /**
-     * Ширина экрана.
+     * Width window.
      */
 
     private final int width = 900;
 
     /**
-     * Высота экрана.
+     * Heigth window.
      */
 
     private final int height = 500;
 
     /**
-     * Метод start(final Stage primaryStage).
-     * открывает основное окно программы.
-     * @param primaryStage сцена основного окна.
-     * @throws IOException oткрытиe файла.
+     * Method start(final Stage primaryStage).
+     * open the main window.
+     * @param primaryStage the scene of the main window.
+     * @throws IOException appears when opening a file.
      */
 
     @Override

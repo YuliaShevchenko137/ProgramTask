@@ -1,4 +1,4 @@
-package controllers;
+package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
+
+import com.netcracker.java.YuliaShevchenko.lab1.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,14 +30,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.ArrayTaskList;
-import model.CollectionsTasks;
-import model.OperationForTime;
-import model.Task;
-import model.TaskIO;
-import model.TaskList;
-import model.Tasks;
-import model.ThreadTask;
 
 
 /**
@@ -357,46 +351,10 @@ public final class MainController {
     private final int minWidth = 350;
 
     /**
-     * Строка Количество задач.
-     */
-
-    private final String countTask = "Количество задач: ";
-
-    /**
-     * Регулярное выражение.
-     */
-
-    private final String regexp = "[ \\t\\n]+";
-
-    /**
-     * Номер, обозначающий время.
-     */
-
-    private final int counttime = 3;
-
-    /**
-     * Слово time.
-     */
-
-    private final String time = "Время";
-
-    /**
-     * Слово start.
-      */
-
-    private final String start = "Начало";
-
-    /**
      * Файл для записи и считывания.
      */
 
     private final File temp = new File("temp.txt");
-
-    /**
-     * Пробел.
-     */
-
-    private final String space = " ";
 
     /**
      * Метод MainController().
@@ -437,11 +395,9 @@ public final class MainController {
         this.gridView.setVisible(true);
         this.showNoting();
         this.apply.setVisible(false);
-        final String applystr = "Применить";
-        this.apply.setText(applystr);
-        final String changestr = "Изменить";
-        this.change.setText(changestr);
-        this.labelSize.setText(this.countTask + this.obs.getObs().size());
+        this.apply.setText(Constants.getApply());
+        this.change.setText(Constants.getChange());
+        this.labelSize.setText(Constants.getCountTask() + this.obs.getObs().size());
     }
 
     /**
@@ -485,27 +441,27 @@ public final class MainController {
     private void showDetailsForChange(final Task task) {
         this.taskNameField.setText(task.getTitle());
         String str = String.valueOf(task.getStart());
-        String[] words = str.split(this.regexp);
+        String[] words = str.split(Constants.getRegexp());
         this.dateStart.setValue(OperationForTime.dateToLocalDate(
                 task.getStart()));
-        this.timeStart.setText(words[this.counttime]);
+        this.timeStart.setText(words[Constants.getThree()]);
         this.dateEnd.setValue(OperationForTime.dateToLocalDate(
                 task.getEnd()));
         str = String.valueOf(task.getStart());
-        words = str.split(this.regexp);
-        this.timeEnd.setText(words[this.counttime]);
+        words = str.split(Constants.getRegexp());
+        this.timeEnd.setText(words[Constants.getThree()]);
         final ToggleGroup group = new ToggleGroup();
         this.activeTrue.setToggleGroup(group);
         this.activeFalse.setToggleGroup(group);
         this.activeTrue.setSelected(task.isActive());
         this.activeFalse.setSelected(!task.isActive());
         this.checkboxrepeated.setSelected(task.isRepeated());
-        this.year.setText(String.valueOf(task.getIntervalYear()));
-        this.month.setText(String.valueOf(task.getIntervalMonth()));
-        this.day.setText(String.valueOf(task.getIntervalDay()));
-        this.minute.setText(String.valueOf(task.getIntervalMinute()));
-        this.hour.setText(String.valueOf(task.getIntervalHour()));
-        this.second.setText(String.valueOf(task.getIntervalSecond()));
+        this.year.setText(String.valueOf(task.getCreateInterval().getIntervalYear()));
+        this.month.setText(String.valueOf(task.getCreateInterval().getIntervalMonth()));
+        this.day.setText(String.valueOf(task.getCreateInterval().getIntervalDay()));
+        this.minute.setText(String.valueOf(task.getCreateInterval().getIntervalMinute()));
+        this.hour.setText(String.valueOf(task.getCreateInterval().getIntervalHour()));
+        this.second.setText(String.valueOf(task.getCreateInterval().getIntervalSecond()));
         task.getInterval();
         this.checkboxrepeated.setSelected(task.isRepeated());
         this.repeated();
@@ -524,7 +480,7 @@ public final class MainController {
         FXMLLoader addfxmlLoader = new FXMLLoader();
         addfxmlLoader.setLocation(getClass().getResource("../view/add.fxml"));
         Parent root = addfxmlLoader.load();
-        addStage.setTitle("Добавление задачи");
+        addStage.setTitle("Add task");
         addStage.setMinHeight(this.minHeight);
         addStage.setMinWidth(this.minWidth);
         addStage.setResizable(false);
@@ -537,7 +493,7 @@ public final class MainController {
         if (addController.bool) {
             this.obs.add(addController.T);
             this.taskTable.setItems(this.obs.getObs());
-            this.labelSize.setText(this.countTask + this.obs.getObs().size());
+            this.labelSize.setText(Constants.getCountTask() + this.obs.getObs().size());
             TaskIO.writeText(this.obs.getTasks(), this.temp);
         }
     }
@@ -554,14 +510,14 @@ public final class MainController {
             return;
         }
         Alert delete = new Alert(Alert.AlertType.CONFIRMATION);
-        delete.setTitle("Удаление");
-        delete.setHeaderText("Вы уверены?");
+        delete.setTitle("Remove");
+        delete.setHeaderText("Are you sure?");
         Optional<ButtonType> result = delete.showAndWait();
         if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
             t.getThreadTask().setFinish();
             this.obs.remove(t);
             TaskIO.writeText(this.obs.getTasks(), this.temp);
-            this.labelSize.setText(this.countTask + this.obs.getObs().size());
+            this.labelSize.setText(Constants.getCountTask() + this.obs.getObs().size());
         }
     }
 
@@ -591,7 +547,7 @@ public final class MainController {
         calendarfxmlLoader.setLocation(
                 getClass().getResource("../view/calendar.fxml"));
         Parent root = calendarfxmlLoader.load();
-        calendarStage.setTitle("Календарь");
+        calendarStage.setTitle("Calendar");
         calendarStage.setMinHeight(this.minHeight);
         calendarStage.setMinWidth(this.minWidth);
         calendarStage.setScene(new Scene(root));
@@ -599,9 +555,9 @@ public final class MainController {
         calendarStage.initOwner(((Node)
                 actionEvent.getSource()).getScene().getWindow());
         Date dateSt = OperationForTime.parseDate(dateStarts
-                + this.space + timestart);
+                + Constants.getSpace() + timestart);
         Date dateEn = OperationForTime.parseDate(dateEnds
-                + this.space + timeend);
+                + Constants.getSpace() + timeend);
         Map<Date, java.util.Set<Task>> maps
                 = Tasks.calendar(this.obs.getObs(), dateSt, dateEn);
         CalendarController calendarController
@@ -628,7 +584,7 @@ public final class MainController {
 
     public void repeated() {
         if (!this.checkboxrepeated.isSelected()) {
-            this.labelStart.setText(this.time);
+            this.labelStart.setText(Constants.getTime());
             InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
@@ -636,7 +592,7 @@ public final class MainController {
                     this.labelYear, this.labelMonth, this.labelDay,
                     this.labelHour, this.labelMinute, this.labelSecond);
         } else {
-            this.labelStart.setText(this.start);
+            this.labelStart.setText(Constants.getStart());
             InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
@@ -670,7 +626,6 @@ public final class MainController {
         } else {
             str1 = this.changeNoRepeatedTask(task, task1);
         }
-        this.taskTable.setItems(this.obs.getObs());
         if ("".equals(str1)) {
             this.gridChange.setVisible(false);
             this.gridView.setVisible(true);
@@ -683,6 +638,7 @@ public final class MainController {
             this.change.setVisible(true);
             this.apply.setVisible(false);
             this.error.setText("");
+            this.taskTable.setItems(this.obs.getObs());
         } else {
             this.error.setVisible(true);
             this.getObs().getObs().add(task1);
@@ -704,56 +660,43 @@ public final class MainController {
         task.setActive(this.activeTrue.isSelected());
         try {
             task.setStart(OperationForTime.parseDate(this.dateStart.getValue()
-                    + this.space + this.timeStart.getText()));
+                    + Constants.getSpace() + this.timeStart.getText()));
         } catch (ParseException e) {
             task.setStart(task1.getStart());
-            str1 += "Неверное время начала \n";
+            str1 += Constants.getErrorStart() + Constants.getEnter();
         }
         try {
             task.setEnd(OperationForTime.parseDate(this.dateEnd.getValue()
-                    + this.space + this.timeEnd.getText()));
+                    + Constants.getSpace() + this.timeEnd.getText()));
         } catch (ParseException e) {
             task.setEnd(task1.getEnd());
-            str1 += "Неверное время конца \n";
+            str1 += Constants.getErrorEnd() + Constants.getEnter();
         }
-        task.setIntervalYear(Integer.parseInt(this.year.getText()));
-        task.setIntervalMonth(Integer.parseInt(this.month.getText()));
-        task.setIntervalDay(Integer.parseInt(this.day.getText()));
-        task.setIntervalHour(Integer.parseInt(this.hour.getText()));
-        task.setIntervalMinute(Integer.parseInt(this.minute.getText()));
-        task.setIntervalSecond(Integer.parseInt(this.second.getText()));
-        final int countmonth = 11;
-        final String uncorrected = "Неверно указано" +
-                " количество ";
-        if (Integer.parseInt(this.month.getText()) < 0
-                || Integer.parseInt(this.month.getText()) > countmonth) {
-            str1 +=  uncorrected
-                    + "месяцев \n";
+        task.getCreateInterval().setIntervalYear(Integer.parseInt(this.year.getText()));
+        task.getCreateInterval().setIntervalMonth(Integer.parseInt(this.month.getText()));
+        task.getCreateInterval().setIntervalDay(Integer.parseInt(this.day.getText()));
+        task.getCreateInterval().setIntervalHour(Integer.parseInt(this.hour.getText()));
+        task.getCreateInterval().setIntervalMinute(Integer.parseInt(this.minute.getText()));
+        task.getCreateInterval().setIntervalSecond(Integer.parseInt(this.second.getText()));
+        if (Integer.parseInt(this.month.getText()) < Constants.getNulls()
+                || Integer.parseInt(this.month.getText()) > Constants.getEleven()) {
+            str1 +=  Constants.getErrorcountmonth() + Constants.getEnter();
         }
-        final int countday = 29;
-        if (Integer.parseInt(this.day.getText()) < 0
-                || Integer.parseInt(this.day.getText()) > countday) {
-            str1 += uncorrected
-                    + "дней \n";
+        if (Integer.parseInt(this.day.getText()) < Constants.getNulls()
+                || Integer.parseInt(this.day.getText()) > Constants.getTwentythree()) {
+            str1 += Constants.getErrorcountday() + Constants.getEnter();
         }
-        final int counthour = 23;
-        final String hours = "часов \n";
-        if (Integer.parseInt(this.hour.getText()) < 0
-                || Integer.parseInt(this.hour.getText()) > counthour) {
-            str1 += uncorrected + hours;
+        if (Integer.parseInt(this.hour.getText()) < Constants.getNulls()
+                || Integer.parseInt(this.hour.getText()) > Constants.getTwentythree()) {
+            str1 += Constants.getErrorcounthour() + Constants.getEnter();
         }
-        final int countMinuteOrSecond = 59;
-        if (Integer.parseInt(this.minute.getText()) < 0
-                || Integer.parseInt(this.minute.getText())
-                > countMinuteOrSecond) {
-            str1 += uncorrected
-                    + "минут \n";
+        if (Integer.parseInt(this.minute.getText()) < Constants.getNulls()
+                || Integer.parseInt(this.minute.getText()) > Constants.getFiftynine()) {
+            str1 += Constants.getErrorcountminute() + Constants.getEnter();
         }
-        if (Integer.parseInt(this.second.getText()) < 0
-                || Integer.parseInt(this.second.getText())
-                > countMinuteOrSecond) {
-            str1 += uncorrected
-                    + "секунд \n";
+        if (Integer.parseInt(this.second.getText()) < Constants.getNulls()
+                || Integer.parseInt(this.second.getText()) > Constants.getFiftynine()) {
+            str1 += Constants.getErrorcountsecond() + Constants.getEnter();
         }
         return str1;
     }
@@ -774,9 +717,9 @@ public final class MainController {
         task.setActive(this.activeTrue.isSelected());
         try {
             task.setTime(OperationForTime.parseDate(this.dateStart.getValue()
-                    + this.space + this.timeStart.getText()));
+                    + Constants.getSpace() + this.timeStart.getText()));
         } catch (ParseException e) {
-            str += "Неверное время \n";
+            str += Constants.getErrorTime() + Constants.getEnter();
             task.setTime(task1.getStart());
         }
         return str;
@@ -790,7 +733,7 @@ public final class MainController {
      */
 
     public void changeTask() throws ParseException, CloneNotSupportedException {
-        if (this.getObs().getObs().size() != 0) {
+        if (this.getObs().getObs().size() != Constants.getNulls()) {
             this.showDetailsForChange(
                     this.taskTable.getSelectionModel().getSelectedItem());
             this.gridChange.setVisible(true);

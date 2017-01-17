@@ -1,12 +1,10 @@
-package model;
+package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 import java.io.Serializable;
 
 import java.text.ParseException;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 import java.util.Date;
 /**
@@ -22,7 +20,7 @@ import java.util.Date;
 public class Task implements Cloneable, Serializable {
 
     /**
-     * контроль версий для сериализации {@value}.
+     * Version control for serialization.
      */
 
     private static final long serialVersionUID = 42L;
@@ -30,30 +28,6 @@ public class Task implements Cloneable, Serializable {
     /**Поле названия задачи.*/
 
     private String title;
-
-    /**Составляющая интервала в годах.*/
-
-    private int intervalYear;
-
-    /**Составляющая интервала в месяцах.*/
-
-    private int intervalMonth;
-
-    /**Составляющая интервала в днях.*/
-
-    private int intervalDay;
-
-    /**Составляющая интервала в часах.*/
-
-    private int intervalHour;
-
-    /**Составляющая интервала в минутах.*/
-
-    private int intervalMinute;
-
-    /**Составляющая интервала в секундах.*/
-
-    private int intervalSecond;
 
     /**Поля активности.*/
 
@@ -78,7 +52,7 @@ public class Task implements Cloneable, Serializable {
      * задачи.
      */
 
-    private String interval;
+    private CreateInterval interval;
 
     /**
      * Потом оповещения.
@@ -101,7 +75,7 @@ public class Task implements Cloneable, Serializable {
             throws ParseException {
         this.setTitle(titles);
         this.setTime(times);
-        this.interval = this.getInterval();
+        this.interval = new CreateInterval();
         this.setThreadTask(new ThreadTask(this));
     }
 
@@ -115,26 +89,17 @@ public class Task implements Cloneable, Serializable {
      * @param titles название задачи.
      * @param starts время начала выполнения.
      * @param ends время конца выполнения.
-     * @param intervalYears количество лет.
-     * @param intervalMonths количество месяцев.
-     * @param intervalDays количество дней.
-     * @param intervalHours количество часов.
-     * @param intervalMinutes количество минут.
-     * @param intervalSeconds количество секунд между.
+     * @param intervals interval
      * @throws ParseException из-за преобразования даты в
-     * {@link #setTime(Date, Date, int, int, int, int, int, int)}.
+     * {@link #setTime(Date, Date)}.
      */
 
     public Task(final String titles, final Date starts,
-                final Date ends, final int intervalYears,
-                final int intervalMonths, final int intervalDays,
-                final int intervalHours, final int intervalMinutes,
-                final int intervalSeconds) throws ParseException {
+                final Date ends, final CreateInterval intervals)
+            throws ParseException {
         this.setTitle(titles);
-        this.setTime(starts, ends, intervalYears, intervalMonths,
-                intervalDays, intervalHours, intervalMinutes,
-                intervalSeconds);
-        this.interval = this.getInterval();
+        this.interval = intervals;
+        this.setTime(starts, ends);
         this.setThreadTask(new ThreadTask(this));
     }
 
@@ -146,6 +111,10 @@ public class Task implements Cloneable, Serializable {
 
     public final String getTitle() {
         return this.title;
+    }
+
+    public final CreateInterval getCreateInterval() {
+        return this.interval;
     }
 
     /**
@@ -199,32 +168,6 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод getRepeatInterval().
-     * возвращает текстовую строку интервала
-     * повторения задачи.
-     * @return  интервал полторения.
-     */
-
-    private String getRepeatInterval() {
-        if (this.isRepeated()) {
-            return this.getIntervalYear()
-                    + " year "
-                    + this.getIntervalMonth()
-                    + " month "
-                    + this.getIntervalDay()
-                    + " day "
-                    + this.getIntervalHour()
-                    + " hour "
-                    + this.getIntervalMinute()
-                    + " minute "
-                    + this.getIntervalSecond()
-                    + " second";
-        } else {
-            return "0";
-        }
-    }
-
-    /**
      * Метод isRepeated().
      * проверяет повторяемость задачи.
      * @return  повторяемость задачи.
@@ -251,14 +194,13 @@ public class Task implements Cloneable, Serializable {
      * Метод setTime(Date time).
      * устанавливает значение времени для
      * неповторяющейся задачи.
-     * {@link #setTime(Date, Date, int, int, int, int, int, int)}.
+     * {@link #setTime(Date, Date)}.
      * @param time время исполнения задачи.
      * @throws ParseException преобраз. дат.
      */
 
     public final void setTime(final Date time) throws ParseException {
-        this.setTime(time, time, 0, 0, 0,
-                0, 0, 0);
+        this.setTime(time, time);
     }
 
     /**
@@ -269,28 +211,13 @@ public class Task implements Cloneable, Serializable {
      * повторяющейся задачи.
      * @param starts время начала выполнения.
      * @param ends время конца выполнения.
-     * @param intervalYears количество лет.
-     * @param intervalMonths количество месяцев.
-     * @param intervalDays количество дней.
-     * @param intervalHours количество часов.
-     * @param intervalMinutes количество минут.
-     * @param intervalSeconds количество секунд.
      * @throws ParseException преобраз. дат.
      */
 
-    private void setTime(final Date starts, final Date ends,
-                         final int intervalYears, final int intervalMonths,
-                         final int intervalDays, final int intervalHours,
-                         final int intervalMinutes, final int intervalSeconds)
+    private void setTime(final Date starts, final Date ends)
             throws ParseException {
         this.setStart((Date) starts.clone());
         this.setEnd((Date) ends.clone());
-        this.setIntervalYear(intervalYears);
-        this.setIntervalMonth(intervalMonths);
-        this.setIntervalDay(intervalDays);
-        this.setIntervalHour(intervalHours);
-        this.setIntervalMinute(intervalMinutes);
-        this.setIntervalSecond(intervalSeconds);
     }
 
     /**
@@ -347,8 +274,8 @@ public class Task implements Cloneable, Serializable {
             Task task = (Task) obj;
             boolean a2 = this.start.equals(task.getStart());
             boolean a3 = this.isActive() == task.isActive();
-            boolean a4 = this.getRepeatInterval().
-                    equals(task.getRepeatInterval());
+            boolean a4 = this.interval.
+                    equals(task.getInterval());
             boolean a = this.end.equals(task.getEnd());
             return a & a2 & a3 & a4;
         }
@@ -365,158 +292,18 @@ public class Task implements Cloneable, Serializable {
     @Override
     public final int hashCode() {
         return this.title.hashCode()
-                + this.getIntervalYear()
+                + this.interval.hashCode()
                 + this.start.hashCode()
-                + this.end.hashCode()
-                + this.getIntervalMonth()
-                + this.getIntervalDay()
-                + this.getIntervalHour()
-                + this.getIntervalMinute()
-                + this.getIntervalSecond();
+                + this.end.hashCode();
     }
 
     /**
      * Метод getInterval().
-     * при помощи метода {@link #getRepeatInterval()}
-     * заполняет поле интервал.
      * @return значение интервала повторения.
      */
 
     public final String getInterval() {
-        this.interval =  this.getRepeatInterval();
-        return this.interval;
-    }
-
-    /**
-     * Метод getIntervalYear().
-     * возвращает количество лет, через
-     * которое повторится задача.
-     * @return количество лет.
-     */
-
-    public final int getIntervalYear() {
-        return this.intervalYear;
-    }
-
-    /**
-     * Метод getIntervalMonth().
-     * возвращает количество месяцев, через
-     * которое повторится задача.
-     * @return количество месяцев.
-     */
-
-    public final int getIntervalMonth() {
-        return this.intervalMonth;
-    }
-
-    /**
-     * Метод getIntervalDay().
-     * возвращает количество дней, через
-     * которое повторится задача.
-     * @return количество дней.
-     */
-
-    public final int getIntervalDay() {
-        return this.intervalDay;
-    }
-
-    /**
-     * Метод getIntervalHour().
-     * возвращает количество часов, через
-     * которое повторится задача.
-     * @return количество часов.
-     */
-
-    public final int getIntervalHour() {
-        return this.intervalHour;
-    }
-
-    /**
-     * Метод getIntervalMinute().
-     * возвращает количество минут, через
-     * которое повторится задача.
-     * @return количество минут.
-     */
-
-    public final int getIntervalMinute() {
-        return this.intervalMinute;
-    }
-
-    /**
-     * Метод getIntervalSecond().
-     * возвращает количество секунд, через
-     * которое повторится задача.
-     * @return количество секунд.
-     */
-
-    public final int getIntervalSecond() {
-        return this.intervalSecond;
-    }
-
-    /**
-     * Метод setIntervalYear(int intervalYear).
-     * устанавливает количество лет
-     * между повторениями.
-     * @param intervalYears количество лет.
-     */
-
-    public final void setIntervalYear(final int intervalYears) {
-        this.intervalYear = intervalYears;
-    }
-
-    /**
-     * Метод setIntervalMonth(int intervalMonth).
-     * устанавливает количество месяцев
-     * между повторениями.
-     * @param intervalMonths количество месяцев.
-     */
-
-    public final void setIntervalMonth(final int intervalMonths) {
-        this.intervalMonth = intervalMonths;
-    }
-
-    /**
-     * Метод setIntervalDay(int intervalDay).
-     * устанавливает количество дней
-     * между повторениями.
-     * @param intervalDays количество дней.
-     */
-
-    public final void setIntervalDay(final int intervalDays) {
-        this.intervalDay = intervalDays;
-    }
-
-    /**
-     * Метод setIntervalHour(int intervalHour).
-     * устанавливает количество часов
-     * между повторениями.
-     * @param intervalHours количество лет.
-     */
-
-    public final void setIntervalHour(final int intervalHours) {
-        this.intervalHour = intervalHours;
-    }
-
-    /**
-     * Метод setIntervalMinute(int intervalMinute).
-     * устанавливает количество минут
-     * между повторениями.
-     * @param intervalMinutes количество минут.
-     */
-
-    public final void setIntervalMinute(final int intervalMinutes) {
-        this.intervalMinute = intervalMinutes;
-    }
-
-    /**
-     * Метод setIntervalSecond(int intervalSecond).
-     * устанавливает количество секунд
-     * между повторениями.
-     * @param intervalSeconds количество лет.
-     */
-
-    public final void setIntervalSecond(final int intervalSeconds) {
-        this.intervalSecond = intervalSeconds;
+        return this.interval.getInterval();
     }
 
     /**
@@ -562,12 +349,12 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод setThreadTask(model.ThreadTask threadTask).
+     * Метод setThreadTask(ThreadTask threadTask).
      * Связывает поток с задачей.
      * @param threadTasks новый поток.
      */
 
-    public final void setThreadTask(final model.ThreadTask threadTasks) {
+    public final void setThreadTask(final ThreadTask threadTasks) {
         this.threadTask = threadTasks;
     }
 }

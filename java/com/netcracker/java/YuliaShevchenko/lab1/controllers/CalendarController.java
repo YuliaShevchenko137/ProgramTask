@@ -1,10 +1,14 @@
-package controllers;
+package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
+
+import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
+import com.netcracker.java.YuliaShevchenko.lab1.model.TaskIO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,8 +23,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Task;
-import model.TaskIO;
 
 /**
  * Класс CalendarController.
@@ -104,14 +106,19 @@ public class CalendarController {
 
     @FXML
     public final void initialize() {
+        this.taskName.setText(Constants.getTitle());
         this.taskName.setCellValueFactory(
                 new PropertyValueFactory<>("title"));
+        this.taskStart.setText(Constants.getStart());
         this.taskStart.setCellValueFactory(
                 new PropertyValueFactory<>("start"));
+        this.taskEnd.setText(Constants.getEnd());
         this.taskEnd.setCellValueFactory(
                 new PropertyValueFactory<>("end"));
+        this.taskInterval.setText(Constants.getInterval());
         this.taskInterval.setCellValueFactory(
                 new PropertyValueFactory<>("interval"));
+        this.taskActive.setText(Constants.getActive());
         this.taskActive.setCellValueFactory(
                 new PropertyValueFactory<>("active"));
         this.taskName.setText("");
@@ -155,7 +162,7 @@ public class CalendarController {
         Parent root = filechoosefxmlLoader.load();
         FileChooserController fileChooserController =
                 filechoosefxmlLoader.getController();
-        fileChooserStage.setTitle("Выбор файла");
+        fileChooserStage.setTitle("Choose file");
         fileChooserStage.setMaxHeight(this.heigth);
         fileChooserStage.setMinWidth(this.width);
         fileChooserStage.setResizable(false);

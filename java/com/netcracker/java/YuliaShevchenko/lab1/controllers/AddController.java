@@ -1,9 +1,12 @@
-package controllers;
+package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
 
+import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
+import com.netcracker.java.YuliaShevchenko.lab1.model.CreateInterval;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,8 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
-import model.OperationForTime;
-import model.Task;
+import com.netcracker.java.YuliaShevchenko.lab1.model.OperationForTime;
 import org.apache.log4j.Logger;
 
 
@@ -85,46 +87,44 @@ public class AddController {
 
     @FXML
     public void initialize() {
-        this.timeStart.setPromptText("HH:mm:ss");
-        this.timeEnd.setPromptText("HH:mm:ss");
+        this.timeStart.setPromptText(Constants.getFormatTime());
+        this.timeEnd.setPromptText(Constants.getFormatTime());
         this.dateStart.setValue(LocalDate.now());
         this.dateEnd.setValue(LocalDate.now());
         final ToggleGroup group = new ToggleGroup();
         this.activeTrue.setToggleGroup(group);
         this.activeFalse.setToggleGroup(group);
-        this.year.setText("0");
-        this.month.setText("0");
-        this.day.setText("0");
-        this.hour.setText("0");
-        this.minute.setText("0");
-        this.second.setText("0");
+        this.year.setText(String.valueOf(Constants.getNulls()));
+        this.month.setText(String.valueOf(Constants.getNulls()));
+        this.day.setText(String.valueOf(Constants.getNulls()));
+        this.hour.setText(String.valueOf(Constants.getNulls()));
+        this.minute.setText(String.valueOf(Constants.getNulls()));
+        this.second.setText(String.valueOf(Constants.getNulls()));
     }
 
     private Task createRepeatedTask() throws ParseException {
         String title = this.taskName.getText();
-        String str = this.dateStart.getValue().toString() + " " + this.timeStart.getText();
+        String str = this.dateStart.getValue().toString() + Constants.getSpace() + this.timeStart.getText();
         Date start;
         try {
             start = OperationForTime.parseDate(str);
-        }
-        catch(ParseException e){
-            logger.error(e.getMessage(), e);
-            if(this.checkboxrepeated.isSelected()) str1+="Неправильно введено время начала задачи\n";
-            else str1+="Неправильно введено время задачи\n";
-            start = new Date(0);
+        } catch(ParseException e) {
+            logger.error(Constants.getErrorStart(), e);
+            str1 += Constants.getErrorStart() + Constants.getEnter();
+            start = new Date(Constants.getNulls());
         }
         Date end;
-        str = this.dateEnd.getValue().toString() + " " + this.timeEnd.getText();
+        str = this.dateEnd.getValue().toString() + Constants.getSpace() + this.timeEnd.getText();
         try {
             end = OperationForTime.parseDate(str);
         } catch (ParseException e) {
-            logger.error(e.getMessage(), e);
-            str1 += "Неправильно введено время конца задачи\n";
-            end = new Date(0);
+            logger.error(Constants.getErrorEnd(), e);
+            str1 += Constants.getErrorEnd() + Constants.getEnter();
+            end = new Date(Constants.getNulls());
         }
         if (end.before(start) || end.equals(start)) {
-            logger.warn("end.before(start)");
-            str1 += "Конец выполнения задачи перед его началом или они соврадают\n";
+            logger.warn(Constants.getErrorEarlierTime());
+            str1 += Constants.getErrorEarlierTime() + Constants.getEnter();
         }
         int intervalYear = Integer.parseInt(this.year.getText());
         int intervalMonth = Integer.parseInt(this.month.getText());
@@ -132,34 +132,35 @@ public class AddController {
         int intervalHour = Integer.parseInt(this.hour.getText());
         int intervalMinute = Integer.parseInt(this.minute.getText());
         int intervalSecond = Integer.parseInt(this.second.getText());
-        if (intervalMonth<0 || intervalMonth >11) {
-            logger.warn("intervalMonth<0 || intervalMonth >11");
-            str1 += "Неверно указано количество месяцев \n";
+        if (intervalMonth < Constants.getNulls() || intervalMonth > Constants.getEleven()) {
+            logger.warn(Constants.getErrorcountmonth());
+            str1 += Constants.getErrorcountmonth() + " \n";
         }
-        if (intervalDay<0 || intervalDay >29) {
-            logger.warn("intervalDay<0 || intervalDay >29");
-            str1 += "Неверно указано количество дней \n";
+        if (intervalDay < Constants.getNulls() || intervalDay > Constants.getTwentythree()) {
+            logger.warn(Constants.getErrorcountday());
+            str1 += Constants.getErrorcountday() + " \n";
         }
-        if (intervalHour<0 || intervalHour >23) {
-            logger.warn("intervalHour<0 || intervalHour >23");
-            str1 += "Неверно указано количество часов \n";
+        if (intervalHour < Constants.getNulls() || intervalHour > Constants.getTwentythree()) {
+            logger.warn(Constants.getErrorcounthour());
+            str1 += Constants.getErrorcounthour() + " \n";
         }
-        if (intervalMinute<0 || intervalMinute >59) {
-            logger.warn("intervalMinute<0 || intervalMinute >59");
-            str1 += "Неверно указано количество минут \n";
+        if (intervalMinute < Constants.getNulls() || intervalMinute > Constants.getFiftynine()) {
+            logger.warn(Constants.getErrorcountminute());
+            str1 += Constants.getErrorcountminute() + " \n";
         }
-        if (intervalSecond<0 || intervalSecond >59) {
-            logger.warn("intervalSecond<0 || intervalSecond >59");
-            str1 += "Неверно указано количество секунд \n";
+        if (intervalSecond < Constants.getNulls() || intervalSecond > Constants.getFiftynine()) {
+            logger.warn(Constants.getErrorcountsecond());
+            str1 += Constants.getErrorcountsecond() + " \n";
         }
-        if (intervalYear == 0 && intervalMonth == 0
-                && intervalDay == 0 && intervalHour == 0
-                && intervalMinute == 0 && intervalSecond == 0) {
-            logger.warn("interval = 0 for repeated task");
-            str1 += "Нулевой интервал для повторяющейся задачи";
+        if (intervalYear == Constants.getNulls() && intervalMonth == Constants.getNulls()
+                && intervalDay == Constants.getNulls() && intervalHour == Constants.getNulls()
+                && intervalMinute == Constants.getNulls() && intervalSecond == Constants.getNulls()) {
+            logger.warn(Constants.getErrorinterval());
+            str1 += Constants.getErrorinterval();
         }
-        if("".equals(str1)) {
-            Task task = new Task(title, start, end, intervalYear, intervalMonth, intervalDay, intervalHour, intervalMinute, intervalSecond);
+        if ("".equals(str1)) {
+            CreateInterval interval = new CreateInterval(intervalYear, intervalMonth, intervalDay, intervalHour, intervalMinute, intervalSecond);
+            Task task = new Task(title, start, end, interval);
             task.setRepeated(true);
             task.getInterval();
             if (this.activeTrue.isSelected()) task.setActive(true);
@@ -173,20 +174,18 @@ public class AddController {
         String title = this.taskName.getText();
         String str = this.dateStart.getValue().toString() + " " + this.timeStart.getText();
         Date start;
-        try{
+        try {
             start = OperationForTime.parseDate(str);
-        }
-        catch(ParseException e){
+        } catch(ParseException e) {
             logger.error(e.getMessage(), e);
-            if(this.checkboxrepeated.isSelected()) str1+="Неправильно введено время начала задачи\n";
-            else str1+="Неправильно введено время задачи\n";
-            start = new Date(0);
+            str1+=Constants.getErrorTime() + Constants.getEnter();
+            start = new Date(Constants.getNulls());
         }
-        if("".equals(str1)) {
+        if ("".equals(str1)) {
             Task task = new Task(title, start);
             task.setRepeated(false);
             task.getInterval();
-            if (this.activeTrue.isSelected()) task.setActive(true);
+            task.setActive(this.activeTrue.isSelected());
             return task;
         } else {
             return null;
@@ -222,12 +221,12 @@ public class AddController {
         this.taskName.setText("");
         this.timeStart.setText("");
         this.timeEnd.setText("");
-        this.year.setText("0");
-        this.month.setText("0");
-        this.day.setText("0");
-        this.hour.setText("0");
-        this.minute.setText("0");
-        this.second.setText("0");
+        this.year.setText(String.valueOf(Constants.getNulls()));
+        this.month.setText(String.valueOf(Constants.getNulls()));
+        this.day.setText(String.valueOf(Constants.getNulls()));
+        this.hour.setText(String.valueOf(Constants.getNulls()));
+        this.minute.setText(String.valueOf(Constants.getNulls()));
+        this.second.setText(String.valueOf(Constants.getNulls()));
         this.error.setText("");
         this.dateStart.setValue(LocalDate.now());
         this.dateEnd.setValue(LocalDate.now());
@@ -236,7 +235,7 @@ public class AddController {
 
     public void repeated() {
         if (!this.checkboxrepeated.isSelected()){
-            this.labelStart.setText("Время");
+            this.labelStart.setText(Constants.getTime());
             InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,
@@ -244,7 +243,7 @@ public class AddController {
                     this.labelYear, this.labelMonth, this.labelDay,
                     this.labelHour, this.labelMinute, this.labelSecond);
         } else{
-            this.labelStart.setText("Начало");
+            this.labelStart.setText(Constants.getStart());
             InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
                     this.timeEnd, this.labelInterval,
                     this.year, this.month, this.day,

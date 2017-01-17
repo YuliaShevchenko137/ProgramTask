@@ -1,4 +1,4 @@
-package model;
+package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 
 import java.io.File;
@@ -29,36 +29,6 @@ public final class TaskIO {
     private static String st = "\"";
 
     /**
-     * Символ переноса строки.
-     */
-
-    private static String enter = "\n";
-
-    /**
-     * Маркер неповторения.
-     */
-
-    private static String at = "at";
-
-    /**
-     * Маркер повторения.
-     */
-
-    private static String from = "from";
-
-    /**
-     * Маркер пробела.
-     */
-
-    private static String space = " ";
-
-    /**
-     * Маркер активной задачи.
-     */
-
-    private static String active = "inactive;";
-
-    /**
      * Маркер [.
      */
 
@@ -69,19 +39,6 @@ public final class TaskIO {
      */
 
     private static String rightbrasket = "] ";
-
-    /**
-     * Маркер неактивной задачи.
-     */
-
-    private static String noactive = ";";
-
-    /**
-     * Формат даты.
-     */
-
-    private static SimpleDateFormat dateFormat =
-            new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Пустой конструктор TaskIO().
@@ -120,23 +77,23 @@ public final class TaskIO {
     private static String createMessage(final Task t) {
         String str = st + t.getTitle();
         if (!t.isRepeated()) {
-            str += st + space + at + leftbrasket
-                    + dateFormat.format(t.getStart()) + rightbrasket;
+            str += st + Constants.getSpace() + Constants.getAt() + leftbrasket
+                    + Constants.getDateFormat().format(t.getStart()) + rightbrasket;
             if (t.isActive()) {
-                str += active + enter;
+                str += Constants.getInactive() + ";" + Constants.getEnter();
             } else {
-                str += noactive + enter;
+                str += ";" + Constants.getEnter();
             }
         } else {
             String interval = t.getInterval();
-            str += st + space + from + leftbrasket
-                    + dateFormat.format(t.getStart()) + "] to ["
-                    + dateFormat.format(t.getEnd()) + "] every ["
+            str += st + Constants.getSpace() + Constants.getFrom() + leftbrasket
+                    + Constants.getDateFormat().format(t.getStart()) + "] to ["
+                    + Constants.getDateFormat().format(t.getEnd()) + "] every ["
                     + interval + rightbrasket;
             if (t.isActive()) {
-                str += space + active + enter;
+                str += Constants.getSpace() + Constants.getInactive() + ";" + Constants.getEnter();
             } else {
-                str += noactive + enter;
+                str += ";" + Constants.getEnter();
             }
         }
         return str;
@@ -173,7 +130,7 @@ public final class TaskIO {
             final String[] words) throws ParseException {
         int s = 0;
         for (int i = 0; i < words.length; i++) {
-            if (at.equals(words[i])) {
+            if (Constants.getAt().equals(words[i])) {
                 s = i;
                 break;
             }
@@ -183,8 +140,8 @@ public final class TaskIO {
             title += words[i];
         }
         title = title.substring(1, title.length() - 2);
-        boolean actives = active.equals(words[words.length - 1]);
-        String date = words[s + 1] + space + words[s + 2];
+        boolean actives = (Constants.getInactive() + ";").equals(words[words.length - 1]);
+        String date = words[s + 1] + Constants.getSpace() + words[s + 2];
         date = date.substring(1, date.length() - 2);
         Task task = new Task(title, OperationForTime.parseDate(date));
         task.setRepeated(false);
@@ -204,7 +161,7 @@ public final class TaskIO {
             final String[] words) throws ParseException {
         int s = 0;
         for (int i = 0; i < words.length; i++) {
-            if (from.equals(words[i])) {
+            if (Constants.getFrom().equals(words[i])) {
                 s = i;
                 break;
             }
@@ -215,11 +172,11 @@ public final class TaskIO {
         }
         title = title.substring(1, title.length() - 1);
         int count = 1;
-        String start = words[s + 2 * count - 1] + space
+        String start = words[s + 2 * count - 1] + Constants.getSpace()
                 + words[s + 2 * count];
         count++;
         start = start.substring(1, start.length() - 2);
-        String end = words[s + 2 * count] + space
+        String end = words[s + 2 * count] + Constants.getSpace()
                 + words[s + 2 * count + 1];
         end = end.substring(1, end.length() - 2);
         count++;
@@ -235,11 +192,12 @@ public final class TaskIO {
         final int intervalMinute = Integer.parseInt(words[s + 2 * count + 1]);
         count++;
         final int intervalSeconds = Integer.parseInt(words[s + 2 * count + 1]);
-        Task task = new Task(title, OperationForTime.parseDate(start),
-                OperationForTime.parseDate(end), intervalYear, intervalMonth,
+        CreateInterval interval = new CreateInterval(intervalYear, intervalMonth,
                 intervalDay, intervalHour, intervalMinute, intervalSeconds);
+        Task task = new Task(title, OperationForTime.parseDate(start),
+                OperationForTime.parseDate(end), interval);
         task.setRepeated(true);
-        task.setActive(active.equals(words[words.length - 1]));
+        task.setActive((Constants.getInactive() + ";").equals(words[words.length - 1]));
         return task;
     }
 
@@ -255,15 +213,15 @@ public final class TaskIO {
     private static void read(final TaskList tasks, final Reader in)
             throws IOException, ParseException {
         String str = takeText(in);
-        String[] lines = str.split(enter);
+        String[] lines = str.split(Constants.getEnter());
         for (String strs : lines) {
-            String[] words = strs.split(space);
+            String[] words = strs.split(Constants.getSpace());
             for (String word : words) {
-                if (from.equals(word)) {
+                if (Constants.getFrom().equals(word)) {
                     tasks.add(createRepeatedTask(words));
                     break;
                 }
-                if (at.equals(word)) {
+                if (Constants.getAt().equals(word)) {
                     tasks.add(createNoRepeatedTask(words));
                     break;
                 }
@@ -315,7 +273,7 @@ public final class TaskIO {
             throws IOException {
         Set<Date> dates = map.keySet();
         for (Date date : dates) {
-            String str = date + ": \n";
+            String str = date + ":" + Constants.getSpace() + Constants.getEnter();
             out.write(str);
             Set<Task> tasks = map.get(date);
             for (Task t : tasks) {

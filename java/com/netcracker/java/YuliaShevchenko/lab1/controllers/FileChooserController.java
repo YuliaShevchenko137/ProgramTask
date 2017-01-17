@@ -1,4 +1,4 @@
-package controllers;
+package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
 import java.io.File;
 import javafx.event.ActionEvent;

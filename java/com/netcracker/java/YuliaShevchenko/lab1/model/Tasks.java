@@ -1,4 +1,4 @@
-package model;
+package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

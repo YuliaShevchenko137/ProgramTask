@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FileChooserController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.java.YuliaShevchenko.lab1.controllers.FileChooserController">
    <children>
       <AnchorPane prefHeight="66.0" prefWidth="234.0">
          <children>
@@ -16,7 +16,7 @@
       </AnchorPane>
       <AnchorPane prefHeight="66.0" prefWidth="150.0">
          <children>
-            <Button fx:id="openFile" mnemonicParsing="false" onAction="#chooseFile" text="Открыть" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
+            <Button fx:id="openFile" mnemonicParsing="false" onAction="#chooseFile" text="Open" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -24,12 +24,12 @@
       </AnchorPane>
       <VBox prefHeight="130.0" prefWidth="109.0">
          <children>
-            <Button fx:id="btnOk" defaultButton="true" mnemonicParsing="false" onAction="#actionOk" prefHeight="25.0" prefWidth="60.0" text="ОК">
+            <Button fx:id="btnOk" defaultButton="true" mnemonicParsing="false" onAction="#actionOk" prefHeight="25.0" prefWidth="60.0" text="Ok">
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnCancel" cancelButton="true" mnemonicParsing="false" onAction="#actionCancel" prefHeight="25.0" prefWidth="60.0" text="Отмена">
+            <Button fx:id="btnCancel" cancelButton="true" mnemonicParsing="false" onAction="#actionCancel" prefHeight="25.0" prefWidth="60.0" text="Cancel">
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </VBox.margin>

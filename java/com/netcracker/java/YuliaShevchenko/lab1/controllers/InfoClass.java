@@ -1,4 +1,4 @@
-package controllers;
+package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;

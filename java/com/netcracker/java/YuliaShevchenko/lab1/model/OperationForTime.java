@@ -1,4 +1,4 @@
-package model;
+package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -73,23 +73,23 @@ public final class OperationForTime {
     public static LocalDateTime plusTime(final LocalDateTime date,
                                          final Task t) {
         LocalDateTime dates = date;
-        if (t.getIntervalYear() != 0) {
-            dates = dates.plusYears(t.getIntervalYear());
+        if (t.getCreateInterval().getIntervalYear() != 0) {
+            dates = dates.plusYears(t.getCreateInterval().getIntervalYear());
         }
-        if (t.getIntervalMonth() != 0) {
-            dates = dates.plusMonths(t.getIntervalMonth());
+        if (t.getCreateInterval().getIntervalMonth() != 0) {
+            dates = dates.plusMonths(t.getCreateInterval().getIntervalMonth());
         }
-        if (t.getIntervalDay() != 0) {
-            dates = dates.plusDays(t.getIntervalDay());
+        if (t.getCreateInterval().getIntervalDay() != 0) {
+            dates = dates.plusDays(t.getCreateInterval().getIntervalDay());
         }
-        if (t.getIntervalMinute() != 0) {
-            dates = dates.plusMinutes(t.getIntervalMinute());
+        if (t.getCreateInterval().getIntervalMinute() != 0) {
+            dates = dates.plusMinutes(t.getCreateInterval().getIntervalMinute());
         }
-        if (t.getIntervalHour() != 0) {
-            dates = dates.plusHours(t.getIntervalHour());
+        if (t.getCreateInterval().getIntervalHour() != 0) {
+            dates = dates.plusHours(t.getCreateInterval().getIntervalHour());
         }
-        if (t.getIntervalSecond() != 0) {
-            dates = dates.plusSeconds(t.getIntervalSecond());
+        if (t.getCreateInterval().getIntervalSecond() != 0) {
+            dates = dates.plusSeconds(t.getCreateInterval().getIntervalSecond());
         }
         return dates;
     }
@@ -105,23 +105,23 @@ public final class OperationForTime {
     public static LocalDateTime minusTime(final LocalDateTime date,
                                           final Task t) {
         LocalDateTime dates = date;
-        if (t.getIntervalYear() != 0) {
-            dates = dates.minusYears(t.getIntervalYear());
+        if (t.getCreateInterval().getIntervalYear() != 0) {
+            dates = dates.minusYears(t.getCreateInterval().getIntervalYear());
         }
-        if (t.getIntervalMonth() != 0) {
-            dates = dates.minusMonths(t.getIntervalMonth());
+        if (t.getCreateInterval().getIntervalMonth() != 0) {
+            dates = dates.minusMonths(t.getCreateInterval().getIntervalMonth());
         }
-        if (t.getIntervalDay() != 0) {
-            dates = dates.minusDays(t.getIntervalDay());
+        if (t.getCreateInterval().getIntervalDay() != 0) {
+            dates = dates.minusDays(t.getCreateInterval().getIntervalDay());
         }
-        if (t.getIntervalMinute() != 0) {
-            dates = dates.minusMinutes(t.getIntervalMinute());
+        if (t.getCreateInterval().getIntervalMinute() != 0) {
+            dates = dates.minusMinutes(t.getCreateInterval().getIntervalMinute());
         }
-        if (t.getIntervalHour() != 0) {
-            dates = dates.minusHours(t.getIntervalHour());
+        if (t.getCreateInterval().getIntervalHour() != 0) {
+            dates = dates.minusHours(t.getCreateInterval().getIntervalHour());
         }
-        if (t.getIntervalSecond() != 0) {
-            dates = dates.minusSeconds(t.getIntervalSecond());
+        if (t.getCreateInterval().getIntervalSecond() != 0) {
+            dates = dates.minusSeconds(t.getCreateInterval().getIntervalSecond());
         }
         return dates;
     }
