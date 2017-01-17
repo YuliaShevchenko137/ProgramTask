@@ -15,33 +15,35 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Класс TaskIO.
- * Работа с файлами.
- * Чтение и запись.
+ * Class TaskIO.
+ * Reading and writing to a file.
  */
 
 public final class TaskIO {
 
     /**
-     * Символ ".
+     * st.
+     * Symbol ".
      */
 
     private static String st = "\"";
 
     /**
-     * Маркер [.
+     * leftbrasket.
+     * Symbol [.
      */
 
     private static String leftbrasket = " [";
 
     /**
-     * Маркер ].
+     * rightbrasket.
+     * Symbol ].
      */
 
     private static String rightbrasket = "] ";
 
     /**
-     * Пустой конструктор TaskIO().
+     * Empty constructor TaskIO().
      */
 
     private TaskIO() {
@@ -49,11 +51,11 @@ public final class TaskIO {
     }
 
     /**
-     * Метод write(TaskList tasks, Writer out).
-     * Запить списка задач в поток.
-     * @param tasks список задач.
-     * @param out поток для записи.
-     * @throws IOException рабоат с файлами.
+     * Method write(TaskList tasks, Writer out).
+     * Write task list to stream.
+     * @param tasks task list.
+     * @param out stream for write.
+     * @throws IOException appears when working with stream.
      */
 
     private static void write(final TaskList tasks,
@@ -68,43 +70,46 @@ public final class TaskIO {
     }
 
     /**
-     * Метод createMessage(final Task t).
-     * Создание сообщения про текущую задачу.
-     * @param t задача.
-     * @return строка - результат.
+     * Method createMessage(final Task t).
+     * Create a message that describes the current task.
+     * @param t current task.
+     * @return results message .
      */
 
     private static String createMessage(final Task t) {
         String str = st + t.getTitle();
         if (!t.isRepeated()) {
             str += st + Constants.getSpace() + Constants.getAt() + leftbrasket
-                    + Constants.getDateFormat().format(t.getStart()) + rightbrasket;
+                    + Constants.getDateFormat().format(t.getStart()) +
+                    rightbrasket;
             if (t.isActive()) {
-                str += Constants.getInactive() + ";" + Constants.getEnter();
+                str += Constants.getInactive() + Constants.getSemicolon()
+                        + Constants.getEnter();
             } else {
-                str += ";" + Constants.getEnter();
+                str += Constants.getSemicolon() + Constants.getEnter();
             }
         } else {
             String interval = t.getInterval();
             str += st + Constants.getSpace() + Constants.getFrom() + leftbrasket
                     + Constants.getDateFormat().format(t.getStart()) + "] to ["
-                    + Constants.getDateFormat().format(t.getEnd()) + "] every ["
-                    + interval + rightbrasket;
+                    + Constants.getDateFormat().format(t.getEnd())
+                    + "] every [" + interval + rightbrasket;
             if (t.isActive()) {
-                str += Constants.getSpace() + Constants.getInactive() + ";" + Constants.getEnter();
+                str += Constants.getSpace() + Constants.getInactive()
+                        + Constants.getSemicolon() + Constants.getEnter();
             } else {
-                str += ";" + Constants.getEnter();
+                str += Constants.getSemicolon() + Constants.getEnter();
             }
         }
         return str;
     }
 
     /**
-     * Метод takeText(Reader in).
-     * Посимвольный выбор информации в текст.
-     * @param in поток.
-     * @return текст из потока.
-     * @throws IOException чтение из потока.
+     * Method takeText(Reader in).
+     * Character by character read from the stream.
+     * @param in stream for reading.
+     * @return created text.
+     * @throws IOException appears when working with stream.
      */
 
     private static String takeText(final Reader in)
@@ -119,30 +124,35 @@ public final class TaskIO {
     }
 
     /**
-     *Метод createNoRepeatedTask(String[] words).
-     * Создание неповторяющейся задачи.
-     * @param words набор слов о задаче.
-     * @return созданая задача.
-     * @throws ParseException преобразование дат.
+     * Method createNoRepeatedTask(String[] words).
+     * Create non recurring task.
+     * @param words array of the words which describes the task.
+     * @return created task.
+     * @throws ParseException appears when converting dates.
      */
 
     private static Task createNoRepeatedTask(
             final String[] words) throws ParseException {
-        int s = 0;
-        for (int i = 0; i < words.length; i++) {
+        int s = Constants.getNulls();
+        for (int i = Constants.getNulls(); i < words.length; i++) {
             if (Constants.getAt().equals(words[i])) {
                 s = i;
                 break;
             }
         }
         String title = "";
-        for (int i = 0; i < s; i++) {
+        for (int i = Constants.getNulls(); i < s; i++) {
             title += words[i];
         }
-        title = title.substring(1, title.length() - 2);
-        boolean actives = (Constants.getInactive() + ";").equals(words[words.length - 1]);
-        String date = words[s + 1] + Constants.getSpace() + words[s + 2];
-        date = date.substring(1, date.length() - 2);
+        title = title.substring(Constants.getOne(),
+                title.length() - Constants.getTwo());
+        boolean actives = (Constants.getInactive() +
+                Constants.getSemicolon()).equals(
+                        words[words.length - Constants.getOne()]);
+        String date = words[s + Constants.getOne()] + Constants.getSpace()
+                + words[s + Constants.getTwo()];
+        date = date.substring(Constants.getOne(), date.length()
+                - Constants.getTwo());
         Task task = new Task(title, OperationForTime.parseDate(date));
         task.setRepeated(false);
         task.setActive(actives);
@@ -150,64 +160,76 @@ public final class TaskIO {
     }
 
     /**
-     *Метод createRepeatedTask(String[] words).
-     * Создание повторяющейся задачи.
-     * @param words набор слов о задаче.
-     * @return созданая задача.
-     * @throws ParseException преобразование дат.
+     * Method createRepeatedTask(String[] words).
+     * Create repeated task.
+     * @param words array of the words which describes the task.
+     * @return created task.
+     * @throws ParseException appears when converting dates.
      */
 
     private static Task createRepeatedTask(
             final String[] words) throws ParseException {
-        int s = 0;
-        for (int i = 0; i < words.length; i++) {
+        int s = Constants.getNulls();
+        for (int i = Constants.getNulls(); i < words.length; i++) {
             if (Constants.getFrom().equals(words[i])) {
                 s = i;
                 break;
             }
         }
         String title = "";
-        for (int i = 0; i < s; i++) {
+        for (int i = Constants.getNulls(); i < s; i++) {
             title += words[i];
         }
-        title = title.substring(1, title.length() - 1);
-        int count = 1;
-        String start = words[s + 2 * count - 1] + Constants.getSpace()
-                + words[s + 2 * count];
-        count++;
-        start = start.substring(1, start.length() - 2);
-        String end = words[s + 2 * count] + Constants.getSpace()
-                + words[s + 2 * count + 1];
-        end = end.substring(1, end.length() - 2);
+        title = title.substring(Constants.getOne(), title.length()
+                - Constants.getOne());
+        String start = words[s + Constants.getOne()] + Constants.getSpace()
+                + words[s + Constants.getTwo() * Constants.getTwo()];
+        int count = Constants.getTwo();
+        start = start.substring(Constants.getOne(), start.length()
+                - Constants.getTwo());
+        String end = words[s + Constants.getTwo() * count]
+                + Constants.getSpace() + words[s +
+                Constants.getTwo() * count + Constants.getOne()];
+        end = end.substring(Constants.getOne(), end.length()
+                - Constants.getTwo());
         count++;
         final int intervalYear = Integer.parseInt(words[s
-                + 2 * count + 1].substring(1));
+                + Constants.getTwo() * count +
+                Constants.getOne()].substring(Constants.getOne()));
         count++;
-        final int intervalMonth = Integer.parseInt(words[s + 2 * count + 1]);
+        final int intervalMonth = Integer.parseInt(words[s
+                + Constants.getTwo() * count + Constants.getOne()]);
         count++;
-        final int intervalDay = Integer.parseInt(words[s + 2 * count + 1]);
+        final int intervalDay = Integer.parseInt(words[s
+                + Constants.getTwo() * count + Constants.getOne()]);
         count++;
-        final int intervalHour = Integer.parseInt(words[s + 2 * count + 1]);
+        final int intervalHour = Integer.parseInt(words[s
+                + Constants.getTwo() * count + Constants.getOne()]);
         count++;
-        final int intervalMinute = Integer.parseInt(words[s + 2 * count + 1]);
+        final int intervalMinute = Integer.parseInt(words[s
+                + Constants.getTwo() * count + Constants.getOne()]);
         count++;
-        final int intervalSeconds = Integer.parseInt(words[s + 2 * count + 1]);
-        CreateInterval interval = new CreateInterval(intervalYear, intervalMonth,
-                intervalDay, intervalHour, intervalMinute, intervalSeconds);
+        final int intervalSeconds = Integer.parseInt(words[s
+                + Constants.getTwo() * count + Constants.getOne()]);
+        CreateInterval interval = new CreateInterval(intervalYear,
+                intervalMonth, intervalDay, intervalHour,
+                intervalMinute, intervalSeconds);
         Task task = new Task(title, OperationForTime.parseDate(start),
                 OperationForTime.parseDate(end), interval);
         task.setRepeated(true);
-        task.setActive((Constants.getInactive() + ";").equals(words[words.length - 1]));
+        task.setActive((Constants.getInactive() +
+                Constants.getSemicolon()).equals(words[words.length
+                - Constants.getOne()]));
         return task;
     }
 
     /**
-     * Метод read(TaskList tasks, Reader in).
-     * Чтение из файла.
-     * @param tasks список задач для записи.
-     * @param in поток для записи.
-     * @throws IOException работа с потоком.
-     * @throws ParseException преобразование дат.
+     * Method read(TaskList tasks, Reader in).
+     * Read from the stream.
+     * @param tasks task list to which you add a new task.
+     * @param in stream for read.
+     * @throws IOException appears when working with stream.
+     * @throws ParseException appears when converting dates.
      */
 
     private static void read(final TaskList tasks, final Reader in)
@@ -230,11 +252,11 @@ public final class TaskIO {
     }
 
     /**
-     * Метод writeText(TaskList tasks, File file).
-     * Записть списка задач в файл.
-     * @param tasks список задач.
-     * @param file файл для записи.
-     * @throws IOException работа с файлами.
+     * Method writeText(TaskList tasks, File file).
+     * Write to the file.
+     * @param tasks task list.
+     * @param file file for write.
+     * @throws IOException appears when working with files.
      */
 
     public static void writeText(final TaskList tasks, final File file)
@@ -244,28 +266,28 @@ public final class TaskIO {
     }
 
     /**
-     * Метод readText(TaskList tasks, final File file).
-     * Считывание задач из файла.
-     * @param tasks список задач.
-     * @param file файл для чтения.
-     * @throws IOException работа с файлами.
-     * @throws ParseException преобразование дат.
+     * Method readText(TaskList tasks, final File file).
+     * Reading from a file.
+     * @param tasks task list.
+     * @param file file for reading.
+     * @throws IOException appears when working with stream.
+     * @throws ParseException appears when converting dates.
      */
 
     public static void readText(final TaskList tasks, final File file)
             throws IOException, ParseException {
-        if (file.exists() || file.length() != 0) {
+        if (file.exists() || file.length() != Constants.getNulls()) {
             Reader in = new FileReader(file);
             read(tasks, in);
         }
     }
 
     /**
-     * Метод write(final Map map, final Writer out).
-     * Запись карты в поток.
-     * @param map карта с задачами.
-     * @param out поток для записи.
-     * @throws IOException работа с потоками.
+     * Method write(final Map map, final Writer out).
+     * Write map to the stream.
+     * @param map map with tasks.
+     * @param out stream for writing.
+     * @throws IOException appears when working with stream.
      */
 
     private static void writeMaps(final Map<Date, Set<Task>> map,
@@ -273,7 +295,8 @@ public final class TaskIO {
             throws IOException {
         Set<Date> dates = map.keySet();
         for (Date date : dates) {
-            String str = date + ":" + Constants.getSpace() + Constants.getEnter();
+            String str = date + ":" + Constants.getSpace()
+                    + Constants.getEnter();
             out.write(str);
             Set<Task> tasks = map.get(date);
             for (Task t : tasks) {
@@ -285,10 +308,10 @@ public final class TaskIO {
 
     /**
      * Метод writeMap(final Map maps, final File file).
-     * Запись карты в файл.
-     * @param maps карта с задачами.
-     * @param file файл для записи.
-     * @throws IOException работа с файлами.
+     * Write map to the file.
+     * @param maps map with tasks.
+     * @param file file for writing.
+     * @throws IOException appears when working with stream.
      */
 
     public static void writeMap(final Map<Date, Set<Task>> maps,

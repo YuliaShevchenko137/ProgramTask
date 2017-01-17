@@ -687,7 +687,7 @@ public final class MainController {
             str1 +=  Constants.getErrorcountmonth() + Constants.getEnter();
         }
         if (Integer.parseInt(this.day.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.day.getText()) > Constants.getTwentythree()) {
+                || Integer.parseInt(this.day.getText()) > Constants.getTwentynine()) {
             str1 += Constants.getErrorcountday() + Constants.getEnter();
         }
         if (Integer.parseInt(this.hour.getText()) < Constants.getNulls()

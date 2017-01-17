@@ -9,15 +9,14 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
- * Класс OperationForTime.
- * Вспомагательный класс для
- * обработки времени.
+ * Class OperationForTime.
+ * Helper class to handle dates.
  */
 
 public final class OperationForTime {
 
     /**
-     * Пустой конструктор.
+     * Empty constructor.
      */
 
     private OperationForTime() {
@@ -25,11 +24,11 @@ public final class OperationForTime {
     }
 
     /**
-     * Метод parseDate(String str).
-     * создание даты по входной строке.
-     * @param str строка.
-     * @return дата.
-     * @throws ParseException преобраз. даты.
+     * Method parseDate(String str).
+     * Creation date of a specified format
+     * @param str format.
+     * @return creation date.
+     * @throws ParseException appears when converting dates.
      */
 
     public static Date parseDate(final String str) throws ParseException {
@@ -38,10 +37,10 @@ public final class OperationForTime {
     }
 
     /**
-     * Метод localDateTimeToDate(LocalDateTime localDateTime).
-     * преобразовует LocalDateTime в Date.
-     * @param localDateTime дата типа LocalDateTime.
-     * @return дата типа Date.
+     * Method localDateTimeToDate(LocalDateTime localDateTime).
+     * Conversion LocalDateTime in Date.
+     * @param localDateTime date type LocalDateTime.
+     * @return date type Date.
      */
 
     public static Date localDateTimeToDate(final LocalDateTime localDateTime) {
@@ -51,10 +50,10 @@ public final class OperationForTime {
     }
 
     /**
-     * Метод dateToLocalDateTime(Date date).
-     * преобразовует Date в LocalDateTime.
-     * @param date дата типа Date.
-     * @return дата типа LocalDateTime.
+     * Method dateToLocalDateTime(Date date).
+     * Conversion Date in LocalDateTime.
+     * @param date date type Date.
+     * @return date type LocalDateTime.
      */
 
     public static LocalDateTime dateToLocalDateTime(final Date date) {
@@ -63,11 +62,11 @@ public final class OperationForTime {
     }
 
     /**
-     * Метод plusTime(LocalDateTime date, Task t).
-     * Добавляет к дате интервал из задачи.
-     * @param date дата.
-     * @param t задача для выбора интервала.
-     * @return новая дата.
+     * Method plusTime(LocalDateTime date, Task t).
+     * Adds to the date of the repeat interval.
+     * @param date current date.
+     * @param t task for giving interval.
+     * @return new date.
      */
 
     public static LocalDateTime plusTime(final LocalDateTime date,
@@ -95,11 +94,11 @@ public final class OperationForTime {
     }
 
     /**
-     * Метод minusTime(LocalDateTime date, Task t).
-     * Отнимает от даты интервал из задачи.
-     * @param date дата.
-     * @param t задача для выбора интервала.
-     * @return новая дата.
+     * Method minusTime(LocalDateTime date, Task t).
+     * Subtracted from the the date of the repeat interval.
+     * @param date current date.
+     * @param t task for giving interval.
+     * @return new date.
      */
 
     public static LocalDateTime minusTime(final LocalDateTime date,
@@ -127,10 +126,10 @@ public final class OperationForTime {
     }
 
     /**
-     * Метод dateToLocalDate(Date date).
-     * преобразовует Date в LocalDateTime.
-     * @param date дата типа Date.
-     * @return дата типа LocalDate.
+     * Method dateToLocalDate(Date date).
+     * Conversion Date in LocalDateTime.
+     * @param date date type Date.
+     * @return date type LocalDate.
      */
 
     public static LocalDate dateToLocalDate(final Date date) {
@@ -140,8 +139,8 @@ public final class OperationForTime {
     }
 
     /**
-     * Метод nowTime().
-     * @return текущее время.
+     * Method nowTime().
+     * @return current time.
      */
 
     public static Date nowTime() {

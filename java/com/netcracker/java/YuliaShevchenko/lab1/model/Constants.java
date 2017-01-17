@@ -8,6 +8,8 @@ public class Constants {
     private static final int startSize = 10;
 
     private static final int nulls = 0;
+    private static final int one = 1;
+    private static final int two = 2;
     private static final int three = 3;
     private static final int ten = 10;
     private static final int eleven = 11;
@@ -26,6 +28,7 @@ public class Constants {
 
     private static final String space = " ";
     private static final String enter = "\n";
+    private static final String semicolon = ";";
 
     private static final String title = "Title";
     private static final String time = "Time";
@@ -197,10 +200,6 @@ public class Constants {
         return dateFormat;
     }
 
-    public static void setDateFormat(SimpleDateFormat dateFormat) {
-        Constants.dateFormat = dateFormat;
-    }
-
     public static String getAt() {
         return at;
     }
@@ -209,16 +208,8 @@ public class Constants {
         return from;
     }
 
-    public static void setFrom(String from) {
-        Constants.from = from;
-    }
-
     public static String getInactive() {
         return inactive;
-    }
-
-    public static void setInactive(String inactive) {
-        Constants.inactive = inactive;
     }
 
     public static int getSecond() {
@@ -227,5 +218,17 @@ public class Constants {
 
     public static int getHalfhour() {
         return halfhour;
+    }
+
+    public static String getSemicolon() {
+        return semicolon;
+    }
+
+    public static int getOne() {
+        return one;
+    }
+
+    public static int getTwo() {
+        return two;
     }
 }

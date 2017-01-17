@@ -133,7 +133,7 @@ public class AddController {
             logger.warn(Constants.getErrorcountmonth());
             str1 += Constants.getErrorcountmonth() + " \n";
         }
-        if (intervalDay < Constants.getNulls() || intervalDay > Constants.getTwentythree()) {
+        if (intervalDay < Constants.getNulls() || intervalDay > Constants.getTwentynine()) {
             logger.warn(Constants.getErrorcountday());
             str1 += Constants.getErrorcountday() + " \n";
         }
