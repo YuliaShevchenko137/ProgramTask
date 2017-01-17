@@ -1,5 +1,12 @@
 package controllers;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Map;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,13 +28,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
 import model.ArrayTaskList;
 import model.CollectionsTasks;
 import model.OperationForTime;
@@ -387,13 +387,13 @@ public final class MainController {
     private final int counttime = 3;
 
     /**
-     * Слово Время.
+     * Слово time.
      */
 
     private final String time = "Время";
 
     /**
-     * Слово Начало.
+     * Слово start.
       */
 
     private final String start = "Начало";
@@ -570,7 +570,7 @@ public final class MainController {
         if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
             t.getThreadTask().setFinish();
             this.obs.remove(t);
-            TaskIO.writeText(this.obs.getTasks(), temp);
+            TaskIO.writeText(this.obs.getTasks(), this.temp);
             this.labelSize.setText(this.countTask + this.obs.getObs().size());
         }
     }
@@ -733,33 +733,36 @@ public final class MainController {
         task.setIntervalMinute(Integer.parseInt(this.minute.getText()));
         task.setIntervalSecond(Integer.parseInt(this.second.getText()));
         final int countmonth = 11;
+        final String uncorrected = "Неверно указано количество ";
         if (Integer.parseInt(this.month.getText()) < 0
                 || Integer.parseInt(this.month.getText()) > countmonth) {
-            str1 += "Неверно указано " +
-                    "количество месяцев \n";
+            str1 +=  uncorrected
+                    + "месяцев \n";
         }
         final int countday = 29;
         if (Integer.parseInt(this.day.getText()) < 0
                 || Integer.parseInt(this.day.getText()) > countday) {
-            str1 += "Неверно указано " +
-                    "количество дней \n";
+            str1 += uncorrected
+                    + "дней \n";
         }
         final int counthour = 23;
         if (Integer.parseInt(this.hour.getText()) < 0
                 || Integer.parseInt(this.hour.getText()) > counthour) {
-            str1 += "Неверно указано " +
-                    "количество часов \n";
+            str1 += uncorrected
+                    + "часов \n";
         }
         final int countMinuteOrSecond = 59;
         if (Integer.parseInt(this.minute.getText()) < 0
-                || Integer.parseInt(this.minute.getText()) > countMinuteOrSecond) {
-            str1 += "Неверно указано " +
-                    "количество минут \n";
+                || Integer.parseInt(this.minute.getText()) >
+                countMinuteOrSecond) {
+            str1 += uncorrected
+                    + "минут \n";
         }
         if (Integer.parseInt(this.second.getText()) < 0
-                || Integer.parseInt(this.second.getText()) > countMinuteOrSecond) {
-            str1 += "Неверно указано " +
-                    "количество секунд \n";
+                || Integer.parseInt(this.second.getText()) >
+                countMinuteOrSecond) {
+            str1 += uncorrected
+                    + "секунд \n";
         }
         return str1;
     }
@@ -773,7 +776,8 @@ public final class MainController {
      * @throws ParseException преобразование дат.
      */
 
-    private String changeNoRepeatedTask(Task task, Task task1) throws ParseException {
+    private String changeNoRepeatedTask(final Task task, final Task task1)
+            throws ParseException {
         String str = "";
         task.setTitle(this.taskNameField.getText());
         task.setActive(this.activeTrue.isSelected());
