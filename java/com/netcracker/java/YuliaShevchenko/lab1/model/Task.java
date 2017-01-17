@@ -1,78 +1,83 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 import java.io.Serializable;
-
 import java.text.ParseException;
-
 import java.time.LocalDateTime;
-
 import java.util.Date;
+
 /**
- * Класс Task.
- * Класс, который описывает задачу.
- * Cвойства: <b>title</b>, <b>start</b>,
- * <b>end</b>, <b>active</b>, <b>repeated</b>, <b>intervalYear</b>,
- * <b>intervalMonth</b>, <b>intervalDay</b>, <b>intervalHour</b>,
- * <b>intervalMinute</b>, <b>intervalSecond</b> и <b>thread</b>.
+ * Class Task.
+ * Realization of of some task that you can add, change or delete a user.
  * @author Yulia Shevchenko.
  */
 
 public class Task implements Cloneable, Serializable {
 
     /**
+     * serialVersionUID.
      * Version control for serialization.
      */
 
     private static final long serialVersionUID = 42L;
 
-    /**Поле названия задачи.*/
+    /**
+     * title.
+     * Title ot the current task.
+     */
 
     private String title;
 
-    /**Поля активности.*/
+    /**
+     * active.
+     * Activity of the current task.
+     */
 
     private boolean active;
 
-    /**Поле повторяемости.*/
+    /**
+     * repeated.
+     * Repeated of the current task.
+     */
 
     private boolean repeated;
 
-    /**Поля начала выполнения задачи.
+    /**
+     * start.
+     * Start date of the current task.
      */
 
     private Date start;
 
-    /**Поля конца выполнения задачи.
+    /**
+     * end.
+     * End date of the current task.
      */
 
     private Date end;
 
     /**
-     * текстовое представление интервала
-     * задачи.
+     * interval.
+     * Object type CreateInterval.
+     * It creates string view repetition interval of the current task.
      */
 
     private CreateInterval interval;
 
     /**
-     * Потом оповещения.
+     * threadTask.
+     * Thread for alert user.
      */
 
     private ThreadTask threadTask;
 
-
     /**
-     * Метод - конструктор Task(String title, Date time).
-     * создает экземпляр неповторяющейся
-     * задачи и поток для оповещения
-     * пользователя.
-     * @param   titles название задачи.
-     * @param   times время.
-     * @throws  ParseException преобраз. даты.
+     * Method Task(String title, Date time).
+     * Constructor creation non recurring task and thread for alert.
+     * @param   titles title task.
+     * @param   times time performance.
      */
 
-    public Task(final String titles, final Date times)
-            throws ParseException {
+    public Task(final String titles, final Date times) {
         this.setTitle(titles);
         this.setTime(times);
         this.interval = new CreateInterval();
@@ -80,23 +85,16 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод - конструктор Task(String title, Date start,
-     * Date end, int intervalYear, int intervalMonth,
-     * int intervalDay, int intervalHour,
-     * int intervalMinute, int intervalSecond).
-     * создает экземпляр задачи и
-     * поток для оповещения пользователя.
-     * @param titles название задачи.
-     * @param starts время начала выполнения.
-     * @param ends время конца выполнения.
-     * @param intervals interval
-     * @throws ParseException из-за преобразования даты в
-     * {@link #setTime(Date, Date)}.
+     *  Method Task(String title, Date start, Date end,  CreateInterval interval).
+     * Constructor creation repeated task and thread for alert.
+     * @param titles title task.
+     * @param starts start date performance.
+     * @param ends end date performance.
+     * @param intervals repetition interval.
      */
 
     public Task(final String titles, final Date starts,
-                final Date ends, final CreateInterval intervals)
-            throws ParseException {
+                final Date ends, final CreateInterval intervals) {
         this.setTitle(titles);
         this.interval = intervals;
         this.setTime(starts, ends);
@@ -104,23 +102,29 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     *Метод getTitle().
-     *  возвращает название задачи.
-     * @return  имя задачи.
+     * Method getTitle().
+     *  Getter for title of the task.
+     * @return  title of the current task.
      */
 
     public final String getTitle() {
         return this.title;
     }
 
+    /**
+     * Method getCreateInterval().
+     * Getter for interval.
+     * @return object type CreateInterval wih information about interval.
+     */
+
     public final CreateInterval getCreateInterval() {
         return this.interval;
     }
 
     /**
-     * Метод setTitle(String title).
-     * устанавливает название задачи.
-     * @param   titles поле с названием задачи.
+     * Method setTitle(String title).
+     * Setter for title of the task.
+     * @param   titles new title.
      */
 
     public final void setTitle(final String titles) {
@@ -128,9 +132,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод isActive().
-     * проверяет активна ли задача.
-     * @return  возваращает активность.
+     * Method isActive().
+     * Verification tasks on activity.
+     * @return  active of the task.
      */
 
     public final boolean isActive() {
@@ -138,9 +142,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод setActive(boolean active).
-     * устанавливает активность задачи.
-     * @param   actives активность задачи.
+     * Method setActive(boolean active).
+     * Setter for active of the task.
+     * @param   actives new active of the task.
      */
 
     public final void setActive(final boolean actives) {
@@ -148,9 +152,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод getStart().
-     * возвращает время начала задачи.
-     * @return  время начала віполнения задачи.
+     * Method getStart().
+     * Getter for start date of the task.
+     * @return  start date.
      */
 
     public final Date getStart() {
@@ -158,9 +162,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод getEnd().
-     * возвращает время конца задачи.
-     * @return  время окончания выполнения задачи.
+     * Method getEnd().
+     * Getter for end date of the task.
+     * @return  end date.
      */
 
     public final Date getEnd() {
@@ -169,8 +173,8 @@ public class Task implements Cloneable, Serializable {
 
     /**
      * Метод isRepeated().
-     * проверяет повторяемость задачи.
-     * @return  повторяемость задачи.
+     * Verification task on repeated.
+     * @return repeated of the current task.
      */
 
     public final boolean isRepeated() {
@@ -178,11 +182,10 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод clone().
-     * создает копию текущей задачи
-     * {@link Object#clone()}.
-     * @return  копию текущей задачи.
-     * @throws  CloneNotSupportedException no clone.
+     * Method clone().
+     * Create clone of the current task: {@link Object#clone()}.
+     * @return  copy current object.
+     * @throws  CloneNotSupportedException if object nonclonability.
      */
 
     @Override
@@ -191,41 +194,32 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод setTime(Date time).
-     * устанавливает значение времени для
-     * неповторяющейся задачи.
-     * {@link #setTime(Date, Date)}.
-     * @param time время исполнения задачи.
-     * @throws ParseException преобраз. дат.
+     * Method setTime(Date time).
+     * Set a date value for non recurring task {@link #setTime(Date, Date)}.
+     * @param time time of the notification.
      */
 
-    public final void setTime(final Date time) throws ParseException {
+    public final void setTime(final Date time) {
         this.setTime(time, time);
     }
 
     /**
-     * Метод setTime(Date start, Date end, int intervalYear,
-     * int intervalMonth, int intervalDay, int intervalHour,
-     * int intervalMinute, int intervalSecond).
-     * устанавливает время для
-     * повторяющейся задачи.
-     * @param starts время начала выполнения.
-     * @param ends время конца выполнения.
-     * @throws ParseException преобраз. дат.
+     * Метод setTime(Date start, Date end).
+     * Set a date value for repeated task.
+     * @param starts stand date notification.
+     * @param ends end date notification.
      */
 
-    private void setTime(final Date starts, final Date ends)
-            throws ParseException {
+    private void setTime(final Date starts, final Date ends) {
         this.setStart((Date) starts.clone());
         this.setEnd((Date) ends.clone());
     }
 
     /**
-     * Метод nextTimeAfter(Date current).
-     * ищет, когда, после заданного времени,
-     * задача исполнится в следующий раз.
-     * @param current время.
-     * @return время след. повторения.
+     * Method nextTimeAfter(Date current).
+     * Search date when task will be performed after current.
+     * @param current start date for search.
+     * @return time to next performed.
      */
 
     public final  Date nextTimeAfter(final Date current) {
@@ -258,10 +252,10 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод equals(Object obj).
-     * сравнивает задачи: {@link Object#equals(Object)}.
-     * @param obj обьект для проверки.
-     * @return true, если обьекты одинаковые; false.
+     * Method equals(Object obj).
+     * equals two tasks: {@link Object#equals(Object)}.
+     * @param obj the object of comparison .
+     * @return true, if objects is identical, or false.
      */
 
     @Override
@@ -283,10 +277,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод hashCode().
-     * используется для хеширования данных:
-     * {@link Object#hashCode()}.
-     * @return хеш-код текущей задачи.
+     * Method hashCode().
+     * use for hashing date: {@link Object#hashCode()}.
+     * @return hashcode of the current task.
      */
 
     @Override
@@ -298,8 +291,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод getInterval().
-     * @return значение интервала повторения.
+     * Method getInterval().
+     * Getter for text representation of the repetition interval.
+     * @return repetition interval.
      */
 
     public final String getInterval() {
@@ -307,9 +301,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод setStart(Date start).
-     * устанавливает время начала исполнения.
-     * @param starts дата начала.
+     * Method setStart(Date start).
+     * Setter for start date of the task.
+     * @param starts new start date.
      */
 
     public final void setStart(final Date starts) {
@@ -317,10 +311,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод setEnd(Date end).
-     * устанавливает когда исполнение задачи
-     * будет закончени.
-     * @param ends дата конца исполнения.
+     * Method setEnd(Date end).
+     * Setter for end date of the task.
+     * @param ends new end.
      */
 
     public final void setEnd(final Date ends) {
@@ -328,9 +321,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод setRepeated(boolean repeated).
-     * устанавливает повторяемость задачи.
-     * @param repeateds повторяемость задачи.
+     * Method setRepeated(boolean repeated).
+     * Setter for repeated of the task.
+     * @param repeateds new repeated.
      */
 
     public final void setRepeated(final boolean repeateds) {
@@ -338,10 +331,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод getThreadTask().
-     * возвращает обьект, который будет
-     * создавать окна уведомления.
-     * @return Runnable - обьект.
+     * Method getThreadTask().
+     * Getter for thread for alert.
+     * @return thread.
      */
 
     public final ThreadTask getThreadTask() {
@@ -349,9 +341,9 @@ public class Task implements Cloneable, Serializable {
     }
 
     /**
-     * Метод setThreadTask(ThreadTask threadTask).
-     * Связывает поток с задачей.
-     * @param threadTasks новый поток.
+     * Method setThreadTask(ThreadTask threadTask).
+     * Setter for thread for alert user.
+     * @param threadTasks new thread.
      */
 
     public final void setThreadTask(final ThreadTask threadTasks) {

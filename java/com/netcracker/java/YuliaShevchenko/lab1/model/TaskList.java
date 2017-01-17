@@ -4,48 +4,48 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 /**
- * Класс TaskList.
- * Реализация списка задач.
+ * Class TaskList.
+ * Realisation of main method for list of task.
  */
 
 public abstract class TaskList implements Iterable<Task>, Serializable {
 
     /**
+     * serialVersionUID.
      * Version control for serialization.
      */
 
     static final long serialVersionUID = 42L;
 
     /**
-     * Метод add(Task task).
-     * Добавление задач.
-     * @param task задача.
+     * Method add(Task task).
+     * Add current task in the list.
+     * @param task current task.
      */
 
     public abstract void add(Task task);
 
     /**
-     * Метод size().
-     * @return количество задач в списке.
+     * Method size().
+     * @return count task in list.
      */
 
     public abstract int size();
 
     /**
-     * Метод iterator().
-     * Реализация итератора.
-     * Задает основные функции, для
-     * интерирования по списку.
-     * @return итератор.
+     * Method iterator().
+     * Realize iterator.
+     * Specifies the basic functions to be iterated in the list.
+     * @return iterator.
      */
 
     public abstract Iterator<Task> iterator();
 
     /**
-     * Метод remove(Task t).
-     * Удаление элемента.
-     * @param t задача.
-     * @return true, если элемент удален.
+     * Method remove(Task task).
+     * Delete task from the list.
+     * @param t current task.
+     * @return true, if task removed, or false.
      */
 
     public abstract boolean remove(Task t);

@@ -9,16 +9,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
- * Класс FileChooserController.
- * Контроллер окна выбора файла.
+ * Class FileChooserController.
+ * File selection window controller.
  */
 
 public final class FileChooserController {
 
     /**
      * path.
-     * Тесттовое поле отображения
-     * пути к файлу.
+     * TextField for write or show current file path.
      */
 
     @FXML
@@ -26,32 +25,32 @@ public final class FileChooserController {
 
     /**
      * fileChooser.
-     * Используется для выбора файла.
+     * User for select a file for device.
      */
 
     private FileChooser fileChooser = new FileChooser();
 
     /**
      * selectedFile.
-     * Выбраный файл.
+     * Bind file to the controller.
      */
 
     private File selectedFile;
 
     /**
      * FileChooserController().
-     * Конструктор класса.
+     * Empty constructor.
      */
 
-    private FileChooserController() {
-        super();
+    public FileChooserController() {
+
     }
 
     /**
-     * Метод chooseFile(ActionEvent actionEvent).
-     * Вызывается при нажатии кнопки.
-     * Служит для выбора файла.
-     * @param actionEvent нажатие кнопки.
+     * Method chooseFile(ActionEvent actionEvent).
+     * Called when a button is pressed.
+     * Used to select the file.
+     * @param actionEvent button press.
      */
 
     public void chooseFile(final ActionEvent actionEvent) {
@@ -67,9 +66,8 @@ public final class FileChooserController {
 
     /**
      * Метод actionOk(ActionEvent actionEvent).
-     * Закрывает окно, когда пользователь
-     * подтвердил выбор файла.
-     * @param actionEvent нажатие кнопки.
+     * Close window when the user confirms select a file.
+     * @param actionEvent button press.
      */
 
     public void actionOk(final ActionEvent actionEvent) {
@@ -79,10 +77,9 @@ public final class FileChooserController {
     }
 
     /**
-     * Метод actionCancel(ActionEvent actionEvent).
-     * Закрывает окно, когда пользователь
-     * отменил выбор файла.
-     * @param actionEvent нажатие кнопки.
+     * Method actionCancel(ActionEvent actionEvent).
+     * Close the window when the user canceled select a file.
+     * @param actionEvent button press.
      */
 
     public void actionCancel(final ActionEvent actionEvent) {
@@ -92,8 +89,8 @@ public final class FileChooserController {
     }
 
     /**
-     * Метод getSelectedFile().
-     * Возвращает выбраный файл.
+     * Method getSelectedFile().
+     * Getter for selected file.
      * @return выбраный файл.
      */
 

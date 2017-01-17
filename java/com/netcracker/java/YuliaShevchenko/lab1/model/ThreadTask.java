@@ -1,7 +1,5 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,40 +9,44 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 /**
- * Класс ThreadTask.
- * Реализация оповещения задачи.
+ * Class ThreadTask.
+ * Realisation of alert the user of an approaching task.
  */
 
 public class ThreadTask {
 
     /**
-     * Задача для оповещения.
+     * task.
+     * Task for notification.
      */
 
     private Task task;
 
     /**
-     * Закрытие потока.
+     * finish.
+     * Use for close the thread.
      */
 
     private boolean finish;
 
     /**
-     * Первое оповещение.
+     * firstAlert.
+     * Indicates whether the first warning.
      */
 
     private boolean firstAlert;
 
     /**
-     * Поток уведомления.
+     * thread.
+     * Thread for notification.
      */
 
     private Thread thread;
 
     /**
-     * Конструктор ThreadTask(Task tas).
-     * Создание потока.
-     * @param tas задача для открытия потока.
+     * Method ThreadTask(Task tas).
+     * Constructor for creating thread.
+     * @param tas current task.
      */
 
     public ThreadTask(final Task tas) {
@@ -52,13 +54,13 @@ public class ThreadTask {
         this.firstAlert = false;
         this.task = tas;
         this.thread = new Thread(() -> {
-            if (this.nowTime().after(this.task.getEnd())) {
+            if (OperationForTime.nowTime().after(this.task.getEnd())) {
                 return;
             }
             List<Task> t = new ArrayList<>();
             t.add(this.task);
             Map<Date, Set<Task>> map =
-                    Tasks.calendar(t, nowTime(), task.getEnd());
+                    Tasks.calendar(t, OperationForTime.nowTime(), task.getEnd());
             if (map == null) {
                 return;
             }
@@ -66,7 +68,7 @@ public class ThreadTask {
                 this.firstAlert = false;
                 while (!this.finish && !this.firstAlert) {
                     long countMSecond = date.getTime()
-                            - this.nowTime().getTime();
+                            - OperationForTime.nowTime().getTime();
                     Set<Task> tasks = map.get(date);
                     if (countMSecond > Constants.getHalfhour()) {
                         try {
@@ -95,19 +97,8 @@ public class ThreadTask {
     }
 
     /**
-     * Метод nowTime().
-     * @return текущее время.
-     */
-
-    private Date nowTime() {
-        return Date.from(LocalDateTime.now().
-                atZone(ZoneId.systemDefault()).toInstant());
-    }
-
-    /**
-     * Метод setFinish().
-     * Необходим для завершения
-     * потока.
+     * Method setFinish().
+     * Stopped the thread.
      */
 
     public final void setFinish() {

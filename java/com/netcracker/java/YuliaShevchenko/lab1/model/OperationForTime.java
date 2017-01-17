@@ -138,4 +138,14 @@ public final class OperationForTime {
         Instant instant = date.toInstant();
         return instant.atZone(defaultZoneId).toLocalDate();
     }
+
+    /**
+     * Метод nowTime().
+     * @return текущее время.
+     */
+
+    public static Date nowTime() {
+        return Date.from(LocalDateTime.now().
+                atZone(ZoneId.systemDefault()).toInstant());
+    }
 }

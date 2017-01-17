@@ -4,30 +4,30 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * Класс CollectionsTasks.
- * Используется для создание обертки
- * TaskList и необходим для отображения
- * данных в tableView.
+ * Class CollectionsTasks.
+ * Used to wrap a list of tasks. It contains the object type ObservableList,
+ * which is displayed in the tables.
  */
 
 public class CollectionsTasks {
 
     /**
-     * Класс-обертка TaskList-а.
+     * obs.
+     * Wraper for TaskList.
      */
 
     private ObservableList<Task> obs;
 
     /**
-     * Список задач.
+     * tasks.
+     * Current list of task.
      */
 
     private TaskList tasks;
 
     /**
-     * Конструктор CollectionsTasks().
-     * Создает новый список задач и
-     * класс-обертку для него.
+     * Constructor CollectionsTasks().
+     * Create new TaskList and wrapper for this class.
      */
 
     public CollectionsTasks() {
@@ -36,9 +36,9 @@ public class CollectionsTasks {
     }
 
     /**
-     * Метод add(Task t).
-     * Добавление новой залачи.
-     * @param t задача.
+     * Method add(Task t).
+     * Add current task in TaskList and ObservableList.
+     * @param t current task.
      */
 
     public final void add(final Task t) {
@@ -47,9 +47,9 @@ public class CollectionsTasks {
     }
 
     /**
-     * Метод remove(Task t).
-     * Удаление задачи.
-     * @param t задача.
+     * Method remove(Task t).
+     * Delete current task from TaskList and wrapper.
+     * @param t current task.
      */
 
     public final void remove(final Task t) {
@@ -58,10 +58,9 @@ public class CollectionsTasks {
     }
 
     /**
-     *Метод getObs().
-     * Возвращает ObservableList
-     * текущего списка задач.
-     * @return класс-обертку списка.
+     * Method getObs().
+     * Getter for wrapper current TaskList.
+     * @return ObservableList.
      */
 
     public final ObservableList<Task> getObs() {
@@ -69,9 +68,9 @@ public class CollectionsTasks {
     }
 
     /**
-     * Метод getTasks().
-     * Возвращает список задач.
-     * @return список задач.
+     * Method getTasks().
+     * Getter for TaskList.
+     * @return current TaskList.
      */
 
     public final TaskList getTasks() {
@@ -79,10 +78,9 @@ public class CollectionsTasks {
     }
 
     /**
-     * Метод setTasks(TaskList tasks).
-     * Устанавливает список задач и
-     * делает для них обертку.
-     * @param taskss список задач.
+     * Method setTasks(TaskList tasks).
+     * Setter for TaskList and create wrapper for this TaskList.
+     * @param taskss current TaskList.
      */
 
     public final void setTasks(final TaskList taskss) {

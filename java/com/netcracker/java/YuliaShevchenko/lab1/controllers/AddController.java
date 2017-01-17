@@ -1,12 +1,12 @@
 package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
+import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
+import com.netcracker.java.YuliaShevchenko.lab1.model.CreateInterval;
+import com.netcracker.java.YuliaShevchenko.lab1.model.OperationForTime;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Date;
-
-import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
-import com.netcracker.java.YuliaShevchenko.lab1.model.CreateInterval;
-import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -17,10 +17,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
-
-import com.netcracker.java.YuliaShevchenko.lab1.model.OperationForTime;
 import org.apache.log4j.Logger;
-
 
 public class AddController {
 
