@@ -213,7 +213,7 @@ public final class TaskIO {
         for (int i = 0; i < s; i++) {
             title += words[i];
         }
-        title = title.replace(space + st, space);
+        title = title.substring(1, title.length() - 1);
         int count = 1;
         String start = words[s + 2 * count - 1] + space
                 + words[s + 2 * count];
