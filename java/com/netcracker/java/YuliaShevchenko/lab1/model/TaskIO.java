@@ -80,8 +80,8 @@ public final class TaskIO {
         String str = st + t.getTitle();
         if (!t.isRepeated()) {
             str += st + Constants.getSpace() + Constants.getAt() + leftbrasket
-                    + Constants.getDateFormat().format(t.getStart()) +
-                    rightbrasket;
+                    + Constants.getDateFormat().format(t.getStart())
+                    + rightbrasket;
             if (t.isActive()) {
                 str += Constants.getInactive() + Constants.getSemicolon()
                         + Constants.getEnter();
@@ -146,8 +146,8 @@ public final class TaskIO {
         }
         title = title.substring(Constants.getOne(),
                 title.length() - Constants.getTwo());
-        boolean actives = (Constants.getInactive() +
-                Constants.getSemicolon()).equals(
+        boolean actives = (Constants.getInactive()
+                + Constants.getSemicolon()).equals(
                         words[words.length - Constants.getOne()]);
         String date = words[s + Constants.getOne()] + Constants.getSpace()
                 + words[s + Constants.getTwo()];
@@ -188,14 +188,14 @@ public final class TaskIO {
         start = start.substring(Constants.getOne(), start.length()
                 - Constants.getTwo());
         String end = words[s + Constants.getTwo() * count]
-                + Constants.getSpace() + words[s +
-                Constants.getTwo() * count + Constants.getOne()];
+                + Constants.getSpace() + words[s
+                + Constants.getTwo() * count + Constants.getOne()];
         end = end.substring(Constants.getOne(), end.length()
                 - Constants.getTwo());
         count++;
         final int intervalYear = Integer.parseInt(words[s
-                + Constants.getTwo() * count +
-                Constants.getOne()].substring(Constants.getOne()));
+                + Constants.getTwo() * count
+                + Constants.getOne()].substring(Constants.getOne()));
         count++;
         final int intervalMonth = Integer.parseInt(words[s
                 + Constants.getTwo() * count + Constants.getOne()]);
@@ -217,8 +217,8 @@ public final class TaskIO {
         Task task = new Task(title, OperationForTime.parseDate(start),
                 OperationForTime.parseDate(end), interval);
         task.setRepeated(true);
-        task.setActive((Constants.getInactive() +
-                Constants.getSemicolon()).equals(words[words.length
+        task.setActive((Constants.getInactive()
+                + Constants.getSemicolon()).equals(words[words.length
                 - Constants.getOne()]));
         return task;
     }

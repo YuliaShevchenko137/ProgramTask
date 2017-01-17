@@ -1,5 +1,13 @@
 package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
+import com.netcracker.java.YuliaShevchenko.lab1.model.ArrayTaskList;
+import com.netcracker.java.YuliaShevchenko.lab1.model.CollectionsTasks;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
+import com.netcracker.java.YuliaShevchenko.lab1.model.OperationForTime;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
+import com.netcracker.java.YuliaShevchenko.lab1.model.TaskIO;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Tasks;
+import com.netcracker.java.YuliaShevchenko.lab1.model.ThreadTask;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -7,8 +15,6 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-
-import com.netcracker.java.YuliaShevchenko.lab1.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +31,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -33,332 +38,377 @@ import javafx.stage.Stage;
 
 
 /**
- * Контроллер MainController.
- * Основное окно программы.
+ * Class MainController.
+ * Controller of the main window.
  */
 
 public final class MainController {
 
     /**
-     * Обертка списка задач.
+     * obs.
+     * Wrapper of the task list.
      */
 
     private CollectionsTasks obs;
 
     /**
-     * Таблица с задачами.
+     * taskTable.
+     * Table with tasks.
      */
 
     @FXML
     private TableView<Task> taskTable;
 
     /**
-     * Столбец названия задачи.
+     * taskName.
+     * Column of the title of the task.
      */
 
     @FXML
     private TableColumn<Task, String> taskName;
 
     /**
-     * Столбец активности задачи.
+     * taskActive.
+     * Column of the activity of the task.
      */
 
     @FXML
     private TableColumn<Task, Boolean> taskActive;
 
     /**
-     * Натпись с кол-вом задач.
+     * labelSize.
+     * Label with count tasks.
      */
 
     @FXML
     private Label labelSize;
 
     /**
-     * Название выбранной задачи.
+     * currentTaskName.
+     * Title of the current task.
      */
 
     @FXML
     private Label currentTaskName;
 
     /**
-     * Начало выбранной задачи.
+     * currentTaskStart.
+     * Start date of the current task.
      */
 
     @FXML
     private Label currentTaskStart;
 
     /**
-     * Конец выбранной задачи.
+     * currentTaskEnd.
+     * End date on the current task.
      */
 
     @FXML
     private Label currentTaskEnd;
 
     /**
-     * Интервал выбранной задачи.
+     * currentTaskInterval.
+     * Repeated interval of the current task.
      */
 
     @FXML
     private Label currentTaskInterval;
 
     /**
-     * Активность выбранной задачи.
+     * currentTaskActive.
+     * Activity of the current task.
      */
 
     @FXML
     private Label currentTaskActive;
 
     /**
-     * Сообщение об ошибке при изменении.
+     * error.
+     * label error message when data changes.
      */
 
     @FXML
     private Label error;
 
     /**
-     * Надпись Начало.
+     * labelStart.
+     * Label start.
      */
 
     @FXML
     private Label labelStart;
 
     /**
-     * Надпись Конец.
+     * labelEnd.
+     * Label End
      */
 
     @FXML
     private Label labelEnd;
 
     /**
-     * Надпись интервал.
+     * labelInterval.
+     * Label Interval.
      */
 
     @FXML
     private Label labelInterval;
 
     /**
-     * Надпись лет.
+     * labelYear.
+     * Label years.
      */
 
     @FXML
     private Label labelYear;
 
     /**
-     * Надпись месяцев.
+     * labelMonth.
+     * Label months.
      */
 
     @FXML
     private Label labelMonth;
 
     /**
-     * Надпись дней.
+     * labelDay.
+     * Label days.
      */
 
     @FXML
     private Label labelDay;
 
     /**
-     * Надпись часов.
+     * labelHour.
+     * Label hours.
      */
 
     @FXML
     private Label labelHour;
 
     /**
-     * Надпись минут.
+     * labelMinute.
+     * Label minutes.
      */
 
     @FXML
     private Label labelMinute;
 
     /**
-     * Надпись секунд.
+     * labelSecond.
+     * Label seconds.
      */
 
     @FXML
     private Label labelSecond;
 
     /**
-     * Кнопка Измения.
+     * change.
+     * Button Change.
      */
 
     @FXML
     private Button change;
 
     /**
-     * Кнопка Применения изменений.
+     * apply.
+     * Button Apply.
      */
 
     @FXML
     private Button apply;
 
     /**
-     * Таблица просмотра.
+     * gridView.
+     * Table to show data.
      */
 
     @FXML
     private GridPane gridView;
 
     /**
-     * Таблица изменения.
+     * gridChange.
+     * Table to change data.
      */
 
     @FXML
     private GridPane gridChange;
 
     /**
-     * Поле изменения имени.
+     * taskNameField.
+     * TextField change title of the task.
      */
 
     @FXML
     private TextField taskNameField;
 
     /**
-     * Время начала именяемой задачи.
+     * timeStart.
+     * Start time of the changing task.
      */
 
     @FXML
     private TextField timeStart;
 
     /**
-     * Время конца изменяемой задачи.
+     * timeEnd.
+     * End time of the changing task.
      */
 
     @FXML
     private TextField timeEnd;
 
     /**
-     * Количество лет интервала.
+     * year.
+     * Years in interval repeating.
      */
 
     @FXML
     private TextField year;
 
     /**
-     * Количество месяцев интервала.
+     * month.
+     * Months in interval repeating.
      */
 
     @FXML
     private TextField month;
 
     /**
-     * Количество дней интервала.
+     * day.
+     * Days in interval repeating
      */
 
     @FXML
     private TextField day;
 
     /**
-     * Количество часов интервала.
+     * hour.
+     * Hours in interval repeating.
      */
 
     @FXML
     private TextField hour;
 
     /**
-     * Количество минут интервала.
+     * minute.
+     * Minutes in interval repeating.
      */
 
     @FXML
     private TextField minute;
 
     /**
-     * Количесво секунд интервала.
+     * second.
+     * Years in interval repeating.
      */
 
     @FXML
     private TextField second;
 
     /**
-     * Время начала календаря.
+     * calendarTimeStart.
+     * Start time of the calendar.
      */
 
     @FXML
     private TextField calendarTimeStart;
 
     /**
-     * Время конца календаря.
+     * calendarTimeEnd.
+     * End time of the calendar.
      */
 
     @FXML
     private TextField calendarTimeEnd;
 
     /**
-     * Дата начала изменяющейся задачи.
+     * dateStart.
+     * Start date of the changing task.
      */
 
     @FXML
     private DatePicker dateStart;
 
     /**
-     * Дата конца изменяющейся задачи.
+     * dateEnd.
+     * End date of the changing task.
      */
 
     @FXML
     private DatePicker dateEnd;
 
     /**
-     * Дата конца календаря.
+     * calendarDateEnd.
+     * End date of the calendar.
      */
 
     @FXML
     private DatePicker calendarDateEnd;
 
     /**
-     * Дата начала календаря.
+     * calendarDateStart.
+     * Start date of the calendar.
      */
 
     @FXML
     private DatePicker calendarDateStart;
 
     /**
-     * Переключатель: задача активна.
+     * activeTrue.
+     * RadioButton: active task.
      */
 
     @FXML
     private RadioButton activeTrue;
 
     /**
-     * Переключатель: задача неактивна.
+     * activeFalse.
+     * RadioButton: inactive task.
      */
 
     @FXML
     private RadioButton activeFalse;
 
     /**
-     * Индикатор повторяемости.
+     * checkboxrepeated.
+     * CheckBox: repeated task.
      */
 
     @FXML
     private CheckBox checkboxrepeated;
 
     /**
-     * Индекс выбранной задачи.
+     * countChanges.
+     * Index selected task
      */
 
     private int countChanges = -1;
 
     /**
-     * Минимальтая высота окна.
+     * minHeight.
+     * Minimal height window.
      */
 
     private final int minHeight = 450;
 
     /**
-     * Минимальная ширина окна.
+     * minWidth.
+     * Minimal width window.
      */
 
     private final int minWidth = 350;
 
     /**
-     * Файл для записи и считывания.
+     * temp.
+     * File for reading ot writing.
      */
 
     private final File temp = new File("temp.txt");
 
     /**
-     * Метод MainController().
-     * Пустой конструктор контроллера.
+     * Empty constructor.
      */
 
     public MainController() {
@@ -366,17 +416,16 @@ public final class MainController {
     }
 
     /**
-     * Метод initialize().
-     * Выполняется при инициализации
-     * главного окна.
-     * @throws ParseException преобразование дат.
-     * @throws IOException работа с файлом.
+     * Method initialize().
+     * Executed when a controller is loaded.
+     * @throws ParseException appears when converting dates.
+     * @throws IOException appears when opening a file.
      */
 
     @FXML
     public void initialize() throws ParseException, IOException {
         this.obs = new CollectionsTasks();
-        TaskList tasks = new ArrayTaskList();
+        ArrayTaskList tasks = new ArrayTaskList();
         TaskIO.readText(tasks, this.temp);
         this.obs.setTasks(tasks);
         this.taskTable.setItems(this.obs.getObs());
@@ -384,9 +433,6 @@ public final class MainController {
                 new PropertyValueFactory<>("title"));
         this.taskActive.setCellValueFactory(
                 new PropertyValueFactory<>("active"));
-        final ToggleGroup group = new ToggleGroup();
-        this.activeTrue.setToggleGroup(group);
-        this.activeFalse.setToggleGroup(group);
         this.taskTable.setItems(this.getObs().getObs());
         this.taskTable.getSelectionModel().selectedItemProperty().addListener(
             (observableValue, oldValue,
@@ -397,13 +443,13 @@ public final class MainController {
         this.apply.setVisible(false);
         this.apply.setText(Constants.getApply());
         this.change.setText(Constants.getChange());
-        this.labelSize.setText(Constants.getCountTask() + this.obs.getObs().size());
+        this.labelSize.setText(Constants.getCountTask()
+                + this.obs.getObs().size());
     }
 
     /**
-     * Метод showNoting().
-     * Вызывается когда ни одна задача
-     * не выбрана.
+     * Method showNoting().
+     * Called when no task is selected.
      */
 
     private void showNoting() {
@@ -415,9 +461,9 @@ public final class MainController {
     }
 
     /**
-     * Метод showTaskDetails(Task task).
-     * Отображение деталей текущей задачи.
-     * @param task выбраная задача.
+     * Method showTaskDetails(Task task).
+     * Show details of the selected task.
+     * @param task selected task.
      */
 
     private void showTaskDetails(final Task task) {
@@ -434,8 +480,8 @@ public final class MainController {
 
     /**
      * Метод showDetailsForChange(Task task).
-     * Отображает данные для инменения.
-     * @param task задача для изменения.
+     * Show data fow changing task.
+     * @param task task for changing.
      */
 
     private void showDetailsForChange(final Task task) {
@@ -450,29 +496,31 @@ public final class MainController {
         str = String.valueOf(task.getStart());
         words = str.split(Constants.getRegexp());
         this.timeEnd.setText(words[Constants.getThree()]);
-        final ToggleGroup group = new ToggleGroup();
-        this.activeTrue.setToggleGroup(group);
-        this.activeFalse.setToggleGroup(group);
         this.activeTrue.setSelected(task.isActive());
         this.activeFalse.setSelected(!task.isActive());
         this.checkboxrepeated.setSelected(task.isRepeated());
-        this.year.setText(String.valueOf(task.getCreateInterval().getIntervalYear()));
-        this.month.setText(String.valueOf(task.getCreateInterval().getIntervalMonth()));
-        this.day.setText(String.valueOf(task.getCreateInterval().getIntervalDay()));
-        this.minute.setText(String.valueOf(task.getCreateInterval().getIntervalMinute()));
-        this.hour.setText(String.valueOf(task.getCreateInterval().getIntervalHour()));
-        this.second.setText(String.valueOf(task.getCreateInterval().getIntervalSecond()));
+        this.year.setText(String.valueOf(
+                task.getCreateInterval().getIntervalYear()));
+        this.month.setText(String.valueOf(
+                task.getCreateInterval().getIntervalMonth()));
+        this.day.setText(String.valueOf(
+                task.getCreateInterval().getIntervalDay()));
+        this.minute.setText(String.valueOf(
+                task.getCreateInterval().getIntervalMinute()));
+        this.hour.setText(String.valueOf(
+                task.getCreateInterval().getIntervalHour()));
+        this.second.setText(String.valueOf(
+                task.getCreateInterval().getIntervalSecond()));
         task.getInterval();
         this.checkboxrepeated.setSelected(task.isRepeated());
-        this.repeated();
+        this.repeatedTask();
     }
 
     /**
-     * Метод add(ActionEvent actionEvent).
-     * Открывает окно добавления задачи и
-     * добавляет задачу в список задач.
-     * @param actionEvent нажатие кнопки.
-     * @throws IOException открытие файла.
+     * Method add(ActionEvent actionEvent).
+     * Create new window Add task and add new task to the task list.
+     * @param actionEvent button press.
+     * @throws IOException appears when opening a file.
      */
 
     public void add(final ActionEvent actionEvent) throws IOException {
@@ -499,9 +547,10 @@ public final class MainController {
     }
 
     /**
-     * Метод remove().
-     * Вызов уведобления про удаление задачи.
-     * @throws IOException запись данных в файл.
+     * Method remove().
+     * Call notification about the removal of the problem and
+     * remove it in the event of confirmation.
+     * @throws IOException appears when writing a file.
      */
 
     public void remove() throws IOException {
@@ -522,12 +571,11 @@ public final class MainController {
     }
 
     /**
-     * Метод calendar(ActionEvent actionEvent).
-     * Открывает календарь для выбраного
-     * времени.
-     * @param actionEvent нажатие кнопки.
-     * @throws IOException открытие файла.
-     * @throws ParseException преобразование дат.
+     * Method calendar(ActionEvent actionEvent).
+     * Create new window Calendar for a selected interval of the time.
+     * @param actionEvent button press.
+     * @throws IOException appears when opening a file.
+     * @throws ParseException appears when converting dates.
      */
 
     public void calendar(final ActionEvent actionEvent)
@@ -568,9 +616,9 @@ public final class MainController {
     }
 
     /**
-     * Метод getObs().
-     * Возвращает обертку для списка задач.
-     * @return обертка списка задач.
+     * Method getObs().
+     * Getteg for wrapper task list.
+     * @return OblervableList for task list.
      */
 
     public CollectionsTasks getObs() {
@@ -578,41 +626,11 @@ public final class MainController {
     }
 
     /**
-     * Метод repeated().
-     * Изменение задачи.
-     */
-
-    public void repeated() {
-        if (!this.checkboxrepeated.isSelected()) {
-            this.labelStart.setText(Constants.getTime());
-            InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
-                    this.timeEnd, this.labelInterval);
-            InfoClass.visibleTextFieldInterval(false,
-                    this.year, this.month, this.day,
-                    this.hour, this.minute, this.second);
-            InfoClass.visibleLabelsInterval(false,
-                    this.labelYear, this.labelMonth, this.labelDay,
-                    this.labelHour, this.labelMinute, this.labelSecond);
-        } else {
-            this.labelStart.setText(Constants.getStart());
-            InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
-                    this.timeEnd, this.labelInterval);
-            InfoClass.visibleTextFieldInterval(true,
-                    this.year, this.month, this.day,
-                    this.hour, this.minute, this.second);
-            InfoClass.visibleLabelsInterval(true,
-                    this.labelYear, this.labelMonth, this.labelDay,
-                    this.labelHour, this.labelMinute, this.labelSecond);
-        }
-    }
-
-    /**
-     * Метод applyChanges().
-     * Если данные введены коректно, то
-     * переписывает текущую задачу.
-     * @throws CloneNotSupportedException клонование задачи.
-     * @throws ParseException преобразование дат.
-     * @throws IOException запись в файл.
+     * Method applyChanges().
+     * If the data is correct, it changes the current task.
+     * @throws CloneNotSupportedException if object nonclonability.
+     * @throws ParseException appears when converting dates.
+     * @throws IOException appears when opening a file.
      */
 
     public void applyChanges() throws CloneNotSupportedException,
@@ -651,11 +669,11 @@ public final class MainController {
     }
 
     /**
-     * Метод changeRepeatedTask(Task task, Task task1).
-     * Изменение повторяемой задачи.
-     * @param task изменяемая задача.
-     * @param task1 если данные некоректны.
-     * @return сообщение об ошибках.
+     * Method changeRepeatedTask(Task task, Task task1).
+     * Change repeated task.
+     * @param task current task.
+     * @param task1 in the case of incorrect data.
+     * @return error message.
      */
 
     private String changeRepeatedTask(final Task task, final Task task1) {
@@ -676,30 +694,41 @@ public final class MainController {
             task.setEnd(task1.getEnd());
             str1 += Constants.getErrorEnd() + Constants.getEnter();
         }
-        task.getCreateInterval().setIntervalYear(Integer.parseInt(this.year.getText()));
-        task.getCreateInterval().setIntervalMonth(Integer.parseInt(this.month.getText()));
-        task.getCreateInterval().setIntervalDay(Integer.parseInt(this.day.getText()));
-        task.getCreateInterval().setIntervalHour(Integer.parseInt(this.hour.getText()));
-        task.getCreateInterval().setIntervalMinute(Integer.parseInt(this.minute.getText()));
-        task.getCreateInterval().setIntervalSecond(Integer.parseInt(this.second.getText()));
+        task.getCreateInterval().setIntervalYear(
+                Integer.parseInt(this.year.getText()));
+        task.getCreateInterval().setIntervalMonth(
+                Integer.parseInt(this.month.getText()));
+        task.getCreateInterval().setIntervalDay(
+                Integer.parseInt(this.day.getText()));
+        task.getCreateInterval().setIntervalHour(
+                Integer.parseInt(this.hour.getText()));
+        task.getCreateInterval().setIntervalMinute(
+                Integer.parseInt(this.minute.getText()));
+        task.getCreateInterval().setIntervalSecond(
+                Integer.parseInt(this.second.getText()));
         if (Integer.parseInt(this.month.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.month.getText()) > Constants.getEleven()) {
+                || Integer.parseInt(this.month.getText())
+                > Constants.getEleven()) {
             str1 +=  Constants.getErrorcountmonth() + Constants.getEnter();
         }
         if (Integer.parseInt(this.day.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.day.getText()) > Constants.getTwentynine()) {
+                || Integer.parseInt(this.day.getText())
+                > Constants.getTwentynine()) {
             str1 += Constants.getErrorcountday() + Constants.getEnter();
         }
         if (Integer.parseInt(this.hour.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.hour.getText()) > Constants.getTwentythree()) {
+                || Integer.parseInt(this.hour.getText())
+                > Constants.getTwentythree()) {
             str1 += Constants.getErrorcounthour() + Constants.getEnter();
         }
         if (Integer.parseInt(this.minute.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.minute.getText()) > Constants.getFiftynine()) {
+                || Integer.parseInt(this.minute.getText())
+                > Constants.getFiftynine()) {
             str1 += Constants.getErrorcountminute() + Constants.getEnter();
         }
         if (Integer.parseInt(this.second.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.second.getText()) > Constants.getFiftynine()) {
+                || Integer.parseInt(this.second.getText())
+                > Constants.getFiftynine()) {
             str1 += Constants.getErrorcountsecond() + Constants.getEnter();
         }
         return str1;
@@ -707,15 +736,13 @@ public final class MainController {
 
     /**
      * Метод changeNoRepeatedTask(Task task, Task task1).
-     * Изменение неповторяющейся задачи.
-     * @param task изменяющаяся задача.
-     * @param task1 при неправ. данных.
-     * @return сообщение об ошибке.
-     * @throws ParseException преобразование дат.
+     * Change no recurring task.
+     * @param task current task.
+     * @param task1 in the case of incorrect data.
+     * @return error message.
      */
 
-    private String changeNoRepeatedTask(final Task task, final Task task1)
-            throws ParseException {
+    private String changeNoRepeatedTask(final Task task, final Task task1) {
         String str = "";
         task.setTitle(this.taskNameField.getText());
         task.setActive(this.activeTrue.isSelected());
@@ -730,13 +757,12 @@ public final class MainController {
     }
 
     /**
-     * Метод changeTask().
-     * Изменение задачи.
-     * @throws ParseException преобразование дат.
-     * @throws CloneNotSupportedException при клонировании.
+     * Method changeTask().
+     * Change task.
+     * @throws CloneNotSupportedException if object non clonability.
      */
 
-    public void changeTask() throws ParseException, CloneNotSupportedException {
+    public void changeTask() throws CloneNotSupportedException {
         if (this.getObs().getObs().size() != Constants.getNulls()) {
             this.showDetailsForChange(
                     this.taskTable.getSelectionModel().getSelectedItem());
@@ -744,6 +770,35 @@ public final class MainController {
             this.gridView.setVisible(false);
             this.change.setVisible(false);
             this.apply.setVisible(true);
+        }
+    }
+
+    /**
+     * Method repeatedTask().
+     * Change showing window when user press CheckBox Repeated.
+     */
+
+    public void repeatedTask() {
+        if (!this.checkboxrepeated.isSelected()) {
+            this.labelStart.setText(Constants.getTime());
+            InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
+                    this.timeEnd, this.labelInterval);
+            InfoClass.visibleTextFieldInterval(false,
+                    this.year, this.month, this.day,
+                    this.hour, this.minute, this.second);
+            InfoClass.visibleLabelsInterval(false,
+                    this.labelYear, this.labelMonth, this.labelDay,
+                    this.labelHour, this.labelMinute, this.labelSecond);
+        } else {
+            this.labelStart.setText(Constants.getStart());
+            InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
+                    this.timeEnd, this.labelInterval);
+            InfoClass.visibleTextFieldInterval(true,
+                    this.year, this.month, this.day,
+                    this.hour, this.minute, this.second);
+            InfoClass.visibleLabelsInterval(true,
+                    this.labelYear, this.labelMonth, this.labelDay,
+                    this.labelHour, this.labelMinute, this.labelSecond);
         }
     }
 }

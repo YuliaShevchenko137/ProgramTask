@@ -73,22 +73,28 @@ public final class OperationForTime {
                                          final Task t) {
         LocalDateTime dates = date;
         if (t.getCreateInterval().getIntervalYear() != 0) {
-            dates = dates.plusYears(t.getCreateInterval().getIntervalYear());
+            dates = dates.plusYears(
+                    t.getCreateInterval().getIntervalYear());
         }
         if (t.getCreateInterval().getIntervalMonth() != 0) {
-            dates = dates.plusMonths(t.getCreateInterval().getIntervalMonth());
+            dates = dates.plusMonths(
+                    t.getCreateInterval().getIntervalMonth());
         }
         if (t.getCreateInterval().getIntervalDay() != 0) {
-            dates = dates.plusDays(t.getCreateInterval().getIntervalDay());
+            dates = dates.plusDays(
+                    t.getCreateInterval().getIntervalDay());
         }
         if (t.getCreateInterval().getIntervalMinute() != 0) {
-            dates = dates.plusMinutes(t.getCreateInterval().getIntervalMinute());
+            dates = dates.plusMinutes(
+                    t.getCreateInterval().getIntervalMinute());
         }
         if (t.getCreateInterval().getIntervalHour() != 0) {
-            dates = dates.plusHours(t.getCreateInterval().getIntervalHour());
+            dates = dates.plusHours(
+                    t.getCreateInterval().getIntervalHour());
         }
         if (t.getCreateInterval().getIntervalSecond() != 0) {
-            dates = dates.plusSeconds(t.getCreateInterval().getIntervalSecond());
+            dates = dates.plusSeconds(
+                    t.getCreateInterval().getIntervalSecond());
         }
         return dates;
     }
@@ -105,22 +111,28 @@ public final class OperationForTime {
                                           final Task t) {
         LocalDateTime dates = date;
         if (t.getCreateInterval().getIntervalYear() != 0) {
-            dates = dates.minusYears(t.getCreateInterval().getIntervalYear());
+            dates = dates.minusYears(
+                    t.getCreateInterval().getIntervalYear());
         }
         if (t.getCreateInterval().getIntervalMonth() != 0) {
-            dates = dates.minusMonths(t.getCreateInterval().getIntervalMonth());
+            dates = dates.minusMonths(
+                    t.getCreateInterval().getIntervalMonth());
         }
         if (t.getCreateInterval().getIntervalDay() != 0) {
-            dates = dates.minusDays(t.getCreateInterval().getIntervalDay());
+            dates = dates.minusDays(
+                    t.getCreateInterval().getIntervalDay());
         }
         if (t.getCreateInterval().getIntervalMinute() != 0) {
-            dates = dates.minusMinutes(t.getCreateInterval().getIntervalMinute());
+            dates = dates.minusMinutes(
+                    t.getCreateInterval().getIntervalMinute());
         }
         if (t.getCreateInterval().getIntervalHour() != 0) {
-            dates = dates.minusHours(t.getCreateInterval().getIntervalHour());
+            dates = dates.minusHours(
+                    t.getCreateInterval().getIntervalHour());
         }
         if (t.getCreateInterval().getIntervalSecond() != 0) {
-            dates = dates.minusSeconds(t.getCreateInterval().getIntervalSecond());
+            dates = dates.minusSeconds(
+                    t.getCreateInterval().getIntervalSecond());
         }
         return dates;
     }
