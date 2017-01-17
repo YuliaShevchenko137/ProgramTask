@@ -357,18 +357,6 @@ public final class MainController {
     private final int minWidth = 350;
 
     /**
-     * Строка применить.
-     */
-
-    private final String applystr = "Применить";
-
-    /**
-     * Название кнопки Изменения.
-     */
-
-    private final String changestr = "Изменить";
-
-    /**
      * Строка Количество задач.
      */
 
@@ -449,8 +437,10 @@ public final class MainController {
         this.gridView.setVisible(true);
         this.showNoting();
         this.apply.setVisible(false);
-        this.apply.setText(this.applystr);
-        this.change.setText(this.changestr);
+        final String applystr = "Применить";
+        this.apply.setText(applystr);
+        final String changestr = "Изменить";
+        this.change.setText(changestr);
         this.labelSize.setText(this.countTask + this.obs.getObs().size());
     }
 
@@ -688,7 +678,7 @@ public final class MainController {
             task.getThreadTask().setFinish();
             task.setThreadTask(new ThreadTask(task));
             this.obs.getObs().add(task);
-            TaskIO.writeText(this.obs.getTasks(), temp);
+            TaskIO.writeText(this.obs.getTasks(), this.temp);
             this.countChanges = -1;
             this.change.setVisible(true);
             this.apply.setVisible(false);
@@ -733,7 +723,8 @@ public final class MainController {
         task.setIntervalMinute(Integer.parseInt(this.minute.getText()));
         task.setIntervalSecond(Integer.parseInt(this.second.getText()));
         final int countmonth = 11;
-        final String uncorrected = "Неверно указано количество ";
+        final String uncorrected = "Неверно указано" +
+                " количество ";
         if (Integer.parseInt(this.month.getText()) < 0
                 || Integer.parseInt(this.month.getText()) > countmonth) {
             str1 +=  uncorrected
@@ -746,21 +737,21 @@ public final class MainController {
                     + "дней \n";
         }
         final int counthour = 23;
+        final String hours = "часов \n";
         if (Integer.parseInt(this.hour.getText()) < 0
                 || Integer.parseInt(this.hour.getText()) > counthour) {
-            str1 += uncorrected
-                    + "часов \n";
+            str1 += uncorrected + hours;
         }
         final int countMinuteOrSecond = 59;
         if (Integer.parseInt(this.minute.getText()) < 0
-                || Integer.parseInt(this.minute.getText()) >
-                countMinuteOrSecond) {
+                || Integer.parseInt(this.minute.getText())
+                > countMinuteOrSecond) {
             str1 += uncorrected
                     + "минут \n";
         }
         if (Integer.parseInt(this.second.getText()) < 0
-                || Integer.parseInt(this.second.getText()) >
-                countMinuteOrSecond) {
+                || Integer.parseInt(this.second.getText())
+                > countMinuteOrSecond) {
             str1 += uncorrected
                     + "секунд \n";
         }
