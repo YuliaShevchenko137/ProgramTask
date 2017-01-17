@@ -231,26 +231,14 @@ public class AddController {
     }
 
     public void repeated() {
-        if (!this.checkboxrepeated.isSelected()) {
-            this.labelStart.setText(Constants.getTime());
-            InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
-                    this.timeEnd, this.labelInterval);
-            InfoClass.visibleTextFieldInterval(false,
-                    this.year, this.month, this.day,
+        InfoClass infoClass = new InfoClass(this.checkboxrepeated);
+        infoClass.setObj(this.labelEnd, this.dateEnd,
+                this.timeEnd, this.labelInterval);
+        infoClass.setLabelsInterval(this.labelYear, this.labelMonth,
+                this.labelDay, this.labelHour,
+                this.labelMinute, this.labelSecond);
+            infoClass.setTextField(this.year, this.month, this.day,
                     this.hour, this.minute, this.second);
-            InfoClass.visibleLabelsInterval(false,
-                    this.labelYear, this.labelMonth, this.labelDay,
-                    this.labelHour, this.labelMinute, this.labelSecond);
-        } else {
-            this.labelStart.setText(Constants.getStart());
-            InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
-                    this.timeEnd, this.labelInterval);
-            InfoClass.visibleTextFieldInterval(true,
-                    this.year, this.month, this.day,
-                    this.hour, this.minute, this.second);
-            InfoClass.visibleLabelsInterval(true,
-                    this.labelYear, this.labelMonth, this.labelDay,
-                    this.labelHour, this.labelMinute, this.labelSecond);
-        }
+        infoClass.repeated();
     }
 }

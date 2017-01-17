@@ -541,7 +541,8 @@ public final class MainController {
         if (addController.bool) {
             this.obs.add(addController.T);
             this.taskTable.setItems(this.obs.getObs());
-            this.labelSize.setText(Constants.getCountTask() + this.obs.getObs().size());
+            this.labelSize.setText(Constants.getCountTask()
+                    + this.obs.getObs().size());
             TaskIO.writeText(this.obs.getTasks(), this.temp);
         }
     }
@@ -779,26 +780,14 @@ public final class MainController {
      */
 
     public void repeatedTask() {
-        if (!this.checkboxrepeated.isSelected()) {
-            this.labelStart.setText(Constants.getTime());
-            InfoClass.visibleObj(false, this.labelEnd, this.dateEnd,
-                    this.timeEnd, this.labelInterval);
-            InfoClass.visibleTextFieldInterval(false,
-                    this.year, this.month, this.day,
-                    this.hour, this.minute, this.second);
-            InfoClass.visibleLabelsInterval(false,
-                    this.labelYear, this.labelMonth, this.labelDay,
-                    this.labelHour, this.labelMinute, this.labelSecond);
-        } else {
-            this.labelStart.setText(Constants.getStart());
-            InfoClass.visibleObj(true, this.labelEnd, this.dateEnd,
-                    this.timeEnd, this.labelInterval);
-            InfoClass.visibleTextFieldInterval(true,
-                    this.year, this.month, this.day,
-                    this.hour, this.minute, this.second);
-            InfoClass.visibleLabelsInterval(true,
-                    this.labelYear, this.labelMonth, this.labelDay,
-                    this.labelHour, this.labelMinute, this.labelSecond);
-        }
+        InfoClass infoClass = new InfoClass(this.checkboxrepeated);
+        infoClass.setObj(this.labelEnd, this.dateEnd,
+                this.timeEnd, this.labelInterval);
+        infoClass.setLabelsInterval(this.labelYear, this.labelMonth,
+                this.labelDay, this.labelHour,
+                this.labelMinute, this.labelSecond);
+        infoClass.setTextField(this.year, this.month, this.day,
+                this.hour, this.minute, this.second);
+        infoClass.repeated();
     }
 }
