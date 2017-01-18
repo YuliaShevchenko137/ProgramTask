@@ -126,6 +126,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     @Override
     public final Iterator<Task> iterator() {
         return new Iterator<Task>() {
+
             private int current = Constants.getNulls();
 
             public boolean hasNext() {
@@ -137,15 +138,15 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
             }
 
             public void remove() {
-                if(this.current == Constants.getNulls()) {
+                if (this.current == Constants.getNulls()) {
                     throw new IllegalStateException();
                 }
                 int k = Constants.getNulls();
-                for (int i = Constants.getNulls(); i < size; i++){
-                    if(i == this.current - 1) {
+                for (int i = Constants.getNulls(); i < size; i++) {
+                    if (i == this.current - 1) {
                         k++;
                     }
-                    array[i] = array[i+k];
+                    array[i] = array[i + k];
                 }
                 array[size] = null;
                 size--;
