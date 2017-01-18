@@ -223,7 +223,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     protected final TaskList clone() {
         try {
             return (TaskList) super.clone();
-        } catch (CloneNotSupportedException e ) {
+        } catch (CloneNotSupportedException e) {
             logger.error(e.getMessage(), e);
         }
         return null;
