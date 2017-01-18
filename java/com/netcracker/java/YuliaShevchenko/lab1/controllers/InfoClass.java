@@ -14,13 +14,6 @@ import javafx.scene.control.TextField;
 public final class InfoClass {
 
     /**
-     * repeated.
-     * Repeated Task.
-     */
-
-    private CheckBox repeated;
-
-    /**
      * labelEnd.
      * Label End
      */
@@ -258,6 +251,7 @@ public final class InfoClass {
     /**
      * Method repeated().
      * Show / hide elements.
+     * @param repeated CheckBox: repeated on the scene.
      */
 
     private void repeated(final CheckBox repeated) {

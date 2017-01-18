@@ -131,29 +131,74 @@ public final class MainController {
     @FXML
     private Label error;
 
+    /**
+     * labelStart.
+     * Label start.
+     */
+
     @FXML
     private Label labelStart;
+
+    /**
+     * labelEnd.
+     * Label End.
+     */
 
     @FXML
     private Label labelEnd;
 
+    /**
+     * labelInterval.
+     * Label Interval.
+     */
+
     @FXML
     private Label labelInterval;
+
+    /**
+     * labelYear.
+     * Label years.
+     */
 
     @FXML
     private Label labelYear;
 
+    /**
+     * labelMonth.
+     * Label months.
+     */
+
     @FXML
     private Label labelMonth;
+
+    /**
+     * labelDay.
+     * Label days.
+     */
 
     @FXML
     private Label labelDay;
 
+    /**
+     * labelHour.
+     * Label hours.
+     */
+
     @FXML
     private Label labelHour;
 
+    /**
+     * labelMinute.
+     * Label minutes.
+     */
+
     @FXML
     private Label labelMinute;
+
+    /**
+     * labelSecond.
+     * Label seconds.
+     */
 
     @FXML
     private Label labelSecond;
@@ -206,23 +251,58 @@ public final class MainController {
     @FXML
     private TextField timeStart;
 
+    /**
+     * timeEnd.
+     * End time of the changing task.
+     */
+
     @FXML
     private TextField timeEnd;
+
+    /**
+     * year.
+     * Years in interval repeating.
+     */
 
     @FXML
     private TextField year;
 
+    /**
+     * month.
+     * Months in interval repeating.
+     */
+
     @FXML
     private TextField month;
+
+    /**
+     * day.
+     * Days in interval repeating.
+     */
 
     @FXML
     private TextField day;
 
+    /**
+     * hour.
+     * Hours in interval repeating.
+     */
+
     @FXML
     private TextField hour;
 
+    /**
+     * minute.
+     * Minutes in interval repeating.
+     */
+
     @FXML
     private TextField minute;
+
+    /**
+     * second.
+     * Years in interval repeating.
+     */
 
     @FXML
     private TextField second;
@@ -250,6 +330,11 @@ public final class MainController {
 
     @FXML
     private DatePicker dateStart;
+
+    /**
+     * dateEnd.
+     * End date of the changing task.
+     */
 
     @FXML
     private DatePicker dateEnd;
@@ -285,6 +370,11 @@ public final class MainController {
 
     @FXML
     private RadioButton activeFalse;
+
+    /**
+     * checkboxrepeated.
+     *  CheckBox: repeated task.
+     */
 
     @FXML
     private CheckBox checkboxrepeated;
@@ -530,7 +620,7 @@ public final class MainController {
     /**
      * Method getObs().
      * Getteg for wrapper task list.
-     * @return OblervableList for task list.
+     * @return ObservableList for task list.
      */
 
     public CollectionsTasks getObs() {
@@ -695,146 +785,178 @@ public final class MainController {
     }
 
     /**
-     * labelStart.
+     * Method getLabelStart().
+     * Getter for labelStart.
      * @return Label start.
      */
     public Label getLabelStart() {
-        return labelStart;
+        return this.labelStart;
     }
 
     /**
-     * labelEnd.
-     * @return Label End
+     * Method for getLabelEnd().
+     * Getter for labelEnd.
+     * @return Label End.
      */
+
     public Label getLabelEnd() {
-        return labelEnd;
+        return this.labelEnd;
     }
 
     /**
-     * labelInterval.
+     * Method getLabelInterval().
+     * Getter for labelInterval.
      * @return Label Interval.
      */
     public Label getLabelInterval() {
-        return labelInterval;
+        return this.labelInterval;
     }
 
     /**
-     * labelYear.
+     * Method getLabelYear().
+     * Getter for labelYear.
      * @return Label years.
      */
     public Label getLabelYear() {
-        return labelYear;
+        return this.labelYear;
     }
 
     /**
-     * labelMonth.
+     * Method getLabelMonth().
+     * Getter for labelMonth.
      * @return Label months.
      */
+
     public Label getLabelMonth() {
-        return labelMonth;
+        return this.labelMonth;
     }
 
     /**
-     * labelDay.
+     * Method getLabelDay().
+     * Getter for labelDay.
      * @return Label days.
      */
+
     public Label getLabelDay() {
-        return labelDay;
+        return this.labelDay;
     }
 
     /**
-     * labelHour.
+     * Method getLabelHour().
+     * Getter for labelHour.
      * @return Label hours.
      */
     public Label getLabelHour() {
-        return labelHour;
+        return this.labelHour;
     }
 
     /**
-     * labelMinute.
-     * Label minutes.
+     * Method getLabelMinute().
+     * Getter for labelMinute.
+     * @return Label minutes.
      */
+
     public Label getLabelMinute() {
-        return labelMinute;
+        return this.labelMinute;
     }
 
     /**
-     * labelSecond.
+     * Method getLabelSecond().
+     * Getter for labelSecond.
      * @return Label seconds.
      */
+
     public Label getLabelSecond() {
-        return labelSecond;
+        return this.labelSecond;
     }
 
     /**
-     * timeEnd.
-     * @return End time of the changing task.
+     * Method getTimeEnd().
+     * Getter for timeEnd.
+     * @return TextField timeEnd.
      */
+
     public TextField getTimeEnd() {
-        return timeEnd;
+        return this.timeEnd;
     }
 
     /**
-     * year.
-     * @return Years in interval repeating.
+     * Method getYear().
+     * Getter for year.
+     * @return TextField year.
      */
+
     public TextField getYear() {
-        return year;
+        return this.year;
     }
 
     /**
-     * month.
-     * @return Months in interval repeating.
+     * Method getMonth().
+     * Getter for month.
+     * @return TextField month.
      */
+
     public TextField getMonth() {
-        return month;
+        return this.month;
     }
 
     /**
-     * day.
-     * @return Days in interval repeating
+     * Method getDay().
+     * Getter for day.
+     * @return TextField day.
      */
+
     public TextField getDay() {
-        return day;
+        return this.day;
     }
 
     /**
-     * hour.
-     * @return Hours in interval repeating.
+     * Method getHour().
+     * Getter for hour.
+     * @return TextField hour.
      */
+
     public TextField getHour() {
-        return hour;
+        return this.hour;
     }
 
     /**
-     * minute.
-     * @return Minutes in interval repeating.
+     * Method getMinute().
+     * Getter for minute.
+     * @return TextField minute.
      */
+
     public TextField getMinute() {
-        return minute;
+        return this.minute;
     }
 
     /**
-     * second.
-     * Years in interval repeating.
+     * Method getSecond().
+     * Getter for second.
+     * @return TextField second.
      */
+
     public TextField getSecond() {
-        return second;
+        return this.second;
     }
 
     /**
-     * dateEnd.
-     * @return End date of the changing task.
+     * Method getDateEnd().
+     * Getter for dateEnd.
+     * @return DatePicker dateEnd.
      */
+
     public DatePicker getDateEnd() {
-        return dateEnd;
+        return this.dateEnd;
     }
 
     /**
-     * checkboxrepeated.
-     * @return CheckBox: repeated task.
+     * Method getCheckboxrepeated().
+     * Getter for checkboxrepeated.
+     * @return CheckBox checkboxrepeated.
      */
+
     public CheckBox getCheckboxrepeated() {
-        return checkboxrepeated;
+        return this.checkboxrepeated;
     }
 }
