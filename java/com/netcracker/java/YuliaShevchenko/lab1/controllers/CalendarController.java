@@ -36,7 +36,8 @@ public class CalendarController {
      * It is used to register error.
      */
 
-    private static final Logger logger = Logger.getLogger(CalendarController.class);
+    private static final Logger logger
+            = Logger.getLogger(CalendarController.class);
 
     /**
      * listView.

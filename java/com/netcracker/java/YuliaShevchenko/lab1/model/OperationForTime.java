@@ -1,7 +1,5 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
-import org.apache.log4j.Logger;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -9,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import org.apache.log4j.Logger;
 
 /**
  * Class OperationForTime.
@@ -22,7 +21,8 @@ public final class OperationForTime {
      * It is used to register error.
      */
 
-    private static final Logger logger = Logger.getLogger(OperationForTime.class);
+    private static final Logger logger
+            = Logger.getLogger(OperationForTime.class);
 
     /**
      * Empty constructor.

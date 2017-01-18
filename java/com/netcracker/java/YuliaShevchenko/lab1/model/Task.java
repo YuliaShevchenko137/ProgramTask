@@ -1,10 +1,9 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
-import org.apache.log4j.Logger;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+import org.apache.log4j.Logger;
 
 /**
  * Class Task.
@@ -199,7 +198,7 @@ public class Task implements Cloneable, Serializable {
     @Override
     public final Task clone() {
         try {
-             return (Task) super.clone();
+            return (Task) super.clone();
         } catch (CloneNotSupportedException e) {
             logger.error(e.getMessage(), e);
         }

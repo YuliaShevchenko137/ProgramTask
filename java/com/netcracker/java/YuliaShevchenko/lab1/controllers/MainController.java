@@ -712,6 +712,19 @@ public final class MainController {
         } else {
             task.setEnd(date);
         }
+        str1 += this.changeInterval(task);
+        return str1;
+    }
+
+    /**
+     * Method changeInterval(Task task).
+     * Change repeated interval.
+     * @param task for changes.
+     * @return error message.
+     */
+
+    private String changeInterval(Task task) {
+        String str1 = "";
         task.getCreateInterval().setIntervalYear(
                 Integer.parseInt(this.getYear().getText()));
         task.getCreateInterval().setIntervalMonth(

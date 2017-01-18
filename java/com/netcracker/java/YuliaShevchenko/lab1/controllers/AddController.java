@@ -293,7 +293,7 @@ public class AddController {
         String title = this.taskName.getText();
         String str = this.dateStart.getValue().toString()
                 + Constants.getSpace() + this.timeStart.getText();
-        Date start= OperationForTime.parseDate(str);
+        Date start = OperationForTime.parseDate(str);
         if (start == null) {
             logger.warn(Constants.getErrorStart());
             this.str1 += Constants.getErrorStart() + Constants.getEnter();
@@ -434,7 +434,7 @@ public class AddController {
     public final void actionOk(final ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
-        this.newTask = createTask();
+        this.newTask = this.createTask();
         if ("".equals(this.str1)) {
             this.bool = true;
             stage.close();

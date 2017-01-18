@@ -12,17 +12,16 @@ import org.apache.log4j.Logger;
 public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
 
     /**
+     * Version control for serialization.
+     */
+
+    static final long serialVersionUID = 42L;
+    /**
      * logger.
      * It is used to register error.
      */
 
     private static final Logger logger = Logger.getLogger(ArrayTaskList.class);
-
-    /**
-     * Version control for serialization.
-     */
-
-    static final long serialVersionUID = 42L;
 
     /**
      * Length of current array.

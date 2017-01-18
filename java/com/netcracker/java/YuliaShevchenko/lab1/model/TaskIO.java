@@ -1,8 +1,5 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
-
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,6 +10,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import org.apache.log4j.Logger;
 
 /**
  * Class TaskIO.
