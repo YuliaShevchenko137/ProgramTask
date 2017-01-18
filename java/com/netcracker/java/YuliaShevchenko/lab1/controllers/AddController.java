@@ -314,7 +314,7 @@ public class AddController {
             logger.warn(Constants.getErrorEarlierTime());
             this.str1 += Constants.getErrorEarlierTime() + Constants.getEnter();
         }
-        CreateInterval interval = createNewInterval();
+        CreateInterval interval = this.createNewInterval();
         if ("".equals(this.str1)) {
             Task task = new Task(title, start, end, interval);
             task.setRepeated(true);
@@ -371,12 +371,13 @@ public class AddController {
             this.str1 += Constants.getErrorcountsecond() + Constants.getSpace() 
                     + Constants.getEnter();
         }
-        if (intervalYear == Constants.getNulls() 
+        boolean part1 = (intervalYear == Constants.getNulls()
                 && intervalMonth == Constants.getNulls()
-                && intervalDay == Constants.getNulls() 
-                && intervalHour == Constants.getNulls()
-                && intervalMinute == Constants.getNulls() 
-                && intervalSecond == Constants.getNulls()) {
+                && intervalDay == Constants.getNulls());
+        boolean part2 = (intervalHour == Constants.getNulls()
+                && intervalMinute == Constants.getNulls()
+                && intervalSecond == Constants.getNulls());
+        if (part1 && part2) {
             logger.warn(Constants.getErrorinterval());
             this.str1 += Constants.getErrorinterval();
         }
@@ -399,10 +400,10 @@ public class AddController {
             start = OperationForTime.parseDate(str);
         } catch (ParseException e) {
             logger.error(e.getMessage(), e);
-            str1 += Constants.getErrorTime() + Constants.getEnter();
+            this.str1 += Constants.getErrorTime() + Constants.getEnter();
             start = new Date(Constants.getNulls());
         }
-        if ("".equals(str1)) {
+        if ("".equals(this.str1)) {
             Task task = new Task(title, start);
             task.setRepeated(false);
             task.getInterval();
@@ -438,14 +439,14 @@ public class AddController {
     public final void actionOk(final ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
-        newTask = createTask();
-        if ("".equals(str1)) {
-            bool = true;
+        this.newTask = createTask();
+        if ("".equals(this.str1)) {
+            this.bool = true;
             stage.close();
         } else {
-            bool = false;
-            error.setText(str1);
-            str1 = "";
+            this.bool = false;
+            this.error.setText(this.str1);
+            this.str1 = "";
         }
     }
 
@@ -458,6 +459,7 @@ public class AddController {
     public final void actionCancel(final ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
         this.taskName.setText("");
         this.timeStart.setText("");
         this.getTimeEnd().setText("");
@@ -465,7 +467,6 @@ public class AddController {
         this.error.setText("");
         this.dateStart.setValue(LocalDate.now());
         this.getDateEnd().setValue(LocalDate.now());
-        stage.close();
     }
 
     /**
@@ -473,7 +474,7 @@ public class AddController {
      * Change showing window when user press CheckBox Repeated.
      */
 
-    public void repeated() {
+    public final void repeated() {
         new InfoClass(this);
     }
 
@@ -483,7 +484,7 @@ public class AddController {
      * @return Label start.
      */
 
-    public Label getLabelStart() {
+    public final Label getLabelStart() {
         return this.labelStart;
     }
 
@@ -493,7 +494,7 @@ public class AddController {
      * @return Label End.
      */
 
-    public Label getLabelEnd() {
+    public final Label getLabelEnd() {
         return this.labelEnd;
     }
 
@@ -503,7 +504,7 @@ public class AddController {
      * @return Label Interval.
      */
 
-    public Label getLabelInterval() {
+    public final Label getLabelInterval() {
         return this.labelInterval;
     }
 
@@ -513,7 +514,7 @@ public class AddController {
      * @return Label years.
      */
 
-    public Label getLabelYear() {
+    public final Label getLabelYear() {
         return this.labelYear;
     }
 
@@ -523,7 +524,7 @@ public class AddController {
      * @return Label months.
      */
 
-    public Label getLabelMonth() {
+    public final Label getLabelMonth() {
         return this.labelMonth;
     }
 
@@ -533,7 +534,7 @@ public class AddController {
      * @return Label days.
      */
 
-    public Label getLabelDay() {
+    public final Label getLabelDay() {
         return this.labelDay;
     }
 
@@ -543,7 +544,7 @@ public class AddController {
      * @return Label hours.
      */
 
-    public Label getLabelHour() {
+    public final Label getLabelHour() {
         return this.labelHour;
     }
 
@@ -553,7 +554,7 @@ public class AddController {
      * @return Label minutes.
      */
 
-    public Label getLabelMinute() {
+    public final Label getLabelMinute() {
         return this.labelMinute;
     }
 
@@ -563,7 +564,7 @@ public class AddController {
      * @return Label seconds.
      */
 
-    public Label getLabelSecond() {
+    public final Label getLabelSecond() {
         return this.labelSecond;
     }
 
@@ -573,7 +574,7 @@ public class AddController {
      * @return TextField timeEnd.
      */
 
-    public TextField getTimeEnd() {
+    public final TextField getTimeEnd() {
         return this.timeEnd;
     }
 
@@ -583,7 +584,7 @@ public class AddController {
      * @return TextField year.
      */
 
-    public TextField getYear() {
+    public final TextField getYear() {
         return this.year;
     }
 
@@ -593,7 +594,7 @@ public class AddController {
      * @return TextField month.
      */
 
-    public TextField getMonth() {
+    public final TextField getMonth() {
         return this.month;
     }
 
@@ -603,7 +604,7 @@ public class AddController {
      * @return TextField day.
      */
 
-    public TextField getDay() {
+    public final TextField getDay() {
         return this.day;
     }
 
@@ -613,7 +614,7 @@ public class AddController {
      * @return TextField hour.
      */
 
-    public TextField getHour() {
+    public final TextField getHour() {
         return this.hour;
     }
 
@@ -623,7 +624,7 @@ public class AddController {
      * @return TextField minute.
      */
 
-    public TextField getMinute() {
+    public final TextField getMinute() {
         return this.minute;
     }
 
@@ -633,7 +634,7 @@ public class AddController {
      * @return TextField second.
      */
 
-    public TextField getSecond() {
+    public final TextField getSecond() {
         return this.second;
     }
 
@@ -643,7 +644,7 @@ public class AddController {
      * @return DatePicker dateEnd.
      */
 
-    public DatePicker getDateEnd() {
+    public final DatePicker getDateEnd() {
         return this.dateEnd;
     }
 
@@ -653,7 +654,7 @@ public class AddController {
      * @return CheckBox checkboxrepeated.
      */
 
-    public CheckBox getCheckboxrepeated() {
+    public final CheckBox getCheckboxrepeated() {
         return this.checkboxrepeated;
     }
 
@@ -663,8 +664,8 @@ public class AddController {
      * @return new task.
      */
 
-    public Task getNewTask() {
-        return newTask;
+    public final Task getNewTask() {
+        return this.newTask;
     }
 
     /**
@@ -673,7 +674,7 @@ public class AddController {
      * @return true, if data correct and new task is created.
      */
 
-    public boolean isBool() {
-        return bool;
+    public final boolean isBool() {
+        return this.bool;
     }
 }
