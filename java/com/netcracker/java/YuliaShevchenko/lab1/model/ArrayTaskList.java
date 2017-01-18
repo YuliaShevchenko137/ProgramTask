@@ -29,7 +29,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     private int size;
 
     /**
-     *
+     *Array of the tasks.
      */
 
     private Task[] array;
@@ -64,8 +64,9 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
             if (this.size == this.n) {
                 this.n += this.n / 2;
                 Task[] temp = new Task[this.n];
-                System.arraycopy(this.getArray(), Constants.getNulls(), temp, Constants.getNulls(),
-                        this.n - (Constants.getStartSize() / 2));
+                System.arraycopy(this.getArray(), Constants.getNulls(), temp,
+                        Constants.getNulls(), this.n
+                                - (Constants.getStartSize() / 2));
                 this.array = temp;
             }
             this.getArray()[this.size] = task;
@@ -125,19 +126,30 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     @Override
     public final Iterator<Task> iterator() {
         return new Iterator<Task>() {
-            int current = 0;
-            public boolean hasNext() { return current < size; }
-            public Task next() { return array[current++]; }
+            private int current = Constants.getNulls();
+
+            public boolean hasNext() {
+                return this.current < size;
+            }
+
+            public Task next() {
+                return array[this.current++];
+            }
+
             public void remove() {
-                if(current == 0) throw new IllegalStateException();
-                int k = 0;
-                for (int i = 0; i < size; i++){
-                    if(i == current-1) k++;
-                    array[i]=array[i+k];
+                if(this.current == Constants.getNulls()) {
+                    throw new IllegalStateException();
                 }
-                array[size]=null;
+                int k = Constants.getNulls();
+                for (int i = Constants.getNulls(); i < size; i++){
+                    if(i == this.current - 1) {
+                        k++;
+                    }
+                    array[i] = array[i+k];
+                }
+                array[size] = null;
                 size--;
-                current --;
+                current--;
             }
         };
     }
@@ -203,7 +215,9 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     }
 
     /**
+     * Method getArray().
      * An array that stores tasks.
+     * @return array of the tasks.
      */
     public final Task[] getArray() {
         return this.array;

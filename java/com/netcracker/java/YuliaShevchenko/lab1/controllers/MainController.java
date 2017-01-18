@@ -567,7 +567,8 @@ public final class MainController {
             t.getThreadTask().setFinish();
             this.obs.remove(t);
             TaskIO.writeText(this.obs.getTasks(), this.temp);
-            this.labelSize.setText(Constants.getCountTask() + this.obs.getObs().size());
+            this.labelSize.setText(Constants.getCountTask()
+                    + this.obs.getObs().size());
         }
     }
 
