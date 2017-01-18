@@ -131,74 +131,29 @@ public final class MainController {
     @FXML
     private Label error;
 
-    /**
-     * labelStart.
-     * Label start.
-     */
-
     @FXML
     private Label labelStart;
-
-    /**
-     * labelEnd.
-     * Label End
-     */
 
     @FXML
     private Label labelEnd;
 
-    /**
-     * labelInterval.
-     * Label Interval.
-     */
-
     @FXML
     private Label labelInterval;
-
-    /**
-     * labelYear.
-     * Label years.
-     */
 
     @FXML
     private Label labelYear;
 
-    /**
-     * labelMonth.
-     * Label months.
-     */
-
     @FXML
     private Label labelMonth;
-
-    /**
-     * labelDay.
-     * Label days.
-     */
 
     @FXML
     private Label labelDay;
 
-    /**
-     * labelHour.
-     * Label hours.
-     */
-
     @FXML
     private Label labelHour;
 
-    /**
-     * labelMinute.
-     * Label minutes.
-     */
-
     @FXML
     private Label labelMinute;
-
-    /**
-     * labelSecond.
-     * Label seconds.
-     */
 
     @FXML
     private Label labelSecond;
@@ -251,58 +206,23 @@ public final class MainController {
     @FXML
     private TextField timeStart;
 
-    /**
-     * timeEnd.
-     * End time of the changing task.
-     */
-
     @FXML
     private TextField timeEnd;
-
-    /**
-     * year.
-     * Years in interval repeating.
-     */
 
     @FXML
     private TextField year;
 
-    /**
-     * month.
-     * Months in interval repeating.
-     */
-
     @FXML
     private TextField month;
-
-    /**
-     * day.
-     * Days in interval repeating
-     */
 
     @FXML
     private TextField day;
 
-    /**
-     * hour.
-     * Hours in interval repeating.
-     */
-
     @FXML
     private TextField hour;
 
-    /**
-     * minute.
-     * Minutes in interval repeating.
-     */
-
     @FXML
     private TextField minute;
-
-    /**
-     * second.
-     * Years in interval repeating.
-     */
 
     @FXML
     private TextField second;
@@ -330,11 +250,6 @@ public final class MainController {
 
     @FXML
     private DatePicker dateStart;
-
-    /**
-     * dateEnd.
-     * End date of the changing task.
-     */
 
     @FXML
     private DatePicker dateEnd;
@@ -370,11 +285,6 @@ public final class MainController {
 
     @FXML
     private RadioButton activeFalse;
-
-    /**
-     * checkboxrepeated.
-     * CheckBox: repeated task.
-     */
 
     @FXML
     private CheckBox checkboxrepeated;
@@ -491,28 +401,28 @@ public final class MainController {
         this.dateStart.setValue(OperationForTime.dateToLocalDate(
                 task.getStart()));
         this.timeStart.setText(words[Constants.getThree()]);
-        this.dateEnd.setValue(OperationForTime.dateToLocalDate(
+        this.getDateEnd().setValue(OperationForTime.dateToLocalDate(
                 task.getEnd()));
         str = String.valueOf(task.getStart());
         words = str.split(Constants.getRegexp());
-        this.timeEnd.setText(words[Constants.getThree()]);
+        this.getTimeEnd().setText(words[Constants.getThree()]);
         this.activeTrue.setSelected(task.isActive());
         this.activeFalse.setSelected(!task.isActive());
-        this.checkboxrepeated.setSelected(task.isRepeated());
-        this.year.setText(String.valueOf(
+        this.getCheckboxrepeated().setSelected(task.isRepeated());
+        this.getYear().setText(String.valueOf(
                 task.getCreateInterval().getIntervalYear()));
-        this.month.setText(String.valueOf(
+        this.getMonth().setText(String.valueOf(
                 task.getCreateInterval().getIntervalMonth()));
-        this.day.setText(String.valueOf(
+        this.getDay().setText(String.valueOf(
                 task.getCreateInterval().getIntervalDay()));
-        this.minute.setText(String.valueOf(
+        this.getMinute().setText(String.valueOf(
                 task.getCreateInterval().getIntervalMinute()));
-        this.hour.setText(String.valueOf(
+        this.getHour().setText(String.valueOf(
                 task.getCreateInterval().getIntervalHour()));
-        this.second.setText(String.valueOf(
+        this.getSecond().setText(String.valueOf(
                 task.getCreateInterval().getIntervalSecond()));
         task.getInterval();
-        this.checkboxrepeated.setSelected(task.isRepeated());
+        this.getCheckboxrepeated().setSelected(task.isRepeated());
         this.repeatedTask();
     }
 
@@ -645,7 +555,7 @@ public final class MainController {
         Task task1 = task.clone();
         String str1;
         this.obs.getObs().remove(task);
-        if (this.checkboxrepeated.isSelected()) {
+        if (this.getCheckboxrepeated().isSelected()) {
             str1 = this.changeRepeatedTask(task, task1);
         } else {
             str1 = this.changeNoRepeatedTask(task, task1);
@@ -690,46 +600,46 @@ public final class MainController {
             str1 += Constants.getErrorStart() + Constants.getEnter();
         }
         try {
-            task.setEnd(OperationForTime.parseDate(this.dateEnd.getValue()
-                    + Constants.getSpace() + this.timeEnd.getText()));
+            task.setEnd(OperationForTime.parseDate(this.getDateEnd().getValue()
+                    + Constants.getSpace() + this.getTimeEnd().getText()));
         } catch (ParseException e) {
             task.setEnd(task1.getEnd());
             str1 += Constants.getErrorEnd() + Constants.getEnter();
         }
         task.getCreateInterval().setIntervalYear(
-                Integer.parseInt(this.year.getText()));
+                Integer.parseInt(this.getYear().getText()));
         task.getCreateInterval().setIntervalMonth(
-                Integer.parseInt(this.month.getText()));
+                Integer.parseInt(this.getMonth().getText()));
         task.getCreateInterval().setIntervalDay(
-                Integer.parseInt(this.day.getText()));
+                Integer.parseInt(this.getDay().getText()));
         task.getCreateInterval().setIntervalHour(
-                Integer.parseInt(this.hour.getText()));
+                Integer.parseInt(this.getHour().getText()));
         task.getCreateInterval().setIntervalMinute(
-                Integer.parseInt(this.minute.getText()));
+                Integer.parseInt(this.getMinute().getText()));
         task.getCreateInterval().setIntervalSecond(
-                Integer.parseInt(this.second.getText()));
-        if (Integer.parseInt(this.month.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.month.getText())
+                Integer.parseInt(this.getSecond().getText()));
+        if (Integer.parseInt(this.getMonth().getText()) < Constants.getNulls()
+                || Integer.parseInt(this.getMonth().getText())
                 > Constants.getEleven()) {
             str1 +=  Constants.getErrorcountmonth() + Constants.getEnter();
         }
-        if (Integer.parseInt(this.day.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.day.getText())
+        if (Integer.parseInt(this.getDay().getText()) < Constants.getNulls()
+                || Integer.parseInt(this.getDay().getText())
                 > Constants.getTwentynine()) {
             str1 += Constants.getErrorcountday() + Constants.getEnter();
         }
-        if (Integer.parseInt(this.hour.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.hour.getText())
+        if (Integer.parseInt(this.getHour().getText()) < Constants.getNulls()
+                || Integer.parseInt(this.getHour().getText())
                 > Constants.getTwentythree()) {
             str1 += Constants.getErrorcounthour() + Constants.getEnter();
         }
-        if (Integer.parseInt(this.minute.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.minute.getText())
+        if (Integer.parseInt(this.getMinute().getText()) < Constants.getNulls()
+                || Integer.parseInt(this.getMinute().getText())
                 > Constants.getFiftynine()) {
             str1 += Constants.getErrorcountminute() + Constants.getEnter();
         }
-        if (Integer.parseInt(this.second.getText()) < Constants.getNulls()
-                || Integer.parseInt(this.second.getText())
+        if (Integer.parseInt(this.getSecond().getText()) < Constants.getNulls()
+                || Integer.parseInt(this.getSecond().getText())
                 > Constants.getFiftynine()) {
             str1 += Constants.getErrorcountsecond() + Constants.getEnter();
         }
@@ -781,14 +691,150 @@ public final class MainController {
      */
 
     public void repeatedTask() {
-        InfoClass infoClass = new InfoClass(this.checkboxrepeated);
-        infoClass.setObj(this.labelEnd, this.dateEnd,
-                this.timeEnd, this.labelInterval, this.labelStart);
-        infoClass.setLabelsInterval(this.labelYear, this.labelMonth,
-                this.labelDay, this.labelHour,
-                this.labelMinute, this.labelSecond);
-        infoClass.setTextField(this.year, this.month, this.day,
-                this.hour, this.minute, this.second);
-        infoClass.repeated();
+        new InfoClass(this);
+    }
+
+    /**
+     * labelStart.
+     * @return Label start.
+     */
+    public Label getLabelStart() {
+        return labelStart;
+    }
+
+    /**
+     * labelEnd.
+     * @return Label End
+     */
+    public Label getLabelEnd() {
+        return labelEnd;
+    }
+
+    /**
+     * labelInterval.
+     * @return Label Interval.
+     */
+    public Label getLabelInterval() {
+        return labelInterval;
+    }
+
+    /**
+     * labelYear.
+     * @return Label years.
+     */
+    public Label getLabelYear() {
+        return labelYear;
+    }
+
+    /**
+     * labelMonth.
+     * @return Label months.
+     */
+    public Label getLabelMonth() {
+        return labelMonth;
+    }
+
+    /**
+     * labelDay.
+     * @return Label days.
+     */
+    public Label getLabelDay() {
+        return labelDay;
+    }
+
+    /**
+     * labelHour.
+     * @return Label hours.
+     */
+    public Label getLabelHour() {
+        return labelHour;
+    }
+
+    /**
+     * labelMinute.
+     * Label minutes.
+     */
+    public Label getLabelMinute() {
+        return labelMinute;
+    }
+
+    /**
+     * labelSecond.
+     * @return Label seconds.
+     */
+    public Label getLabelSecond() {
+        return labelSecond;
+    }
+
+    /**
+     * timeEnd.
+     * @return End time of the changing task.
+     */
+    public TextField getTimeEnd() {
+        return timeEnd;
+    }
+
+    /**
+     * year.
+     * @return Years in interval repeating.
+     */
+    public TextField getYear() {
+        return year;
+    }
+
+    /**
+     * month.
+     * @return Months in interval repeating.
+     */
+    public TextField getMonth() {
+        return month;
+    }
+
+    /**
+     * day.
+     * @return Days in interval repeating
+     */
+    public TextField getDay() {
+        return day;
+    }
+
+    /**
+     * hour.
+     * @return Hours in interval repeating.
+     */
+    public TextField getHour() {
+        return hour;
+    }
+
+    /**
+     * minute.
+     * @return Minutes in interval repeating.
+     */
+    public TextField getMinute() {
+        return minute;
+    }
+
+    /**
+     * second.
+     * Years in interval repeating.
+     */
+    public TextField getSecond() {
+        return second;
+    }
+
+    /**
+     * dateEnd.
+     * @return End date of the changing task.
+     */
+    public DatePicker getDateEnd() {
+        return dateEnd;
+    }
+
+    /**
+     * checkboxrepeated.
+     * @return CheckBox: repeated task.
+     */
+    public CheckBox getCheckboxrepeated() {
+        return checkboxrepeated;
     }
 }

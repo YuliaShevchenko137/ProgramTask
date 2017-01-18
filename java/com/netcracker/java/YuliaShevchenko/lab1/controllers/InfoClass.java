@@ -141,11 +141,40 @@ public final class InfoClass {
 
     /**
      * Constructor InfoClass().
-     * @param rep Checkbox: repeated.
+     * @param addController controller Add window.
      */
 
-    public InfoClass(final CheckBox rep) {
-        this.repeated = rep;
+    public InfoClass(final AddController addController) {
+        this.setTextField(addController.getYear(), addController.getMonth(),
+                addController.getDay(), addController.getHour(),
+                addController.getMinute(), addController.getSecond());
+        this.setLabelsInterval(addController.getLabelYear(),
+                addController.getLabelMonth(), addController.getLabelDay(),
+                addController.getLabelHour(), addController.getLabelMinute(),
+                addController.getLabelSecond());
+        this.setObj(addController.getLabelEnd(), addController.getDateEnd(),
+                addController.getTimeEnd(), addController.getLabelInterval(),
+                addController.getLabelStart());
+        this.repeated(addController.getCheckboxrepeated());
+    }
+
+    /**
+     * Constructor InfoClass().
+     * @param mainController controller main window.
+     */
+
+    public InfoClass(final MainController mainController) {
+        this.setTextField(mainController.getYear(), mainController.getMonth(),
+                mainController.getDay(), mainController.getHour(),
+                mainController.getMinute(), mainController.getSecond());
+        this.setLabelsInterval(mainController.getLabelYear(),
+                mainController.getLabelMonth(), mainController.getLabelDay(),
+                mainController.getLabelHour(), mainController.getLabelMinute(),
+                mainController.getLabelSecond());
+        this.setObj(mainController.getLabelEnd(), mainController.getDateEnd(),
+                mainController.getTimeEnd(), mainController.getLabelInterval(),
+                mainController.getLabelStart());
+        this.repeated(mainController.getCheckboxrepeated());
     }
 
     /**
@@ -231,8 +260,8 @@ public final class InfoClass {
      * Show / hide elements.
      */
 
-    public void repeated() {
-        if (!this.repeated.isSelected()) {
+    private void repeated(final CheckBox repeated) {
+        if (!repeated.isSelected()) {
             this.labelStart.setText(Constants.getTime());
             this.visibleObj(false);
             this.visibleTextFieldInterval(false);
