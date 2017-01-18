@@ -538,8 +538,8 @@ public final class MainController {
                 actionEvent.getSource()).getScene().getWindow());
         addStage.showAndWait();
         AddController addController = addfxmlLoader.getController();
-        if (addController.bool) {
-            this.obs.add(addController.T);
+        if (addController.isBool()) {
+            this.obs.add(addController.getNewTask());
             this.taskTable.setItems(this.obs.getObs());
             this.labelSize.setText(Constants.getCountTask()
                     + this.obs.getObs().size());

@@ -26,6 +26,13 @@ import org.apache.log4j.Logger;
 public class AddController {
 
     /**
+     * logger.
+     * It is used to register error.
+     */
+
+    private static final Logger logger = Logger.getLogger(AddController.class);
+
+    /**
      * taskName.
      * Title of the task.
      */
@@ -218,13 +225,6 @@ public class AddController {
     private CheckBox checkboxrepeated;
 
     /**
-     * logger.
-     * It is used to register error.
-     */
-
-    private static final Logger logger = Logger.getLogger(AddController.class);
-
-    /**
      * str1.
      * On the basis of this string displays an error message.
      */
@@ -232,18 +232,26 @@ public class AddController {
     private String str1 = "";
 
     /**
-     * T.
+     * newTask.
      * New task.
      */
 
-    Task T;
+    private Task newTask;
 
     /**
      * bool.
      * True, if data correct and new task is created.
      */
 
-    boolean bool = false;
+    private boolean bool;
+
+    /**
+     * Empty constructor.
+     */
+
+    public AddController() {
+
+    }
 
     /**
      * Method initialize().
@@ -251,7 +259,7 @@ public class AddController {
      */
 
     @FXML
-    public void initialize() {
+    public final void initialize() {
         this.timeStart.setPromptText(Constants.getFormatTime());
         this.getTimeEnd().setPromptText(Constants.getFormatTime());
         this.dateStart.setValue(LocalDate.now());
@@ -282,70 +290,98 @@ public class AddController {
 
     private Task createRepeatedTask() {
         String title = this.taskName.getText();
-        String str = this.dateStart.getValue().toString() + Constants.getSpace() + this.timeStart.getText();
+        String str = this.dateStart.getValue().toString()
+                + Constants.getSpace() + this.timeStart.getText();
         Date start;
         try {
             start = OperationForTime.parseDate(str);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             logger.error(Constants.getErrorStart(), e);
-            str1 += Constants.getErrorStart() + Constants.getEnter();
+            this.str1 += Constants.getErrorStart() + Constants.getEnter();
             start = new Date(Constants.getNulls());
         }
         Date end;
-        str = this.getDateEnd().getValue().toString() + Constants.getSpace() + this.getTimeEnd().getText();
+        str = this.getDateEnd().getValue().toString()
+                + Constants.getSpace() + this.getTimeEnd().getText();
         try {
             end = OperationForTime.parseDate(str);
         } catch (ParseException e) {
             logger.error(Constants.getErrorEnd(), e);
-            str1 += Constants.getErrorEnd() + Constants.getEnter();
+            this.str1 += Constants.getErrorEnd() + Constants.getEnter();
             end = new Date(Constants.getNulls());
         }
         if (end.before(start) || end.equals(start)) {
             logger.warn(Constants.getErrorEarlierTime());
-            str1 += Constants.getErrorEarlierTime() + Constants.getEnter();
+            this.str1 += Constants.getErrorEarlierTime() + Constants.getEnter();
         }
-        int intervalYear = Integer.parseInt(this.getYear().getText());
-        int intervalMonth = Integer.parseInt(this.getMonth().getText());
-        int intervalDay = Integer.parseInt(this.getDay().getText());
-        int intervalHour = Integer.parseInt(this.getHour().getText());
-        int intervalMinute = Integer.parseInt(this.getMinute().getText());
-        int intervalSecond = Integer.parseInt(this.getSecond().getText());
-        if (intervalMonth < Constants.getNulls() || intervalMonth > Constants.getEleven()) {
-            logger.warn(Constants.getErrorcountmonth());
-            str1 += Constants.getErrorcountmonth() + " \n";
-        }
-        if (intervalDay < Constants.getNulls() || intervalDay > Constants.getTwentynine()) {
-            logger.warn(Constants.getErrorcountday());
-            str1 += Constants.getErrorcountday() + " \n";
-        }
-        if (intervalHour < Constants.getNulls() || intervalHour > Constants.getTwentythree()) {
-            logger.warn(Constants.getErrorcounthour());
-            str1 += Constants.getErrorcounthour() + " \n";
-        }
-        if (intervalMinute < Constants.getNulls() || intervalMinute > Constants.getFiftynine()) {
-            logger.warn(Constants.getErrorcountminute());
-            str1 += Constants.getErrorcountminute() + " \n";
-        }
-        if (intervalSecond < Constants.getNulls() || intervalSecond > Constants.getFiftynine()) {
-            logger.warn(Constants.getErrorcountsecond());
-            str1 += Constants.getErrorcountsecond() + " \n";
-        }
-        if (intervalYear == Constants.getNulls() && intervalMonth == Constants.getNulls()
-                && intervalDay == Constants.getNulls() && intervalHour == Constants.getNulls()
-                && intervalMinute == Constants.getNulls() && intervalSecond == Constants.getNulls()) {
-            logger.warn(Constants.getErrorinterval());
-            str1 += Constants.getErrorinterval();
-        }
-        if ("".equals(str1)) {
-            CreateInterval interval = new CreateInterval(intervalYear, intervalMonth, intervalDay, intervalHour, intervalMinute, intervalSecond);
+        CreateInterval interval = createNewInterval();
+        if ("".equals(this.str1)) {
             Task task = new Task(title, start, end, interval);
             task.setRepeated(true);
             task.getInterval();
-            if (this.activeTrue.isSelected()) task.setActive(true);
+            if (this.activeTrue.isSelected()) {
+                task.setActive(true);
+            }
             return task;
         } else {
             return null;
         }
+    }
+
+    /**
+     * Method createNewInterval().
+     * Create new repeated interval.
+     * @return object type CreateInterval.
+     */
+
+    private CreateInterval createNewInterval() {
+        final int intervalYear = Integer.parseInt(this.getYear().getText());
+        final int intervalMonth = Integer.parseInt(this.getMonth().getText());
+        final int intervalDay = Integer.parseInt(this.getDay().getText());
+        final int intervalHour = Integer.parseInt(this.getHour().getText());
+        final int intervalMinute = Integer.parseInt(this.getMinute().getText());
+        final int intervalSecond = Integer.parseInt(this.getSecond().getText());
+        if (intervalMonth < Constants.getNulls() 
+                || intervalMonth > Constants.getEleven()) {
+            logger.warn(Constants.getErrorcountmonth());
+            this.str1 += Constants.getErrorcountmonth() + Constants.getSpace() 
+                    + Constants.getEnter();
+        }
+        if (intervalDay < Constants.getNulls() 
+                || intervalDay > Constants.getTwentynine()) {
+            logger.warn(Constants.getErrorcountday());
+            this.str1 += Constants.getErrorcountday() + Constants.getSpace() 
+                    + Constants.getEnter();
+        }
+        if (intervalHour < Constants.getNulls() 
+                || intervalHour > Constants.getTwentythree()) {
+            logger.warn(Constants.getErrorcounthour());
+            this.str1 += Constants.getErrorcounthour() + Constants.getSpace() 
+                    + Constants.getEnter();
+        }
+        if (intervalMinute < Constants.getNulls() 
+                || intervalMinute > Constants.getFiftynine()) {
+            logger.warn(Constants.getErrorcountminute());
+            this.str1 += Constants.getErrorcountminute() + Constants.getSpace() 
+                    + Constants.getEnter();
+        }
+        if (intervalSecond < Constants.getNulls() 
+                || intervalSecond > Constants.getFiftynine()) {
+            logger.warn(Constants.getErrorcountsecond());
+            this.str1 += Constants.getErrorcountsecond() + Constants.getSpace() 
+                    + Constants.getEnter();
+        }
+        if (intervalYear == Constants.getNulls() 
+                && intervalMonth == Constants.getNulls()
+                && intervalDay == Constants.getNulls() 
+                && intervalHour == Constants.getNulls()
+                && intervalMinute == Constants.getNulls() 
+                && intervalSecond == Constants.getNulls()) {
+            logger.warn(Constants.getErrorinterval());
+            this.str1 += Constants.getErrorinterval();
+        }
+        return new CreateInterval(intervalYear, intervalMonth, intervalDay,
+                intervalHour, intervalMinute, intervalSecond);
     }
 
     /**
@@ -356,13 +392,14 @@ public class AddController {
 
     private Task createNoRepeatedTask() {
         String title = this.taskName.getText();
-        String str = this.dateStart.getValue().toString() + " " + this.timeStart.getText();
+        String str = this.dateStart.getValue().toString()
+                + Constants.getSpace() + this.timeStart.getText();
         Date start;
         try {
             start = OperationForTime.parseDate(str);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             logger.error(e.getMessage(), e);
-            str1+=Constants.getErrorTime() + Constants.getEnter();
+            str1 += Constants.getErrorTime() + Constants.getEnter();
             start = new Date(Constants.getNulls());
         }
         if ("".equals(str1)) {
@@ -385,11 +422,10 @@ public class AddController {
      */
 
     private Task createTask() {
-        logger.debug("add task\n");
-        if(this.getCheckboxrepeated().isSelected()) {
-            return createRepeatedTask();
+        if (this.getCheckboxrepeated().isSelected()) {
+            return this.createRepeatedTask();
         } else {
-            return createNoRepeatedTask();
+            return this.createNoRepeatedTask();
         }
     }
 
@@ -399,17 +435,17 @@ public class AddController {
      * @param actionEvent button press.
      */
 
-    public void actionOk(ActionEvent actionEvent) {
+    public final void actionOk(final ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
-        T=createTask();
-        if("".equals(str1)) {
+        newTask = createTask();
+        if ("".equals(str1)) {
             bool = true;
             stage.close();
-        }
-        else {
+        } else {
+            bool = false;
             error.setText(str1);
-            str1= "";
+            str1 = "";
         }
     }
 
@@ -419,7 +455,7 @@ public class AddController {
      * @param actionEvent button press.
      */
 
-    public void actionCancel(ActionEvent actionEvent) {
+    public final void actionCancel(final ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         this.taskName.setText("");
@@ -619,5 +655,25 @@ public class AddController {
 
     public CheckBox getCheckboxrepeated() {
         return this.checkboxrepeated;
+    }
+
+    /**
+     * Method getNewTask().
+     * Getter for new task.
+     * @return new task.
+     */
+
+    public Task getNewTask() {
+        return newTask;
+    }
+
+    /**
+     * Method isBool().
+     * Getter for bool.
+     * @return true, if data correct and new task is created.
+     */
+
+    public boolean isBool() {
+        return bool;
     }
 }
