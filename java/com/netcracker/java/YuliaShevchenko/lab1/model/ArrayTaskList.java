@@ -2,6 +2,7 @@ package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import org.apache.log4j.Logger;
 
 /**
  * Class ArrayTaskList.
@@ -9,6 +10,13 @@ import java.util.Iterator;
  */
 
 public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
+
+    /**
+     * logger.
+     * It is used to register error.
+     */
+
+    private static final Logger logger = Logger.getLogger(ArrayTaskList.class);
 
     /**
      * Version control for serialization.
@@ -53,6 +61,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
 
     public final void add(final Task task) {
         if (task == null) {
+            logger.warn("task is null");
             return;
         }
         if (this.n == Constants.getNulls()) {
@@ -102,6 +111,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
             i++;
         }
         if (res == -1) {
+            logger.warn("task is not found");
             return false;
         }
         int k = 0;
@@ -139,7 +149,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
 
             public void remove() {
                 if (this.current == Constants.getNulls()) {
-                    throw new IllegalStateException();
+                    logger.warn("list is empty");
                 }
                 int k = Constants.getNulls();
                 for (int i = Constants.getNulls(); i < size; i++) {
@@ -181,6 +191,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     @Override
     public final boolean equals(final Object obj) {
         if (obj == null)  {
+            logger.warn("object is null");
             return false;
         } else if (obj == this) {
             return true;
@@ -207,12 +218,16 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
      * Method clone().
      * create copy of this ArrayTaskList: {@link Object#clone()}.
      * @return  copy of this ArrayTaskList.
-     * @throws  CloneNotSupportedException if object can not be cloned.
      */
 
     @Override
-    protected final TaskList clone() throws CloneNotSupportedException {
-        return (TaskList) super.clone();
+    protected final TaskList clone() {
+        try {
+            return (TaskList) super.clone();
+        } catch (CloneNotSupportedException e ) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     /**
@@ -220,6 +235,7 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
      * An array that stores tasks.
      * @return array of the tasks.
      */
+
     public final Task[] getArray() {
         return this.array;
     }

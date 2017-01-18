@@ -22,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 /**
  * Class CalendarController.
@@ -29,6 +30,13 @@ import javafx.stage.Stage;
  */
 
 public class CalendarController {
+
+    /**
+     * logger.
+     * It is used to register error.
+     */
+
+    private static final Logger logger = Logger.getLogger(CalendarController.class);
 
     /**
      * listView.
@@ -163,15 +171,19 @@ public class CalendarController {
      * Method safe(ActionEvent actionEvent).
      * Saving map at file.
      * @param actionEvent button press.
-     * @throws IOException appears when opening a file.
      */
 
-    public final void safe(final ActionEvent actionEvent) throws IOException {
+    public final void safe(final ActionEvent actionEvent) {
         FXMLLoader filechoosefxmlLoader = new FXMLLoader();
         Stage fileChooserStage = new Stage();
         filechoosefxmlLoader.setLocation(getClass().
                 getResource("../view/filechooser.fxml"));
-        Parent root = filechoosefxmlLoader.load();
+        Parent root = null;
+        try {
+            root = filechoosefxmlLoader.load();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
         FileChooserController fileChooserController =
                 filechoosefxmlLoader.getController();
         fileChooserStage.setTitle("Choose file");

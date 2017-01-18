@@ -1,14 +1,14 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,6 +20,13 @@ import java.util.Set;
  */
 
 public final class TaskIO {
+
+    /**
+     * logger.
+     * It is used to register error.
+     */
+
+    private static final Logger logger = Logger.getLogger(TaskIO.class);
 
     /**
      * st.
@@ -55,18 +62,21 @@ public final class TaskIO {
      * Write task list to stream.
      * @param tasks task list.
      * @param out stream for write.
-     * @throws IOException appears when working with stream.
      */
 
     private static void write(final TaskList tasks,
-                              final Writer out) throws IOException {
+                              final Writer out) {
         Iterator<Task> i = tasks.iterator();
-        for (; i.hasNext();) {
-            Task t = i.next();
-            String s = createMessage(t);
-            out.write(s);
+        try {
+            for (; i.hasNext();) {
+                Task t = i.next();
+                String s = createMessage(t);
+                out.write(s);
+            }
+            out.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
         }
-        out.close();
     }
 
     /**
@@ -109,16 +119,18 @@ public final class TaskIO {
      * Character by character read from the stream.
      * @param in stream for reading.
      * @return created text.
-     * @throws IOException appears when working with stream.
      */
 
-    private static String takeText(final Reader in)
-            throws IOException {
-        int a = in.read();
+    private static String takeText(final Reader in) {
         String str = "";
-        while (a != -1) {
-            str += (char) a;
-            a = in.read();
+        try {
+            int a = in.read();
+            while (a != -1) {
+                str += (char) a;
+                a = in.read();
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
         }
         return str;
     }
@@ -128,11 +140,10 @@ public final class TaskIO {
      * Create non recurring task.
      * @param words array of the words which describes the task.
      * @return created task.
-     * @throws ParseException appears when converting dates.
      */
 
     private static Task createNoRepeatedTask(
-            final String[] words) throws ParseException {
+            final String[] words) {
         int s = Constants.getNulls();
         for (int i = Constants.getNulls(); i < words.length; i++) {
             if (Constants.getAt().equals(words[i])) {
@@ -164,11 +175,10 @@ public final class TaskIO {
      * Create repeated task.
      * @param words array of the words which describes the task.
      * @return created task.
-     * @throws ParseException appears when converting dates.
      */
 
     private static Task createRepeatedTask(
-            final String[] words) throws ParseException {
+            final String[] words) {
         int s = Constants.getNulls();
         for (int i = Constants.getNulls(); i < words.length; i++) {
             if (Constants.getFrom().equals(words[i])) {
@@ -228,12 +238,9 @@ public final class TaskIO {
      * Read from the stream.
      * @param tasks task list to which you add a new task.
      * @param in stream for read.
-     * @throws IOException appears when working with stream.
-     * @throws ParseException appears when converting dates.
      */
 
-    private static void read(final TaskList tasks, final Reader in)
-            throws IOException, ParseException {
+    private static void read(final TaskList tasks, final Reader in) {
         String str = takeText(in);
         String[] lines = str.split(Constants.getEnter());
         for (String strs : lines) {
@@ -256,13 +263,16 @@ public final class TaskIO {
      * Write to the file.
      * @param tasks task list.
      * @param file file for write.
-     * @throws IOException appears when working with files.
      */
 
-    public static void writeText(final TaskList tasks, final File file)
-            throws IOException {
-        Writer out = new FileWriter(file, false);
-        write(tasks, out);
+    public static void writeText(final TaskList tasks, final File file) {
+        try {
+            Writer out = new FileWriter(file, false);
+            write(tasks, out);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+
     }
 
     /**
@@ -270,15 +280,17 @@ public final class TaskIO {
      * Reading from a file.
      * @param tasks task list.
      * @param file file for reading.
-     * @throws IOException appears when working with stream.
-     * @throws ParseException appears when converting dates.
      */
 
-    public static void readText(final TaskList tasks, final File file)
-            throws IOException, ParseException {
+    public static void readText(final TaskList tasks, final File file) {
         if (file.exists() || file.length() != Constants.getNulls()) {
-            Reader in = new FileReader(file);
-            read(tasks, in);
+            try {
+                Reader in = new FileReader(file);
+                read(tasks, in);
+            } catch (IOException e) {
+                logger.error(e.getMessage(), e);
+            }
+
         }
     }
 
@@ -287,23 +299,25 @@ public final class TaskIO {
      * Write map to the stream.
      * @param map map with tasks.
      * @param out stream for writing.
-     * @throws IOException appears when working with stream.
      */
 
     private static void writeMaps(final Map<Date, Set<Task>> map,
-                                  final Writer out)
-            throws IOException {
-        Set<Date> dates = map.keySet();
-        for (Date date : dates) {
-            String str = date + ":" + Constants.getSpace()
-                    + Constants.getEnter();
-            out.write(str);
-            Set<Task> tasks = map.get(date);
-            for (Task t : tasks) {
-                out.write(createMessage(t));
+                                  final Writer out) {
+        try {
+            Set<Date> dates = map.keySet();
+            for (Date date : dates) {
+                String str = date + ":" + Constants.getSpace()
+                        + Constants.getEnter();
+                out.write(str);
+                Set<Task> tasks = map.get(date);
+                for (Task t : tasks) {
+                    out.write(createMessage(t));
+                }
             }
+            out.close();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
         }
-        out.close();
     }
 
     /**
@@ -311,13 +325,16 @@ public final class TaskIO {
      * Write map to the file.
      * @param maps map with tasks.
      * @param file file for writing.
-     * @throws IOException appears when working with stream.
      */
 
     public static void writeMap(final Map<Date, Set<Task>> maps,
-                                final File file)
-            throws IOException {
-        Writer out = new FileWriter(file);
+                                final File file) {
+        Writer out = null;
+        try {
+            out = new FileWriter(file);
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
         writeMaps(maps, out);
     }
 }

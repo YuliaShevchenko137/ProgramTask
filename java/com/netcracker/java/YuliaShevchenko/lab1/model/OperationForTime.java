@@ -1,5 +1,7 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
+import org.apache.log4j.Logger;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -16,6 +18,13 @@ import java.util.Date;
 public final class OperationForTime {
 
     /**
+     * logger.
+     * It is used to register error.
+     */
+
+    private static final Logger logger = Logger.getLogger(OperationForTime.class);
+
+    /**
      * Empty constructor.
      */
 
@@ -28,12 +37,16 @@ public final class OperationForTime {
      * Creation date of a specified format
      * @param str format.
      * @return creation date.
-     * @throws ParseException appears when converting dates.
      */
 
-    public static Date parseDate(final String str) throws ParseException {
+    public static Date parseDate(final String str) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return format.parse(str);
+        try {
+            return format.parse(str);
+        } catch (ParseException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     /**

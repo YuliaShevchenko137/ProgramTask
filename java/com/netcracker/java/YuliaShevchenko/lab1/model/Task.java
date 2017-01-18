@@ -1,7 +1,8 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
+import org.apache.log4j.Logger;
+
 import java.io.Serializable;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -12,6 +13,13 @@ import java.util.Date;
  */
 
 public class Task implements Cloneable, Serializable {
+
+    /**
+     * logger.
+     * It is used to register error.
+     */
+
+    private static final Logger logger = Logger.getLogger(Task.class);
 
     /**
      * serialVersionUID.
@@ -186,12 +194,16 @@ public class Task implements Cloneable, Serializable {
      * Method clone().
      * Create clone of the current task: {@link Object#clone()}.
      * @return  copy current object.
-     * @throws  CloneNotSupportedException if object nonclonability.
      */
 
     @Override
-    public final Task clone() throws CloneNotSupportedException {
-        return (Task) super.clone();
+    public final Task clone() {
+        try {
+             return (Task) super.clone();
+        } catch (CloneNotSupportedException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     /**

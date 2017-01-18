@@ -30,7 +30,8 @@ public class AddController {
      * It is used to register error.
      */
 
-    private static final Logger logger = Logger.getLogger(AddController.class);
+    private static final Logger logger
+            = Logger.getLogger(AddController.class);
 
     /**
      * taskName.
@@ -292,21 +293,17 @@ public class AddController {
         String title = this.taskName.getText();
         String str = this.dateStart.getValue().toString()
                 + Constants.getSpace() + this.timeStart.getText();
-        Date start;
-        try {
-            start = OperationForTime.parseDate(str);
-        } catch (ParseException e) {
-            logger.error(Constants.getErrorStart(), e);
+        Date start= OperationForTime.parseDate(str);
+        if (start == null) {
+            logger.warn(Constants.getErrorStart());
             this.str1 += Constants.getErrorStart() + Constants.getEnter();
             start = new Date(Constants.getNulls());
         }
-        Date end;
-        str = this.getDateEnd().getValue().toString()
-                + Constants.getSpace() + this.getTimeEnd().getText();
-        try {
-            end = OperationForTime.parseDate(str);
-        } catch (ParseException e) {
-            logger.error(Constants.getErrorEnd(), e);
+        Date end = OperationForTime.parseDate(
+                this.getDateEnd().getValue().toString()
+                + Constants.getSpace() + this.getTimeEnd().getText());
+        if (end == null) {
+            logger.warn(Constants.getErrorEnd());
             this.str1 += Constants.getErrorEnd() + Constants.getEnter();
             end = new Date(Constants.getNulls());
         }
@@ -371,12 +368,12 @@ public class AddController {
             this.str1 += Constants.getErrorcountsecond() + Constants.getSpace() 
                     + Constants.getEnter();
         }
-        boolean part1 = (intervalYear == Constants.getNulls()
+        boolean part1 = intervalYear == Constants.getNulls()
                 && intervalMonth == Constants.getNulls()
-                && intervalDay == Constants.getNulls());
-        boolean part2 = (intervalHour == Constants.getNulls()
+                && intervalDay == Constants.getNulls();
+        boolean part2 = intervalHour == Constants.getNulls()
                 && intervalMinute == Constants.getNulls()
-                && intervalSecond == Constants.getNulls());
+                && intervalSecond == Constants.getNulls();
         if (part1 && part2) {
             logger.warn(Constants.getErrorinterval());
             this.str1 += Constants.getErrorinterval();
@@ -395,11 +392,9 @@ public class AddController {
         String title = this.taskName.getText();
         String str = this.dateStart.getValue().toString()
                 + Constants.getSpace() + this.timeStart.getText();
-        Date start;
-        try {
-            start = OperationForTime.parseDate(str);
-        } catch (ParseException e) {
-            logger.error(e.getMessage(), e);
+        Date start = OperationForTime.parseDate(str);
+        if (start == null) {
+            logger.warn(Constants.getErrorTime());
             this.str1 += Constants.getErrorTime() + Constants.getEnter();
             start = new Date(Constants.getNulls());
         }

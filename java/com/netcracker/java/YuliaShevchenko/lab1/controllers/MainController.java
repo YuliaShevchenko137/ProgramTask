@@ -35,6 +35,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -43,6 +44,14 @@ import javafx.stage.Stage;
  */
 
 public final class MainController {
+
+    /**
+     * logger.
+     * It is used to register error.
+     */
+
+    private static final Logger logger
+            = Logger.getLogger(MainController.class);
 
     /**
      * obs.
@@ -474,6 +483,7 @@ public final class MainController {
             this.currentTaskInterval.setText(task.getInterval());
             this.currentTaskActive.setText(String.valueOf(task.isActive()));
         } else {
+            logger.warn("task is null");
             this.showNoting();
         }
     }
@@ -557,6 +567,7 @@ public final class MainController {
     public void remove() throws IOException {
         Task t = this.taskTable.getSelectionModel().getSelectedItem();
         if (t == null) {
+            logger.warn("remove: nothing selected");
             return;
         }
         Alert delete = new Alert(Alert.AlertType.CONFIRMATION);
@@ -590,6 +601,7 @@ public final class MainController {
                 || dateEnds == null
                 || "".equals(timestart)
                 || "".equals(timeend)) {
+            logger.warn("calendar: Interval is not selected");
             return;
         }
         Stage calendarStage = new Stage();
@@ -682,19 +694,23 @@ public final class MainController {
         String str1 = "";
         task.setTitle(this.taskNameField.getText());
         task.setActive(this.activeTrue.isSelected());
-        try {
-            task.setStart(OperationForTime.parseDate(this.dateStart.getValue()
-                    + Constants.getSpace() + this.timeStart.getText()));
-        } catch (ParseException e) {
+        Date date = OperationForTime.parseDate(this.dateStart.getValue()
+                + Constants.getSpace() + this.timeStart.getText());
+        if (date == null) {
+            logger.warn(Constants.getErrorStart());
             task.setStart(task1.getStart());
             str1 += Constants.getErrorStart() + Constants.getEnter();
+        } else {
+            task.setStart(date);
         }
-        try {
-            task.setEnd(OperationForTime.parseDate(this.getDateEnd().getValue()
-                    + Constants.getSpace() + this.getTimeEnd().getText()));
-        } catch (ParseException e) {
+        date = OperationForTime.parseDate(this.getDateEnd().getValue()
+                + Constants.getSpace() + this.getTimeEnd().getText());
+        if (date == null) {
+            logger.warn(Constants.getErrorEnd());
             task.setEnd(task1.getEnd());
             str1 += Constants.getErrorEnd() + Constants.getEnter();
+        } else {
+            task.setEnd(date);
         }
         task.getCreateInterval().setIntervalYear(
                 Integer.parseInt(this.getYear().getText()));
@@ -711,26 +727,31 @@ public final class MainController {
         if (Integer.parseInt(this.getMonth().getText()) < Constants.getNulls()
                 || Integer.parseInt(this.getMonth().getText())
                 > Constants.getEleven()) {
+            logger.warn(Constants.getErrorcountmonth());
             str1 +=  Constants.getErrorcountmonth() + Constants.getEnter();
         }
         if (Integer.parseInt(this.getDay().getText()) < Constants.getNulls()
                 || Integer.parseInt(this.getDay().getText())
                 > Constants.getTwentynine()) {
+            logger.warn(Constants.getErrorcountday());
             str1 += Constants.getErrorcountday() + Constants.getEnter();
         }
         if (Integer.parseInt(this.getHour().getText()) < Constants.getNulls()
                 || Integer.parseInt(this.getHour().getText())
                 > Constants.getTwentythree()) {
+            logger.warn(Constants.getErrorcounthour());
             str1 += Constants.getErrorcounthour() + Constants.getEnter();
         }
         if (Integer.parseInt(this.getMinute().getText()) < Constants.getNulls()
                 || Integer.parseInt(this.getMinute().getText())
                 > Constants.getFiftynine()) {
+            logger.warn(Constants.getErrorcountminute());
             str1 += Constants.getErrorcountminute() + Constants.getEnter();
         }
         if (Integer.parseInt(this.getSecond().getText()) < Constants.getNulls()
                 || Integer.parseInt(this.getSecond().getText())
                 > Constants.getFiftynine()) {
+            logger.warn(Constants.getErrorcountsecond());
             str1 += Constants.getErrorcountsecond() + Constants.getEnter();
         }
         return str1;
@@ -748,12 +769,14 @@ public final class MainController {
         String str = "";
         task.setTitle(this.taskNameField.getText());
         task.setActive(this.activeTrue.isSelected());
-        try {
-            task.setTime(OperationForTime.parseDate(this.dateStart.getValue()
-                    + Constants.getSpace() + this.timeStart.getText()));
-        } catch (ParseException e) {
+        Date date = OperationForTime.parseDate(this.dateStart.getValue()
+                + Constants.getSpace() + this.timeStart.getText());
+        if (date == null) {
+            logger.warn(Constants.getErrorTime());
             str += Constants.getErrorTime() + Constants.getEnter();
             task.setTime(task1.getStart());
+        } else {
+            task.setTime(date);
         }
         return str;
     }
