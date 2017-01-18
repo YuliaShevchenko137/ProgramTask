@@ -21,13 +21,6 @@ public final class InfoClass {
     private CheckBox repeated;
 
     /**
-     * labelStart.
-     * Label start.
-     */
-
-    private Label labelStart;
-
-    /**
      * labelEnd.
      * Label End
      */
@@ -140,6 +133,13 @@ public final class InfoClass {
     private DatePicker dateEnd;
 
     /**
+     * labelStart.
+     * Label start.
+     */
+
+    private Label labelStart;
+
+    /**
      * Constructor InfoClass().
      * @param rep Checkbox: repeated.
      */
@@ -204,22 +204,26 @@ public final class InfoClass {
 
     /**
      * Method setObj( final Label labelEnds, final DatePicker dateEnds,
-     * final TextField timeEnds, final Label labelIntervals).
+     * final TextField timeEnds, final Label labelIntervals,
+     * final Label labelStarts).
      * Set labelEnd, date and time end and labelInterval.
      * @param labelEnds Label End.
      * @param dateEnds DatePicker End date.
      * @param timeEnds TextField End time.
      * @param labelIntervals Label Interval.
+     * @param labelStarts label Start / Time.
      */
 
     public void setObj(final Label labelEnds,
                        final DatePicker dateEnds,
                        final TextField timeEnds,
-                       final Label labelIntervals) {
+                       final Label labelIntervals,
+                       final Label labelStarts) {
         this.labelEnd = labelEnds;
         this.dateEnd = dateEnds;
         this.timeEnd = timeEnds;
         this.labelInterval = labelIntervals;
+        this.labelStart = labelStarts;
     }
 
     /**
@@ -249,10 +253,10 @@ public final class InfoClass {
      */
 
     private void visibleObj(final boolean bool) {
-        labelEnd.setVisible(bool);
-        dateEnd.setVisible(bool);
-        timeEnd.setVisible(bool);
-        labelInterval.setVisible(bool);
+        this.labelEnd.setVisible(bool);
+        this.dateEnd.setVisible(bool);
+        this.timeEnd.setVisible(bool);
+        this.labelInterval.setVisible(bool);
 
     }
 
@@ -265,12 +269,12 @@ public final class InfoClass {
      */
 
     private void visibleTextFieldInterval(final boolean bool) {
-        year.setVisible(bool);
-        month.setVisible(bool);
-        day.setVisible(bool);
-        hour.setVisible(bool);
-        minute.setVisible(bool);
-        second.setVisible(bool);
+        this.year.setVisible(bool);
+        this.month.setVisible(bool);
+        this.day.setVisible(bool);
+        this.hour.setVisible(bool);
+        this.minute.setVisible(bool);
+        this.second.setVisible(bool);
     }
 
     /**
@@ -282,11 +286,11 @@ public final class InfoClass {
      */
 
     private void visibleLabelsInterval(final boolean bool) {
-        labelYear.setVisible(bool);
-        labelMonth.setVisible(bool);
-        labelDay.setVisible(bool);
-        labelHour.setVisible(bool);
-        labelMinute.setVisible(bool);
-        labelSecond.setVisible(bool);
+        this.labelYear.setVisible(bool);
+        this.labelMonth.setVisible(bool);
+        this.labelDay.setVisible(bool);
+        this.labelHour.setVisible(bool);
+        this.labelMinute.setVisible(bool);
+        this.labelSecond.setVisible(bool);
     }
 }

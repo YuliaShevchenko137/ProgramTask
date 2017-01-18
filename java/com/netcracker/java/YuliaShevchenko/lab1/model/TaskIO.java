@@ -183,15 +183,15 @@ public final class TaskIO {
         title = title.substring(Constants.getOne(), title.length()
                 - Constants.getOne());
         String start = words[s + Constants.getOne()] + Constants.getSpace()
-                + words[s + Constants.getTwo() * Constants.getTwo()];
+                + words[s + Constants.getTwo()];
         int count = Constants.getTwo();
         start = start.substring(Constants.getOne(), start.length()
-                - Constants.getTwo());
+                - Constants.getOne());
         String end = words[s + Constants.getTwo() * count]
                 + Constants.getSpace() + words[s
                 + Constants.getTwo() * count + Constants.getOne()];
         end = end.substring(Constants.getOne(), end.length()
-                - Constants.getTwo());
+                - Constants.getOne());
         count++;
         final int intervalYear = Integer.parseInt(words[s
                 + Constants.getTwo() * count

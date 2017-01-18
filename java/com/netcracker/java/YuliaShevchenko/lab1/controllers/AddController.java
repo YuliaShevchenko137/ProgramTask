@@ -233,7 +233,7 @@ public class AddController {
     public void repeated() {
         InfoClass infoClass = new InfoClass(this.checkboxrepeated);
         infoClass.setObj(this.labelEnd, this.dateEnd,
-                this.timeEnd, this.labelInterval);
+                this.timeEnd, this.labelInterval, this.labelStart);
         infoClass.setLabelsInterval(this.labelYear, this.labelMonth,
                 this.labelDay, this.labelHour,
                 this.labelMinute, this.labelSecond);
