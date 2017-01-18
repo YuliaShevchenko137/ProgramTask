@@ -789,6 +789,7 @@ public final class MainController {
      * Getter for labelStart.
      * @return Label start.
      */
+
     public Label getLabelStart() {
         return this.labelStart;
     }
@@ -808,6 +809,7 @@ public final class MainController {
      * Getter for labelInterval.
      * @return Label Interval.
      */
+
     public Label getLabelInterval() {
         return this.labelInterval;
     }
@@ -817,6 +819,7 @@ public final class MainController {
      * Getter for labelYear.
      * @return Label years.
      */
+
     public Label getLabelYear() {
         return this.labelYear;
     }
@@ -846,6 +849,7 @@ public final class MainController {
      * Getter for labelHour.
      * @return Label hours.
      */
+
     public Label getLabelHour() {
         return this.labelHour;
     }
