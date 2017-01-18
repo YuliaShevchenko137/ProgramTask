@@ -68,6 +68,12 @@ public class CreateInterval {
      * final int day, final int hour,
      * final int minute, final int second).
      * Constructor for repeated task.
+     * @param year count years.
+     * @param month count months.
+     * @param day count days.
+     * @param hour count hours.
+     * @param minute count minutes.
+     * @param second count seconds.
      */
 
     public CreateInterval(final int year, final int month,
@@ -147,7 +153,7 @@ public class CreateInterval {
      * @return string of the interval.
      */
 
-    public String getInterval() {
+    public final String getInterval() {
         return this.getIntervalYear() + " year "
                 + this.getIntervalMonth() + " month "
                 + this.getIntervalDay() + " day "
@@ -162,7 +168,7 @@ public class CreateInterval {
      * @return current component interval in years.
      */
 
-    public int getIntervalYear() {
+    public final int getIntervalYear() {
         return this.intervalYear;
     }
 
@@ -172,7 +178,7 @@ public class CreateInterval {
      * @return current component interval in months.
      */
 
-    public int getIntervalMonth() {
+    public final int getIntervalMonth() {
         return this.intervalMonth;
     }
 
@@ -182,7 +188,7 @@ public class CreateInterval {
      * @return current component interval in days.
      */
 
-    public int getIntervalDay() {
+    public final int getIntervalDay() {
         return this.intervalDay;
     }
 
@@ -192,7 +198,7 @@ public class CreateInterval {
      * @return current component interval in hours.
      */
 
-    public int getIntervalHour() {
+    public final int getIntervalHour() {
         return this.intervalHour;
     }
 
@@ -202,7 +208,7 @@ public class CreateInterval {
      * @return current component interval in minutes.
      */
 
-    public int getIntervalMinute() {
+    public final int getIntervalMinute() {
         return this.intervalMinute;
     }
 
@@ -212,7 +218,7 @@ public class CreateInterval {
      * @return current component interval in seconds.
      */
 
-    public int getIntervalSecond() {
-        return intervalSecond;
+    public final int getIntervalSecond() {
+        return this.intervalSecond;
     }
 }

@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
  * Helper class with the constants
  */
 
-public class Constants {
+public final class Constants {
 
     /**
      * startSize.
@@ -270,8 +270,11 @@ public class Constants {
     }
 
     /**
-     * Start size of ArrayTaskList.
+     * Method getStartSize().
+     * Return start size of ArrayTaskList.
+     * @return current startSize.
      */
+
     public static int getStartSize() {
         return startSize;
     }
