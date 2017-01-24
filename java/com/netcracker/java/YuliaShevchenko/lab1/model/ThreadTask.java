@@ -1,10 +1,9 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
@@ -15,80 +14,69 @@ import javafx.scene.control.Alert;
 
 public class ThreadTask {
 
-    /**
-     * task.
-     * Task for notification.
+   /**
+     * Map with tasks.
      */
-
-    private Task task;
+    private ArrayTaskList thistasks;
 
     /**
-     * finish.
-     * Use for close the thread.
+     *map with calls.
+     * true, if the notification was at this time.
      */
-
-    private boolean finish;
-
-    /**
-     * firstAlert.
-     * Indicates whether the first warning.
-     */
-
-    private boolean firstAlert;
+    private Map<Date, Boolean> timeStamps;
 
     /**
-     * thread.
      * Thread for notification.
      */
-
     private Thread thread;
+
+    /**
+     * close thread.
+     */
+    private boolean work = true;
 
     /**
      * Method ThreadTask(Task tas).
      * Constructor for creating thread.
-     * @param tas current task.
+     * @param tasks current tasks for alert.
      */
-
-    public ThreadTask(final Task tas) {
-        this.finish = false;
-        this.firstAlert = false;
-        this.task = tas;
+    public ThreadTask(final ArrayTaskList tasks) {
+        this.thistasks = (ArrayTaskList) tasks.clone();
+        this.timeStamps = new TreeMap<>();
         this.thread = new Thread(() -> {
-            if (OperationForTime.nowTime().after(this.task.getEnd())) {
-                return;
-            }
-            List<Task> t = new ArrayList<>();
-            t.add(this.task);
-            Map<Date, Set<Task>> map =
-                    Tasks.calendar(t, OperationForTime.nowTime(),
-                            this.task.getEnd());
-            if (map == null) {
-                return;
-            }
-            for (Date date : map.keySet()) {
-                this.firstAlert = false;
-                while (!this.finish && !this.firstAlert) {
-                    long countMSecond = date.getTime()
-                            - OperationForTime.nowTime().getTime();
-                    Set<Task> tasks = map.get(date);
-                    if (countMSecond > Constants.getHalfhour()) {
-                        try {
-                            Thread.sleep(Constants.getSecond());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+            while (work) {
+                Date nowPlusDay = OperationForTime.localDateTimeToDate(
+                        OperationForTime.dateToLocalDateTime(
+                                OperationForTime.nowTime()).plusHours(1));
+                if (thistasks.size() != 0) {
+                    Map<Date, Set<Task>> map = Tasks.calendar(thistasks,
+                            OperationForTime.nowTime(), nowPlusDay);
+                    Set<Date> dates = map.keySet();
+                    for (Date date : dates) {
+                        if (!timeStamps.containsKey(date)) {
+                            timeStamps.put(date, false);
                         }
-                    } else {
-                        for (Task thisTask : tasks) {
-                            Platform.runLater(() -> {
-                                Alert inf = new Alert(Alert.
-                                        AlertType.INFORMATION);
-                                inf.setTitle("Notification");
-                                inf.setHeaderText("At " + date
-                                        + " it is necessary to perform "
-                                        + thisTask.getTitle());
-                                inf.show();
-                            });
-                            this.firstAlert = true;
+                        while (work && !this.timeStamps.get(date)) {
+                            long countMSecond = date.getTime()
+                                    - OperationForTime.nowTime().getTime();
+                            Set<Task> task = map.get(date);
+                            if (countMSecond <= Constants.HALF_HOUR) {
+                                String str = "";
+                                for (Task thisTask : task) {
+                                    str += thisTask.getTitle() + Constants.ENTER;
+                                }
+                                String finalStr = str;
+                                Platform.runLater(() -> {
+                                    Alert inf = new Alert(Alert.
+                                            AlertType.INFORMATION);
+                                    inf.setTitle("Notification");
+                                    inf.setHeaderText("At " + date
+                                            + " it is necessary to perform:"
+                                            + Constants.ENTER + finalStr);
+                                    inf.show();
+                                });
+                                this.timeStamps.put(date, true);
+                            }
                         }
                     }
                 }
@@ -98,11 +86,43 @@ public class ThreadTask {
     }
 
     /**
-     * Method setFinish().
-     * Stopped the thread.
+     * Method addTaskForAlert(Task task).
+     * Add new task in the map and change the thread.
+     * @param task new task.
      */
+    public void addTaskForAlert(Task task) {
+        thistasks.add(task);
+        Date date = task.nextTimeAfter(OperationForTime.nowTime());
+        try {
+            if (timeStamps.containsKey(date) && timeStamps.get(date)) {
+                Platform.runLater(() -> {
+                    Alert inf = new Alert(Alert.
+                            AlertType.INFORMATION);
+                    inf.setTitle("Notification");
+                    inf.setHeaderText("At " + date
+                            + " it is necessary to perform:"
+                            + Constants.ENTER + task.getTitle());
+                    inf.show();
+                });
+            }
+        } catch (NullPointerException e) {
+            return;
+        }
+    }
 
-    public final void setFinish() {
-        this.finish = true;
+    /**
+     * Method removeTaskForAlert(Task task).
+     * Deletes the task of notification
+     * @param task current task.
+     */
+    public void removeTaskForAlert(Task task) {
+        thistasks.remove(task);
+    }
+
+    /**
+     * Close current thread.
+     */
+    public void close() {
+        this.work = false;
     }
 }

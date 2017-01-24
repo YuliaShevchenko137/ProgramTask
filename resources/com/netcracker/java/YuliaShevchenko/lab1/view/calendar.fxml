@@ -8,20 +8,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<SplitPane dividerPositions="0.13316582914572864" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.java.YuliaShevchenko.lab1.controllers.CalendarController">
+<SplitPane dividerPositions="0.8467336683417085" maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.netcracker.java.YuliaShevchenko.lab1.controllers.CalendarController">
   <items>
-    <AnchorPane maxHeight="75.0" maxWidth="600.0" minHeight="58.0" minWidth="600.0" prefHeight="58.0" prefWidth="600.0">
-         <children>
-            <HBox layoutX="164.0" layoutY="-15.0" maxHeight="100.0" maxWidth="600.0" minHeight="63.0" minWidth="600.0" prefHeight="63.0" prefWidth="600.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <AnchorPane maxHeight="60.0" maxWidth="601.0" minHeight="60.0" minWidth="100.0" prefHeight="60.0" prefWidth="601.0">
-                     <children>
-                        <Button fx:id="btnSafe" mnemonicParsing="false" onAction="#safe" text="Save" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="15.0" />
-                     </children>
-                  </AnchorPane>
-               </children>
-            </HBox>
-         </children></AnchorPane>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
           <AnchorPane maxWidth="200.0" minHeight="0.0" minWidth="200.0" prefHeight="160.0" prefWidth="200.0">
@@ -47,5 +35,17 @@
             </AnchorPane>
          </children>
       </HBox>
+    <AnchorPane maxHeight="75.0" maxWidth="600.0" minHeight="58.0" minWidth="600.0" prefHeight="58.0" prefWidth="600.0">
+         <children>
+            <HBox layoutX="164.0" layoutY="-15.0" maxHeight="100.0" maxWidth="600.0" minHeight="63.0" minWidth="600.0" prefHeight="63.0" prefWidth="600.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <AnchorPane maxHeight="60.0" maxWidth="601.0" minHeight="60.0" minWidth="100.0" prefHeight="60.0" prefWidth="601.0">
+                     <children>
+                        <Button fx:id="btnSafe" mnemonicParsing="false" onAction="#safe" prefHeight="30.0" prefWidth="75.0" text="Save" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </children></AnchorPane>
   </items>
 </SplitPane>

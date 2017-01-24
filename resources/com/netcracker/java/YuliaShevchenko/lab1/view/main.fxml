@@ -44,7 +44,7 @@
                     </Button>
                 </HBox>
                 <HBox prefHeight="51.0" prefWidth="536.0">
-                    <Label text="With">
+                    <Label text="From">
                         <HBox.margin>
                             <Insets left="10.0" top="10.0" />
                         </HBox.margin>

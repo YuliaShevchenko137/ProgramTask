@@ -11,10 +11,8 @@ import java.util.Iterator;
 public abstract class TaskList implements Iterable<Task>, Serializable {
 
     /**
-     * serialVersionUID.
      * Version control for serialization.
      */
-
     static final long serialVersionUID = 42L;
 
     /**
@@ -22,14 +20,12 @@ public abstract class TaskList implements Iterable<Task>, Serializable {
      * Add current task in the list.
      * @param task current task.
      */
-
     public abstract void add(Task task);
 
     /**
      * Method size().
      * @return count task in list.
      */
-
     public abstract int size();
 
     /**
@@ -38,7 +34,6 @@ public abstract class TaskList implements Iterable<Task>, Serializable {
      * Specifies the basic functions to be iterated in the list.
      * @return iterator.
      */
-
     public abstract Iterator<Task> iterator();
 
     /**
@@ -47,7 +42,6 @@ public abstract class TaskList implements Iterable<Task>, Serializable {
      * @param t current task.
      * @return true, if task removed, or false.
      */
-
     public abstract boolean remove(Task t);
 
 }

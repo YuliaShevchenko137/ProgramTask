@@ -1,13 +1,13 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
+import org.apache.log4j.Logger;
+
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import org.apache.log4j.Logger;
 
 /**
  * Class OperationForTime.
@@ -25,14 +25,6 @@ public final class OperationForTime {
             = Logger.getLogger(OperationForTime.class);
 
     /**
-     * Empty constructor.
-     */
-
-    private OperationForTime() {
-
-    }
-
-    /**
      * Method parseDate(String str).
      * Creation date of a specified format
      * @param str format.
@@ -40,13 +32,12 @@ public final class OperationForTime {
      */
 
     public static Date parseDate(final String str) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            return format.parse(str);
+            return Constants.DATE_TIME_FORMAT.parse(str);
         } catch (ParseException e) {
             logger.error(e.getMessage(), e);
+            return null;
         }
-        return null;
     }
 
     /**
@@ -85,27 +76,27 @@ public final class OperationForTime {
     public static LocalDateTime plusTime(final LocalDateTime date,
                                          final Task t) {
         LocalDateTime dates = date;
-        if (t.getCreateInterval().getIntervalYear() != 0) {
+        if (t.getCreateInterval().getIntervalYear() != Constants.ZERO) {
             dates = dates.plusYears(
                     t.getCreateInterval().getIntervalYear());
         }
-        if (t.getCreateInterval().getIntervalMonth() != 0) {
+        if (t.getCreateInterval().getIntervalMonth() != Constants.ZERO) {
             dates = dates.plusMonths(
                     t.getCreateInterval().getIntervalMonth());
         }
-        if (t.getCreateInterval().getIntervalDay() != 0) {
+        if (t.getCreateInterval().getIntervalDay() != Constants.ZERO) {
             dates = dates.plusDays(
                     t.getCreateInterval().getIntervalDay());
         }
-        if (t.getCreateInterval().getIntervalMinute() != 0) {
+        if (t.getCreateInterval().getIntervalMinute() != Constants.ZERO) {
             dates = dates.plusMinutes(
                     t.getCreateInterval().getIntervalMinute());
         }
-        if (t.getCreateInterval().getIntervalHour() != 0) {
+        if (t.getCreateInterval().getIntervalHour() != Constants.ZERO) {
             dates = dates.plusHours(
                     t.getCreateInterval().getIntervalHour());
         }
-        if (t.getCreateInterval().getIntervalSecond() != 0) {
+        if (t.getCreateInterval().getIntervalSecond() != Constants.ZERO) {
             dates = dates.plusSeconds(
                     t.getCreateInterval().getIntervalSecond());
         }
@@ -123,27 +114,27 @@ public final class OperationForTime {
     public static LocalDateTime minusTime(final LocalDateTime date,
                                           final Task t) {
         LocalDateTime dates = date;
-        if (t.getCreateInterval().getIntervalYear() != 0) {
+        if (t.getCreateInterval().getIntervalYear() != Constants.ZERO) {
             dates = dates.minusYears(
                     t.getCreateInterval().getIntervalYear());
         }
-        if (t.getCreateInterval().getIntervalMonth() != 0) {
+        if (t.getCreateInterval().getIntervalMonth() != Constants.ZERO) {
             dates = dates.minusMonths(
                     t.getCreateInterval().getIntervalMonth());
         }
-        if (t.getCreateInterval().getIntervalDay() != 0) {
+        if (t.getCreateInterval().getIntervalDay() != Constants.ZERO) {
             dates = dates.minusDays(
                     t.getCreateInterval().getIntervalDay());
         }
-        if (t.getCreateInterval().getIntervalMinute() != 0) {
+        if (t.getCreateInterval().getIntervalMinute() != Constants.ZERO) {
             dates = dates.minusMinutes(
                     t.getCreateInterval().getIntervalMinute());
         }
-        if (t.getCreateInterval().getIntervalHour() != 0) {
+        if (t.getCreateInterval().getIntervalHour() != Constants.ZERO) {
             dates = dates.minusHours(
                     t.getCreateInterval().getIntervalHour());
         }
-        if (t.getCreateInterval().getIntervalSecond() != 0) {
+        if (t.getCreateInterval().getIntervalSecond() != Constants.ZERO) {
             dates = dates.minusSeconds(
                     t.getCreateInterval().getIntervalSecond());
         }

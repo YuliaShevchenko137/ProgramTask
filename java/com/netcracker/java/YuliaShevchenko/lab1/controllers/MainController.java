@@ -1,13 +1,18 @@
 package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
 import com.netcracker.java.YuliaShevchenko.lab1.model.ArrayTaskList;
+import com.netcracker.java.YuliaShevchenko.lab1.model.Error;
 import com.netcracker.java.YuliaShevchenko.lab1.model.CollectionsTasks;
 import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
+import com.netcracker.java.YuliaShevchenko.lab1.model.CreateInterval;
 import com.netcracker.java.YuliaShevchenko.lab1.model.OperationForTime;
 import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
 import com.netcracker.java.YuliaShevchenko.lab1.model.TaskIO;
 import com.netcracker.java.YuliaShevchenko.lab1.model.Tasks;
 import com.netcracker.java.YuliaShevchenko.lab1.model.ThreadTask;
+
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -35,308 +40,231 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
-
 
 /**
  * Class MainController.
  * Controller of the main window.
  */
-
 public final class MainController {
 
     /**
-     * logger.
      * It is used to register error.
      */
-
-    private static final Logger logger
+    private static final Logger LOGGER
             = Logger.getLogger(MainController.class);
 
     /**
-     * obs.
      * Wrapper of the task list.
      */
-
     private CollectionsTasks obs;
 
     /**
-     * taskTable.
      * Table with tasks.
      */
-
     @FXML
     private TableView<Task> taskTable;
 
     /**
-     * taskName.
      * Column of the title of the task.
      */
-
     @FXML
     private TableColumn<Task, String> taskName;
 
     /**
-     * taskActive.
      * Column of the activity of the task.
      */
-
     @FXML
     private TableColumn<Task, Boolean> taskActive;
 
     /**
-     * labelSize.
      * Label with count tasks.
      */
-
     @FXML
     private Label labelSize;
 
     /**
-     * currentTaskName.
      * Title of the current task.
      */
-
     @FXML
     private Label currentTaskName;
 
     /**
-     * currentTaskStart.
      * Start date of the current task.
      */
-
     @FXML
     private Label currentTaskStart;
 
     /**
-     * currentTaskEnd.
      * End date on the current task.
      */
-
     @FXML
     private Label currentTaskEnd;
 
     /**
-     * currentTaskInterval.
      * Repeated interval of the current task.
      */
-
     @FXML
     private Label currentTaskInterval;
 
     /**
-     * currentTaskActive.
      * Activity of the current task.
      */
-
     @FXML
     private Label currentTaskActive;
 
     /**
-     * error.
      * label error message when data changes.
      */
-
     @FXML
     private Label error;
 
     /**
-     * labelStart.
      * Label start.
      */
-
     @FXML
     private Label labelStart;
 
     /**
-     * labelEnd.
      * Label End.
      */
-
     @FXML
     private Label labelEnd;
 
     /**
-     * labelInterval.
      * Label Interval.
      */
-
     @FXML
     private Label labelInterval;
 
     /**
-     * labelYear.
      * Label years.
      */
-
     @FXML
     private Label labelYear;
 
     /**
-     * labelMonth.
      * Label months.
      */
-
     @FXML
     private Label labelMonth;
 
     /**
-     * labelDay.
      * Label days.
      */
-
     @FXML
     private Label labelDay;
 
     /**
-     * labelHour.
      * Label hours.
      */
-
     @FXML
     private Label labelHour;
 
     /**
-     * labelMinute.
      * Label minutes.
      */
-
     @FXML
     private Label labelMinute;
 
     /**
-     * labelSecond.
      * Label seconds.
      */
-
     @FXML
     private Label labelSecond;
 
     /**
-     * change.
      * Button Change.
      */
-
     @FXML
     private Button change;
 
     /**
-     * apply.
      * Button Apply.
      */
-
     @FXML
     private Button apply;
 
     /**
-     * gridView.
      * Table to show data.
      */
-
     @FXML
     private GridPane gridView;
 
     /**
-     * gridChange.
      * Table to change data.
      */
-
     @FXML
     private GridPane gridChange;
 
     /**
-     * taskNameField.
      * TextField change title of the task.
      */
-
     @FXML
     private TextField taskNameField;
 
     /**
-     * timeStart.
      * Start time of the changing task.
      */
-
     @FXML
     private TextField timeStart;
 
     /**
-     * timeEnd.
      * End time of the changing task.
      */
-
     @FXML
     private TextField timeEnd;
 
     /**
-     * year.
      * Years in interval repeating.
      */
-
     @FXML
     private TextField year;
 
     /**
-     * month.
      * Months in interval repeating.
      */
-
     @FXML
     private TextField month;
 
     /**
-     * day.
      * Days in interval repeating.
      */
-
     @FXML
     private TextField day;
 
     /**
-     * hour.
      * Hours in interval repeating.
      */
-
     @FXML
     private TextField hour;
 
     /**
-     * minute.
      * Minutes in interval repeating.
      */
-
     @FXML
     private TextField minute;
 
     /**
-     * second.
      * Years in interval repeating.
      */
-
     @FXML
     private TextField second;
 
     /**
-     * calendarTimeStart.
      * Start time of the calendar.
      */
-
     @FXML
     private TextField calendarTimeStart;
 
     /**
-     * calendarTimeEnd.
      * End time of the calendar.
      */
-
     @FXML
     private TextField calendarTimeEnd;
 
     /**
-     * dateStart.
      * Start date of the changing task.
      */
-
     @FXML
     private DatePicker dateStart;
 
@@ -349,80 +277,59 @@ public final class MainController {
     private DatePicker dateEnd;
 
     /**
-     * calendarDateEnd.
      * End date of the calendar.
      */
-
     @FXML
     private DatePicker calendarDateEnd;
 
     /**
-     * calendarDateStart.
      * Start date of the calendar.
      */
-
     @FXML
     private DatePicker calendarDateStart;
 
     /**
-     * activeTrue.
      * RadioButton: active task.
      */
-
     @FXML
     private RadioButton activeTrue;
 
     /**
-     * activeFalse.
      * RadioButton: inactive task.
      */
-
     @FXML
     private RadioButton activeFalse;
 
     /**
-     * checkboxrepeated.
-     *  CheckBox: repeated task.
+     * CheckBox: repeated task.
      */
-
     @FXML
     private CheckBox checkboxrepeated;
 
     /**
-     * countChanges.
-     * Index selected task
+     * Index selected task.
      */
-
     private int countChanges = -1;
 
     /**
-     * minHeight.
      * Minimal height window.
      */
-
     private final int minHeight = 450;
 
     /**
-     * minWidth.
      * Minimal width window.
      */
-
     private final int minWidth = 350;
 
     /**
-     * temp.
      * File for reading ot writing.
      */
-
     private final File temp = new File("temp.txt");
 
     /**
-     * Empty constructor.
+     * Thread for alert.
      */
-
-    public MainController() {
-
-    }
+    private ThreadTask thread;
 
     /**
      * Method initialize().
@@ -430,12 +337,12 @@ public final class MainController {
      * @throws ParseException appears when converting dates.
      * @throws IOException appears when opening a file.
      */
-
     @FXML
     public void initialize() throws ParseException, IOException {
         this.obs = new CollectionsTasks();
         ArrayTaskList tasks = new ArrayTaskList();
         TaskIO.readText(tasks, this.temp);
+        this.thread = new ThreadTask(tasks);
         this.obs.setTasks(tasks);
         this.taskTable.setItems(this.obs.getObs());
         this.taskName.setCellValueFactory(
@@ -450,9 +357,9 @@ public final class MainController {
         this.gridView.setVisible(true);
         this.showNoting();
         this.apply.setVisible(false);
-        this.apply.setText(Constants.getApply());
-        this.change.setText(Constants.getChange());
-        this.labelSize.setText(Constants.getCountTask()
+        this.apply.setText(Constants.APPLY);
+        this.change.setText(Constants.CHANGE);
+        this.labelSize.setText(Constants.COUNT_TASK
                 + this.obs.getObs().size());
     }
 
@@ -460,7 +367,6 @@ public final class MainController {
      * Method showNoting().
      * Called when no task is selected.
      */
-
     private void showNoting() {
         this.currentTaskName.setText("");
         this.currentTaskStart.setText("");
@@ -474,7 +380,6 @@ public final class MainController {
      * Show details of the selected task.
      * @param task selected task.
      */
-
     private void showTaskDetails(final Task task) {
         if (task != null) {
             this.currentTaskName.setText(task.getTitle());
@@ -483,7 +388,6 @@ public final class MainController {
             this.currentTaskInterval.setText(task.getInterval());
             this.currentTaskActive.setText(String.valueOf(task.isActive()));
         } else {
-            logger.warn("task is null");
             this.showNoting();
         }
     }
@@ -493,19 +397,18 @@ public final class MainController {
      * Show data fow changing task.
      * @param task task for changing.
      */
-
     private void showDetailsForChange(final Task task) {
         this.taskNameField.setText(task.getTitle());
         String str = String.valueOf(task.getStart());
-        String[] words = str.split(Constants.getRegexp());
+        String[] words = str.split(Constants.REG_EXP);
         this.dateStart.setValue(OperationForTime.dateToLocalDate(
                 task.getStart()));
-        this.timeStart.setText(words[Constants.getThree()]);
+        this.timeStart.setText(words[3]);
         this.getDateEnd().setValue(OperationForTime.dateToLocalDate(
                 task.getEnd()));
         str = String.valueOf(task.getStart());
-        words = str.split(Constants.getRegexp());
-        this.getTimeEnd().setText(words[Constants.getThree()]);
+        words = str.split(Constants.REG_EXP);
+        this.getTimeEnd().setText(words[3]);
         this.activeTrue.setSelected(task.isActive());
         this.activeFalse.setSelected(!task.isActive());
         this.getCheckboxrepeated().setSelected(task.isRepeated());
@@ -532,11 +435,10 @@ public final class MainController {
      * @param actionEvent button press.
      * @throws IOException appears when opening a file.
      */
-
     public void add(final ActionEvent actionEvent) throws IOException {
         Stage addStage = new Stage();
         FXMLLoader addfxmlLoader = new FXMLLoader();
-        addfxmlLoader.setLocation(getClass().getResource("../view/add.fxml"));
+        addfxmlLoader.setLocation(getClass().getResource("/com/netcracker/java/YuliaShevchenko/lab1/view/add.fxml"));
         Parent root = addfxmlLoader.load();
         addStage.setTitle("Add task");
         addStage.setMinHeight(this.minHeight);
@@ -550,8 +452,9 @@ public final class MainController {
         AddController addController = addfxmlLoader.getController();
         if (addController.isBool()) {
             this.obs.add(addController.getNewTask());
+            this.thread.addTaskForAlert(addController.getNewTask());
             this.taskTable.setItems(this.obs.getObs());
-            this.labelSize.setText(Constants.getCountTask()
+            this.labelSize.setText(Constants.COUNT_TASK
                     + this.obs.getObs().size());
             TaskIO.writeText(this.obs.getTasks(), this.temp);
         }
@@ -563,11 +466,14 @@ public final class MainController {
      * remove it in the event of confirmation.
      * @throws IOException appears when writing a file.
      */
-
     public void remove() throws IOException {
         Task t = this.taskTable.getSelectionModel().getSelectedItem();
         if (t == null) {
-            logger.warn("remove: nothing selected");
+            Alert info = new Alert(Alert.AlertType.INFORMATION);
+            info.setTitle("Warning");
+            info.setHeaderText("Nothing to selected.");
+            info.showAndWait();
+            LOGGER.warn("remove: nothing selected");
             return;
         }
         Alert delete = new Alert(Alert.AlertType.CONFIRMATION);
@@ -575,10 +481,10 @@ public final class MainController {
         delete.setHeaderText("Are you sure?");
         Optional<ButtonType> result = delete.showAndWait();
         if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
-            t.getThreadTask().setFinish();
             this.obs.remove(t);
+            this.thread.removeTaskForAlert(t);
             TaskIO.writeText(this.obs.getTasks(), this.temp);
-            this.labelSize.setText(Constants.getCountTask()
+            this.labelSize.setText(Constants.COUNT_TASK
                     + this.obs.getObs().size());
         }
     }
@@ -590,7 +496,6 @@ public final class MainController {
      * @throws IOException appears when opening a file.
      * @throws ParseException appears when converting dates.
      */
-
     public void calendar(final ActionEvent actionEvent)
             throws IOException, ParseException {
         LocalDate dateStarts = this.calendarDateStart.getValue();
@@ -601,13 +506,13 @@ public final class MainController {
                 || dateEnds == null
                 || "".equals(timestart)
                 || "".equals(timeend)) {
-            logger.warn("calendar: Interval is not selected");
+            LOGGER.warn("calendar: Interval is not selected");
             return;
         }
         Stage calendarStage = new Stage();
         FXMLLoader calendarfxmlLoader = new FXMLLoader();
         calendarfxmlLoader.setLocation(
-                getClass().getResource("../view/calendar.fxml"));
+                getClass().getResource("/com/netcracker/java/YuliaShevchenko/lab1/view/calendar.fxml"));
         Parent root = calendarfxmlLoader.load();
         calendarStage.setTitle("Calendar");
         calendarStage.setMinHeight(this.minHeight);
@@ -617,9 +522,9 @@ public final class MainController {
         calendarStage.initOwner(((Node)
                 actionEvent.getSource()).getScene().getWindow());
         Date dateSt = OperationForTime.parseDate(dateStarts
-                + Constants.getSpace() + timestart);
+                + Constants.SPACE + timestart);
         Date dateEn = OperationForTime.parseDate(dateEnds
-                + Constants.getSpace() + timeend);
+                + Constants.SPACE + timeend);
         Map<Date, java.util.Set<Task>> maps
                 = Tasks.calendar(this.obs.getObs(), dateSt, dateEn);
         CalendarController calendarController
@@ -628,12 +533,6 @@ public final class MainController {
         calendarController.fillingList(maps);
         calendarStage.showAndWait();
     }
-
-    /**
-     * Method getObs().
-     * Getteg for wrapper task list.
-     * @return ObservableList for task list.
-     */
 
     public CollectionsTasks getObs() {
         return this.obs;
@@ -646,7 +545,6 @@ public final class MainController {
      * @throws ParseException appears when converting dates.
      * @throws IOException appears when opening a file.
      */
-
     public void applyChanges() throws CloneNotSupportedException,
             ParseException, IOException {
         if (this.countChanges == -1) {
@@ -656,7 +554,7 @@ public final class MainController {
         Task task = this.obs.getObs().get(this.countChanges);
         Task task1 = task.clone();
         String str1;
-        this.obs.getObs().remove(task);
+        this.obs.remove(task1);
         if (this.getCheckboxrepeated().isSelected()) {
             str1 = this.changeRepeatedTask(task, task1);
         } else {
@@ -666,18 +564,18 @@ public final class MainController {
             this.gridChange.setVisible(false);
             this.gridView.setVisible(true);
             task.getInterval();
-            task.getThreadTask().setFinish();
-            task.setThreadTask(new ThreadTask(task));
-            this.obs.getObs().add(task);
+            this.obs.add(task);
+            this.taskTable.refresh();
+            this.thread.removeTaskForAlert(task1);
+            this.thread.addTaskForAlert(task);
             TaskIO.writeText(this.obs.getTasks(), this.temp);
             this.countChanges = -1;
             this.change.setVisible(true);
             this.apply.setVisible(false);
             this.error.setText("");
-            this.taskTable.setItems(this.obs.getObs());
         } else {
             this.error.setVisible(true);
-            this.getObs().getObs().add(task1);
+            this.obs.add(task1);
             this.error.setText(str1);
         }
     }
@@ -689,30 +587,52 @@ public final class MainController {
      * @param task1 in the case of incorrect data.
      * @return error message.
      */
-
     private String changeRepeatedTask(final Task task, final Task task1) {
         String str1 = "";
-        task.setTitle(this.taskNameField.getText());
+        task.setRepeated(true);
+        String s = this.taskNameField.getText();
+        if ("".equals(s)) {
+            task.setTitle(s);
+        } else {
+            LOGGER.warn(Error.ERROR_EMPTY_TITLE.message());
+            str1 += Error.ERROR_EMPTY_TITLE.message() + Constants.ENTER;
+            task.setTitle(task1.getTitle());
+        }
         task.setActive(this.activeTrue.isSelected());
         Date date = OperationForTime.parseDate(this.dateStart.getValue()
-                + Constants.getSpace() + this.timeStart.getText());
+                + Constants.SPACE + this.timeStart.getText());
         if (date == null) {
-            logger.warn(Constants.getErrorStart());
+            LOGGER.warn(Error.ERROR_START_TIME.message());
             task.setStart(task1.getStart());
-            str1 += Constants.getErrorStart() + Constants.getEnter();
+            str1 += Error.ERROR_START_TIME.message() + Constants.ENTER;
         } else {
             task.setStart(date);
         }
         date = OperationForTime.parseDate(this.getDateEnd().getValue()
-                + Constants.getSpace() + this.getTimeEnd().getText());
+                + Constants.SPACE + this.getTimeEnd().getText());
         if (date == null) {
-            logger.warn(Constants.getErrorEnd());
+            LOGGER.warn(Error.ERROR_END_TIME.message());
             task.setEnd(task1.getEnd());
-            str1 += Constants.getErrorEnd() + Constants.getEnter();
+            str1 += Error.ERROR_END_TIME.message() + Constants.ENTER;
         } else {
             task.setEnd(date);
         }
+        if (task.getStart().after(task.getEnd())
+                || task.getStart().equals(task.getEnd())) {
+            LOGGER.warn(Error.ERROR_EARLIER_TIME.message());
+            str1 += Error.ERROR_EARLIER_TIME.message() + Constants.ENTER;
+        }
+        CreateInterval interval = task.getCreateInterval();
         str1 += this.changeInterval(task);
+        if (interval.getIntervalYear() == Constants.ZERO
+                && interval.getIntervalMonth() == Constants.ZERO
+                && interval.getIntervalDay() == Constants.ZERO
+                && interval.getIntervalHour() == Constants.ZERO
+                && interval.getIntervalMinute() == Constants.ZERO
+                && interval.getIntervalSecond() == Constants.ZERO) {
+            LOGGER.warn(Error.ERROR_INTERVAL.message());
+            str1 += Error.ERROR_INTERVAL.message() + Constants.ENTER;
+        }
         return str1;
     }
 
@@ -722,7 +642,6 @@ public final class MainController {
      * @param task for changes.
      * @return error message.
      */
-
     private String changeInterval(final Task task) {
         String str1 = "";
         task.getCreateInterval().setIntervalYear(
@@ -737,35 +656,35 @@ public final class MainController {
                 Integer.parseInt(this.getMinute().getText()));
         task.getCreateInterval().setIntervalSecond(
                 Integer.parseInt(this.getSecond().getText()));
-        if (Integer.parseInt(this.getMonth().getText()) < Constants.getNulls()
+        if (Integer.parseInt(this.getMonth().getText()) < Constants.ZERO
                 || Integer.parseInt(this.getMonth().getText())
-                > Constants.getEleven()) {
-            logger.warn(Constants.getErrorcountmonth());
-            str1 +=  Constants.getErrorcountmonth() + Constants.getEnter();
+                > Constants.MAX_MONTHS) {
+            LOGGER.warn(Error.ERROR_COUNT_MONTHS.message());
+            str1 +=  Error.ERROR_COUNT_MONTHS.message() + Constants.ENTER;
         }
-        if (Integer.parseInt(this.getDay().getText()) < Constants.getNulls()
+        if (Integer.parseInt(this.getDay().getText()) < Constants.ZERO
                 || Integer.parseInt(this.getDay().getText())
-                > Constants.getTwentynine()) {
-            logger.warn(Constants.getErrorcountday());
-            str1 += Constants.getErrorcountday() + Constants.getEnter();
+                > Constants.MAX_DAYS) {
+            LOGGER.warn(Error.ERROR_COUNT_DAYS.message());
+            str1 += Error.ERROR_COUNT_DAYS.message() + Constants.ENTER;
         }
-        if (Integer.parseInt(this.getHour().getText()) < Constants.getNulls()
+        if (Integer.parseInt(this.getHour().getText()) < Constants.ZERO
                 || Integer.parseInt(this.getHour().getText())
-                > Constants.getTwentythree()) {
-            logger.warn(Constants.getErrorcounthour());
-            str1 += Constants.getErrorcounthour() + Constants.getEnter();
+                > Constants.MAX_HOURS) {
+            LOGGER.warn(Error.ERROR_COUNT_HOURS.message());
+            str1 += Error.ERROR_COUNT_HOURS.message() + Constants.ENTER;
         }
-        if (Integer.parseInt(this.getMinute().getText()) < Constants.getNulls()
+        if (Integer.parseInt(this.getMinute().getText()) < Constants.ZERO
                 || Integer.parseInt(this.getMinute().getText())
-                > Constants.getFiftynine()) {
-            logger.warn(Constants.getErrorcountminute());
-            str1 += Constants.getErrorcountminute() + Constants.getEnter();
+                > Constants.MAX_MINUTES) {
+            LOGGER.warn(Error.ERROR_COUNT_MINUTES.message());
+            str1 += Error.ERROR_COUNT_MINUTES.message() + Constants.ENTER;
         }
-        if (Integer.parseInt(this.getSecond().getText()) < Constants.getNulls()
+        if (Integer.parseInt(this.getSecond().getText()) < Constants.ZERO
                 || Integer.parseInt(this.getSecond().getText())
-                > Constants.getFiftynine()) {
-            logger.warn(Constants.getErrorcountsecond());
-            str1 += Constants.getErrorcountsecond() + Constants.getEnter();
+                > Constants.MAX_SECONDS) {
+            LOGGER.warn(Error.ERROR_COUNT_SECONDS.message());
+            str1 += Error.ERROR_COUNT_SECONDS.message() + Constants.ENTER;
         }
         return str1;
     }
@@ -777,20 +696,34 @@ public final class MainController {
      * @param task1 in the case of incorrect data.
      * @return error message.
      */
-
     private String changeNoRepeatedTask(final Task task, final Task task1) {
         String str = "";
-        task.setTitle(this.taskNameField.getText());
+        task.setRepeated(false);
+        String s = this.taskNameField.getText();
+        if (s.length() != 0) {
+            task.setTitle(s);
+        } else {
+            LOGGER.warn(Error.ERROR_EMPTY_TITLE.message());
+            str += Error.ERROR_EMPTY_TITLE.message() + Constants.ENTER;
+            task.setTitle(task1.getTitle());
+        }
         task.setActive(this.activeTrue.isSelected());
         Date date = OperationForTime.parseDate(this.dateStart.getValue()
-                + Constants.getSpace() + this.timeStart.getText());
+                + Constants.SPACE + this.timeStart.getText());
         if (date == null) {
-            logger.warn(Constants.getErrorTime());
-            str += Constants.getErrorTime() + Constants.getEnter();
+            LOGGER.warn(Error.ERROR_TIME.message());
+            str += Error.ERROR_TIME.message() + Constants.ENTER;
             task.setTime(task1.getStart());
         } else {
             task.setTime(date);
         }
+        task.setRepeated(false);
+        task.getCreateInterval().setIntervalYear(Constants.ZERO);
+        task.getCreateInterval().setIntervalMonth(Constants.ZERO);
+        task.getCreateInterval().setIntervalDay(Constants.ZERO);
+        task.getCreateInterval().setIntervalHour(Constants.ZERO);
+        task.getCreateInterval().setIntervalMinute(Constants.ZERO);
+        task.getCreateInterval().setIntervalSecond(Constants.ZERO);
         return str;
     }
 
@@ -799,9 +732,8 @@ public final class MainController {
      * Change task.
      * @throws CloneNotSupportedException if object non clonability.
      */
-
     public void changeTask() throws CloneNotSupportedException {
-        if (this.getObs().getObs().size() != Constants.getNulls()) {
+        if (this.getObs().getObs().size() != Constants.ZERO) {
             this.showDetailsForChange(
                     this.taskTable.getSelectionModel().getSelectedItem());
             this.gridChange.setVisible(true);
@@ -815,188 +747,83 @@ public final class MainController {
      * Method repeatedTask().
      * Change showing window when user press CheckBox Repeated.
      */
-
     public void repeatedTask() {
         new InfoClass(this);
     }
-
-    /**
-     * Method getLabelStart().
-     * Getter for labelStart.
-     * @return Label start.
-     */
 
     public Label getLabelStart() {
         return this.labelStart;
     }
 
-    /**
-     * Method for getLabelEnd().
-     * Getter for labelEnd.
-     * @return Label End.
-     */
-
     public Label getLabelEnd() {
         return this.labelEnd;
     }
-
-    /**
-     * Method getLabelInterval().
-     * Getter for labelInterval.
-     * @return Label Interval.
-     */
 
     public Label getLabelInterval() {
         return this.labelInterval;
     }
 
-    /**
-     * Method getLabelYear().
-     * Getter for labelYear.
-     * @return Label years.
-     */
-
     public Label getLabelYear() {
         return this.labelYear;
     }
-
-    /**
-     * Method getLabelMonth().
-     * Getter for labelMonth.
-     * @return Label months.
-     */
 
     public Label getLabelMonth() {
         return this.labelMonth;
     }
 
-    /**
-     * Method getLabelDay().
-     * Getter for labelDay.
-     * @return Label days.
-     */
-
     public Label getLabelDay() {
         return this.labelDay;
     }
-
-    /**
-     * Method getLabelHour().
-     * Getter for labelHour.
-     * @return Label hours.
-     */
 
     public Label getLabelHour() {
         return this.labelHour;
     }
 
-    /**
-     * Method getLabelMinute().
-     * Getter for labelMinute.
-     * @return Label minutes.
-     */
-
     public Label getLabelMinute() {
         return this.labelMinute;
     }
-
-    /**
-     * Method getLabelSecond().
-     * Getter for labelSecond.
-     * @return Label seconds.
-     */
 
     public Label getLabelSecond() {
         return this.labelSecond;
     }
 
-    /**
-     * Method getTimeEnd().
-     * Getter for timeEnd.
-     * @return TextField timeEnd.
-     */
-
     public TextField getTimeEnd() {
         return this.timeEnd;
     }
-
-    /**
-     * Method getYear().
-     * Getter for year.
-     * @return TextField year.
-     */
 
     public TextField getYear() {
         return this.year;
     }
 
-    /**
-     * Method getMonth().
-     * Getter for month.
-     * @return TextField month.
-     */
-
     public TextField getMonth() {
         return this.month;
     }
-
-    /**
-     * Method getDay().
-     * Getter for day.
-     * @return TextField day.
-     */
 
     public TextField getDay() {
         return this.day;
     }
 
-    /**
-     * Method getHour().
-     * Getter for hour.
-     * @return TextField hour.
-     */
-
     public TextField getHour() {
         return this.hour;
     }
-
-    /**
-     * Method getMinute().
-     * Getter for minute.
-     * @return TextField minute.
-     */
 
     public TextField getMinute() {
         return this.minute;
     }
 
-    /**
-     * Method getSecond().
-     * Getter for second.
-     * @return TextField second.
-     */
-
     public TextField getSecond() {
         return this.second;
     }
-
-    /**
-     * Method getDateEnd().
-     * Getter for dateEnd.
-     * @return DatePicker dateEnd.
-     */
 
     public DatePicker getDateEnd() {
         return this.dateEnd;
     }
 
-    /**
-     * Method getCheckboxrepeated().
-     * Getter for checkboxrepeated.
-     * @return CheckBox checkboxrepeated.
-     */
-
     public CheckBox getCheckboxrepeated() {
         return this.checkboxrepeated;
+    }
+
+    public ThreadTask getThread() {
+        return thread;
     }
 }

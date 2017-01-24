@@ -1,6 +1,7 @@
 package com.netcracker.java.YuliaShevchenko.lab1.controllers;
 
 import com.netcracker.java.YuliaShevchenko.lab1.model.Constants;
+
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -10,133 +11,97 @@ import javafx.scene.control.TextField;
  * Class InfoClass.
  * Use to show / hide details for changing.
  */
-
 public final class InfoClass {
 
     /**
-     * labelEnd.
      * Label End
      */
-
     private Label labelEnd;
 
     /**
-     * labelInterval.
      * Label Interval.
      */
-
     private Label labelInterval;
 
     /**
-     * labelYear.
      * Label years.
      */
-
     private Label labelYear;
 
     /**
-     * labelMonth.
      * Label months.
      */
-
     private Label labelMonth;
 
     /**
-     * labelDay.
      * Label days.
      */
-
     private Label labelDay;
 
     /**
-     * labelHour.
      * Label hours.
      */
-
     private Label labelHour;
 
     /**
-     * labelMinute.
      * Label minutes.
      */
-
     private Label labelMinute;
 
     /**
-     * labelSecond.
      * Label seconds.
      */
-
     private Label labelSecond;
 
     /**
-     * timeEnd.
      * End time of the changing task.
      */
-
     private TextField timeEnd;
 
     /**
-     * year.
      * Years in interval repeating.
      */
-
     private TextField year;
 
     /**
-     * month.
      * Months in interval repeating.
      */
-
     private TextField month;
 
     /**
-     * day.
      * Days in interval repeating
      */
-
     private TextField day;
 
     /**
-     * hour.
      * Hours in interval repeating.
      */
-
     private TextField hour;
 
     /**
-     * minute.
      * Minutes in interval repeating.
      */
-
     private TextField minute;
 
     /**
-     * second.
-     * Years in interval repeating.
+     * Seconds in interval repeating.
      */
-
     private TextField second;
 
     /**
-     * dateEnd.
      * End date of the changing task.
      */
-
     private DatePicker dateEnd;
 
     /**
-     * labelStart.
      * Label start.
      */
-
     private Label labelStart;
 
     /**
      * Constructor InfoClass().
      * @param addController controller Add window.
      */
-
     public InfoClass(final AddController addController) {
         this.setTextField(addController.getYear(), addController.getMonth(),
                 addController.getDay(), addController.getHour(),
@@ -155,7 +120,6 @@ public final class InfoClass {
      * Constructor InfoClass().
      * @param mainController controller main window.
      */
-
     public InfoClass(final MainController mainController) {
         this.setTextField(mainController.getYear(), mainController.getMonth(),
                 mainController.getDay(), mainController.getHour(),
@@ -182,7 +146,6 @@ public final class InfoClass {
      * @param minutes years TextField minutes.
      * @param seconds years TextField seconds.
      */
-
     public void setTextField(final TextField years,
                              final TextField months,
                              final TextField days,
@@ -209,7 +172,6 @@ public final class InfoClass {
      * @param labelMinutes label minutes.
      * @param labelSeconds label seconds.
      */
-
     public void setLabelsInterval(final Label labelYears,
                                   final Label labelMonths,
                                   final Label labelDays,
@@ -235,7 +197,6 @@ public final class InfoClass {
      * @param labelIntervals Label Interval.
      * @param labelStarts label Start / Time.
      */
-
     public void setObj(final Label labelEnds,
                        final DatePicker dateEnds,
                        final TextField timeEnds,
@@ -253,15 +214,14 @@ public final class InfoClass {
      * Show / hide elements.
      * @param repeated CheckBox: repeated on the scene.
      */
-
     private void repeated(final CheckBox repeated) {
         if (!repeated.isSelected()) {
-            this.labelStart.setText(Constants.getTime());
+            this.labelStart.setText(Constants.TIME);
             this.visibleObj(false);
             this.visibleTextFieldInterval(false);
             this.visibleLabelsInterval(false);
         } else {
-            this.labelStart.setText(Constants.getStart());
+            this.labelStart.setText(Constants.START);
             this.visibleObj(true);
             this.visibleTextFieldInterval(true);
             this.visibleLabelsInterval(true);
@@ -274,7 +234,6 @@ public final class InfoClass {
      * Show / Hide end date, time, label End and label Interval.
      * @param bool show / hide.
      */
-
     private void visibleObj(final boolean bool) {
         this.labelEnd.setVisible(bool);
         this.dateEnd.setVisible(bool);
@@ -290,7 +249,6 @@ public final class InfoClass {
      * Show / hide text field of the part of interval.
      * @param bool show / hide.
      */
-
     private void visibleTextFieldInterval(final boolean bool) {
         this.year.setVisible(bool);
         this.month.setVisible(bool);
@@ -307,7 +265,6 @@ public final class InfoClass {
      * Show / hide labels parts of the interval.
      * @param bool show / hide.
      */
-
     private void visibleLabelsInterval(final boolean bool) {
         this.labelYear.setVisible(bool);
         this.labelMonth.setVisible(bool);

@@ -1,94 +1,68 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
+import org.apache.log4j.Logger;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
-import org.apache.log4j.Logger;
 
 /**
  * Class Task.
  * Realization of of some task that you can add, change or delete a user.
- * @author Yulia Shevchenko.
  */
-
 public class Task implements Cloneable, Serializable {
 
     /**
-     * logger.
      * It is used to register error.
      */
-
-    private static final Logger logger = Logger.getLogger(Task.class);
+    private static final Logger LOGGER = Logger.getLogger(Task.class);
 
     /**
-     * serialVersionUID.
      * Version control for serialization.
      */
-
     private static final long serialVersionUID = 42L;
 
     /**
-     * title.
      * Title ot the current task.
      */
-
     private String title;
 
     /**
-     * active.
      * Activity of the current task.
      */
-
     private boolean active;
 
     /**
-     * repeated.
      * Repeated of the current task.
      */
-
     private boolean repeated;
 
     /**
-     * start.
      * Start date of the current task.
      */
-
     private Date start;
 
     /**
-     * end.
      * End date of the current task.
      */
-
     private Date end;
 
     /**
-     * interval.
      * Object type CreateInterval.
      * It creates string view repetition interval of the current task.
      */
-
     private CreateInterval interval;
-
-    /**
-     * threadTask.
-     * Thread for alert user.
-     */
-
-    private ThreadTask threadTask;
-
+    
     /**
      * Method Task(String title, Date time).
      * Constructor creation non recurring task and thread for alert.
      * @param   titles title task.
      * @param   times time performance.
      */
-
     public Task(final String titles, final Date times) {
         this.setTitle(titles);
         this.setTime(times);
         this.interval = new CreateInterval();
-        this.setThreadTask(new ThreadTask(this));
     }
 
     /**
@@ -100,90 +74,40 @@ public class Task implements Cloneable, Serializable {
      * @param ends end date performance.
      * @param intervals repetition interval.
      */
-
     public Task(final String titles, final Date starts,
                 final Date ends, final CreateInterval intervals) {
         this.setTitle(titles);
         this.interval = intervals;
         this.setTime(starts, ends);
-        this.setThreadTask(new ThreadTask(this));
     }
-
-    /**
-     * Method getTitle().
-     *  Getter for title of the task.
-     * @return  title of the current task.
-     */
 
     public final String getTitle() {
         return this.title;
     }
 
-    /**
-     * Method getCreateInterval().
-     * Getter for interval.
-     * @return object type CreateInterval wih information about interval.
-     */
-
     public final CreateInterval getCreateInterval() {
         return this.interval;
     }
-
-    /**
-     * Method setTitle(String title).
-     * Setter for title of the task.
-     * @param   titles new title.
-     */
 
     public final void setTitle(final String titles) {
         this.title = titles;
     }
 
-    /**
-     * Method isActive().
-     * Verification tasks on activity.
-     * @return  active of the task.
-     */
-
     public final boolean isActive() {
         return this.active;
     }
-
-    /**
-     * Method setActive(boolean active).
-     * Setter for active of the task.
-     * @param   actives new active of the task.
-     */
 
     public final void setActive(final boolean actives) {
         this.active = actives;
     }
 
-    /**
-     * Method getStart().
-     * Getter for start date of the task.
-     * @return  start date.
-     */
-
     public final Date getStart() {
         return this.start;
     }
 
-    /**
-     * Method getEnd().
-     * Getter for end date of the task.
-     * @return  end date.
-     */
-
     public final Date getEnd() {
         return this.end;
     }
-
-    /**
-     * Метод isRepeated().
-     * Verification task on repeated.
-     * @return repeated of the current task.
-     */
 
     public final boolean isRepeated() {
         return this.repeated;
@@ -194,13 +118,12 @@ public class Task implements Cloneable, Serializable {
      * Create clone of the current task: {@link Object#clone()}.
      * @return  copy current object.
      */
-
     @Override
     public final Task clone() {
         try {
             return (Task) super.clone();
         } catch (CloneNotSupportedException e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
         return null;
     }
@@ -210,7 +133,6 @@ public class Task implements Cloneable, Serializable {
      * Set a date value for non recurring task {@link #setTime(Date, Date)}.
      * @param time time of the notification.
      */
-
     public final void setTime(final Date time) {
         this.setTime(time, time);
     }
@@ -221,7 +143,6 @@ public class Task implements Cloneable, Serializable {
      * @param starts stand date notification.
      * @param ends end date notification.
      */
-
     private void setTime(final Date starts, final Date ends) {
         this.setStart((Date) starts.clone());
         this.setEnd((Date) ends.clone());
@@ -233,7 +154,6 @@ public class Task implements Cloneable, Serializable {
      * @param current start date for search.
      * @return time to next performed.
      */
-
     public final  Date nextTimeAfter(final Date current) {
         Date a = null;
         boolean b = false;
@@ -269,7 +189,6 @@ public class Task implements Cloneable, Serializable {
      * @param obj the object of comparison .
      * @return true, if objects is identical, or false.
      */
-
     @Override
     public final boolean equals(final Object obj) {
         if (obj == null) {
@@ -278,12 +197,13 @@ public class Task implements Cloneable, Serializable {
             return true;
         } else {
             Task task = (Task) obj;
+            boolean a5 = this.title.equals(task.getTitle());
             boolean a2 = this.start.equals(task.getStart());
             boolean a3 = this.isActive() == task.isActive();
-            boolean a4 = this.interval.
+            boolean a4 = this.interval.getInterval().
                     equals(task.getInterval());
             boolean a = this.end.equals(task.getEnd());
-            return a & a2 & a3 & a4;
+            return a & a2 & a3 & a4 & a5;
         }
 
     }
@@ -293,7 +213,6 @@ public class Task implements Cloneable, Serializable {
      * use for hashing date: {@link Object#hashCode()}.
      * @return hashcode of the current task.
      */
-
     @Override
     public final int hashCode() {
         return this.title.hashCode()
@@ -307,58 +226,19 @@ public class Task implements Cloneable, Serializable {
      * Getter for text representation of the repetition interval.
      * @return repetition interval.
      */
-
     public final String getInterval() {
         return this.interval.getInterval();
     }
-
-    /**
-     * Method setStart(Date start).
-     * Setter for start date of the task.
-     * @param starts new start date.
-     */
 
     public final void setStart(final Date starts) {
         this.start = starts;
     }
 
-    /**
-     * Method setEnd(Date end).
-     * Setter for end date of the task.
-     * @param ends new end.
-     */
-
     public final void setEnd(final Date ends) {
         this.end = ends;
     }
 
-    /**
-     * Method setRepeated(boolean repeated).
-     * Setter for repeated of the task.
-     * @param repeateds new repeated.
-     */
-
     public final void setRepeated(final boolean repeateds) {
         this.repeated = repeateds;
-    }
-
-    /**
-     * Method getThreadTask().
-     * Getter for thread for alert.
-     * @return thread.
-     */
-
-    public final ThreadTask getThreadTask() {
-        return this.threadTask;
-    }
-
-    /**
-     * Method setThreadTask(ThreadTask threadTask).
-     * Setter for thread for alert user.
-     * @param threadTasks new thread.
-     */
-
-    public final void setThreadTask(final ThreadTask threadTasks) {
-        this.threadTask = threadTasks;
     }
 }

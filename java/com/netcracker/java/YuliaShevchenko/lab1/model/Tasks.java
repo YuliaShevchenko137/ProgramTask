@@ -1,31 +1,22 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.time.Instant;
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.time.ZoneId;
 
 /**
  * Class Tasks.
  * Task List Processing. Create a calendar.
  * All methods are static.
  */
-
 public final class Tasks {
-
-    /**
-     * Empty constructor Tasks().
-     */
-
-    private Tasks() {
-
-    }
 
     /**
      * Method incoming(Iterable tasks, Date start, Date end).
@@ -35,7 +26,6 @@ public final class Tasks {
      * @param end end date of the interval.
      * @return list of the tasks.
      */
-
     private static Iterable<Task> incoming(
             final Iterable<Task> tasks, final Date start,
             final Date end) {
@@ -61,7 +51,6 @@ public final class Tasks {
      * @param end end date.
      * @return map on the current task list.
      */
-
     public static SortedMap<Date, Set<Task>> calendar(
             final Iterable<Task> tasks, final Date start,
             final Date end) {

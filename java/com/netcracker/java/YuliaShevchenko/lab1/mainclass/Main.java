@@ -1,14 +1,16 @@
 package com.netcracker.java.YuliaShevchenko.lab1.mainclass;
 
 import com.netcracker.java.YuliaShevchenko.lab1.controllers.MainController;
-import com.netcracker.java.YuliaShevchenko.lab1.model.Task;
+
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 
 /**
  * Class Main.
@@ -17,6 +19,11 @@ import javafx.stage.Stage;
 
 public final class Main extends Application {
 
+    /**
+     * It is used to register error.
+     */
+    private static final Logger LOGGER
+            = Logger.getLogger(Main.class);
     /**
      * Width window.
      */
@@ -29,15 +36,11 @@ public final class Main extends Application {
 
     private final int height = 500;
 
-    /**
-     * Empty constructor.
-     */
 
-    public Main() {
-
+    public static void main(String args[]) {
+        launch (args);
     }
 
-    // public static void main(String args[]){ launch (args);}
     /**
      * Method start(final Stage primaryStage).
      * open the main window.
@@ -47,8 +50,9 @@ public final class Main extends Application {
 
     @Override
     public void start(final Stage primaryStage) throws IOException {
+        LOGGER.info("start working");
         FXMLLoader mainfxmlLoader = new FXMLLoader();
-        mainfxmlLoader.setLocation(getClass().getResource("../view/main.fxml"));
+        mainfxmlLoader.setLocation(getClass().getResource("/com/netcracker/java/YuliaShevchenko/lab1/view/main.fxml"));
         Parent root = mainfxmlLoader.load();
         primaryStage.setTitle("Task Manager");
         MainController mainController = mainfxmlLoader.getController();
@@ -57,10 +61,8 @@ public final class Main extends Application {
         primaryStage.setMinWidth(this.width);
         primaryStage.show();
         primaryStage.setOnCloseRequest(closeEvent -> {
-            ObservableList<Task> obs = mainController.getObs().getObs();
-            for (Task t : obs) {
-                t.getThreadTask().setFinish();
-            }
+                mainController.getThread().close();
+                LOGGER.info("end working");
         });
     }
 }

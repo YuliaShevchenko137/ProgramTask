@@ -1,5 +1,7 @@
 package com.netcracker.java.YuliaShevchenko.lab1.model;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,50 +12,33 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.apache.log4j.Logger;
+
 
 /**
  * Class TaskIO.
  * Reading and writing to a file.
  */
-
 public final class TaskIO {
 
     /**
-     * logger.
      * It is used to register error.
      */
-
-    private static final Logger logger = Logger.getLogger(TaskIO.class);
+    private static final Logger LOGGER = Logger.getLogger(TaskIO.class);
 
     /**
-     * st.
      * Symbol ".
      */
-
     private static String st = "\"";
 
     /**
-     * leftbrasket.
      * Symbol [.
      */
-
-    private static String leftbrasket = " [";
+    private static String leftBrasket = " [";
 
     /**
-     * rightbrasket.
      * Symbol ].
      */
-
-    private static String rightbrasket = "] ";
-
-    /**
-     * Empty constructor TaskIO().
-     */
-
-    private TaskIO() {
-
-    }
+    private static String rightBrasket = "] ";
 
     /**
      * Method write(TaskList tasks, Writer out).
@@ -61,7 +46,6 @@ public final class TaskIO {
      * @param tasks task list.
      * @param out stream for write.
      */
-
     private static void write(final TaskList tasks,
                               final Writer out) {
         Iterator<Task> i = tasks.iterator();
@@ -73,7 +57,7 @@ public final class TaskIO {
             }
             out.close();
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -83,30 +67,29 @@ public final class TaskIO {
      * @param t current task.
      * @return results message .
      */
-
     private static String createMessage(final Task t) {
         String str = st + t.getTitle();
         if (!t.isRepeated()) {
-            str += st + Constants.getSpace() + Constants.getAt() + leftbrasket
-                    + Constants.getDateFormat().format(t.getStart())
-                    + rightbrasket;
+            str += st + Constants.SPACE + Constants.AT + leftBrasket
+                    + Constants.DATE_TIME_FORMAT.format(t.getStart())
+                    + rightBrasket;
             if (t.isActive()) {
-                str += Constants.getInactive() + Constants.getSemicolon()
-                        + Constants.getEnter();
+                str += Constants.INACTIVE + Constants.SEMICOLON
+                        + Constants.ENTER;
             } else {
-                str += Constants.getSemicolon() + Constants.getEnter();
+                str += Constants.SEMICOLON + Constants.ENTER;
             }
         } else {
             String interval = t.getInterval();
-            str += st + Constants.getSpace() + Constants.getFrom() + leftbrasket
-                    + Constants.getDateFormat().format(t.getStart()) + "] to ["
-                    + Constants.getDateFormat().format(t.getEnd())
-                    + "] every [" + interval + rightbrasket;
+            str += st + Constants.SPACE + Constants.FROM + leftBrasket
+                    + Constants.DATE_TIME_FORMAT.format(t.getStart()) + "] to ["
+                    + Constants.DATE_TIME_FORMAT.format(t.getEnd())
+                    + "] every [" + interval + rightBrasket;
             if (t.isActive()) {
-                str += Constants.getSpace() + Constants.getInactive()
-                        + Constants.getSemicolon() + Constants.getEnter();
+                str += Constants.SPACE + Constants.INACTIVE
+                        + Constants.SEMICOLON + Constants.ENTER;
             } else {
-                str += Constants.getSemicolon() + Constants.getEnter();
+                str += Constants.SEMICOLON + Constants.ENTER;
             }
         }
         return str;
@@ -118,7 +101,6 @@ public final class TaskIO {
      * @param in stream for reading.
      * @return created text.
      */
-
     private static String takeText(final Reader in) {
         String str = "";
         try {
@@ -128,7 +110,7 @@ public final class TaskIO {
                 a = in.read();
             }
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
         return str;
     }
@@ -139,29 +121,28 @@ public final class TaskIO {
      * @param words array of the words which describes the task.
      * @return created task.
      */
-
     private static Task createNoRepeatedTask(
             final String[] words) {
-        int s = Constants.getNulls();
-        for (int i = Constants.getNulls(); i < words.length; i++) {
-            if (Constants.getAt().equals(words[i])) {
+        int s = Constants.ZERO;
+        for (int i = Constants.ZERO; i < words.length; i++) {
+            if (Constants.AT.equals(words[i])) {
                 s = i;
                 break;
             }
         }
         String title = "";
-        for (int i = Constants.getNulls(); i < s; i++) {
+        for (int i = Constants.ZERO; i < s; i++) {
             title += words[i];
         }
-        title = title.substring(Constants.getOne(),
-                title.length() - Constants.getTwo());
-        boolean actives = (Constants.getInactive()
-                + Constants.getSemicolon()).equals(
-                        words[words.length - Constants.getOne()]);
-        String date = words[s + Constants.getOne()] + Constants.getSpace()
-                + words[s + Constants.getTwo()];
-        date = date.substring(Constants.getOne(), date.length()
-                - Constants.getTwo());
+        title = title.substring(1,
+                title.length() - 1);
+        boolean actives = (Constants.INACTIVE
+                + Constants.SEMICOLON).equals(
+                        words[words.length - 1]);
+        String date = words[s + 1] + Constants.SPACE
+                + words[s + 2];
+        date = date.substring(1, date.length()
+                - 2);
         Task task = new Task(title, OperationForTime.parseDate(date));
         task.setRepeated(false);
         task.setActive(actives);
@@ -174,60 +155,59 @@ public final class TaskIO {
      * @param words array of the words which describes the task.
      * @return created task.
      */
-
     private static Task createRepeatedTask(
             final String[] words) {
-        int s = Constants.getNulls();
-        for (int i = Constants.getNulls(); i < words.length; i++) {
-            if (Constants.getFrom().equals(words[i])) {
+        int s = Constants.ZERO;
+        for (int i = Constants.ZERO; i < words.length; i++) {
+            if (Constants.FROM.equals(words[i])) {
                 s = i;
                 break;
             }
         }
         String title = "";
-        for (int i = Constants.getNulls(); i < s; i++) {
+        for (int i = Constants.ZERO; i < s; i++) {
             title += words[i];
         }
-        title = title.substring(Constants.getOne(), title.length()
-                - Constants.getOne());
-        String start = words[s + Constants.getOne()] + Constants.getSpace()
-                + words[s + Constants.getTwo()];
-        int count = Constants.getTwo();
-        start = start.substring(Constants.getOne(), start.length()
-                - Constants.getOne());
-        String end = words[s + Constants.getTwo() * count]
-                + Constants.getSpace() + words[s
-                + Constants.getTwo() * count + Constants.getOne()];
-        end = end.substring(Constants.getOne(), end.length()
-                - Constants.getOne());
+        title = title.substring(1, title.length()
+                - 1);
+        String start = words[s + 1] + Constants.SPACE
+                + words[s + 2];
+        int count = 2;
+        start = start.substring(1, start.length()
+                - 1);
+        String end = words[s + 2 * count]
+                + Constants.SPACE + words[s
+                + 2 * count + 1];
+        end = end.substring(1, end.length()
+                - 1);
         count++;
         final int intervalYear = Integer.parseInt(words[s
-                + Constants.getTwo() * count
-                + Constants.getOne()].substring(Constants.getOne()));
+                + 2 * count
+                + 1].substring(1));
         count++;
         final int intervalMonth = Integer.parseInt(words[s
-                + Constants.getTwo() * count + Constants.getOne()]);
+                + 2 * count + 1]);
         count++;
         final int intervalDay = Integer.parseInt(words[s
-                + Constants.getTwo() * count + Constants.getOne()]);
+                + 2 * count + 1]);
         count++;
         final int intervalHour = Integer.parseInt(words[s
-                + Constants.getTwo() * count + Constants.getOne()]);
+                + 2 * count + 1]);
         count++;
         final int intervalMinute = Integer.parseInt(words[s
-                + Constants.getTwo() * count + Constants.getOne()]);
+                + 2 * count + 1]);
         count++;
         final int intervalSeconds = Integer.parseInt(words[s
-                + Constants.getTwo() * count + Constants.getOne()]);
+                + 2 * count + 1]);
         CreateInterval interval = new CreateInterval(intervalYear,
                 intervalMonth, intervalDay, intervalHour,
                 intervalMinute, intervalSeconds);
         Task task = new Task(title, OperationForTime.parseDate(start),
                 OperationForTime.parseDate(end), interval);
         task.setRepeated(true);
-        task.setActive((Constants.getInactive()
-                + Constants.getSemicolon()).equals(words[words.length
-                - Constants.getOne()]));
+        task.setActive((Constants.INACTIVE
+                + Constants.SEMICOLON).equals(words[words.length
+                - 1]));
         return task;
     }
 
@@ -237,18 +217,17 @@ public final class TaskIO {
      * @param tasks task list to which you add a new task.
      * @param in stream for read.
      */
-
     private static void read(final TaskList tasks, final Reader in) {
         String str = takeText(in);
-        String[] lines = str.split(Constants.getEnter());
+        String[] lines = str.split(Constants.ENTER);
         for (String strs : lines) {
-            String[] words = strs.split(Constants.getSpace());
+            String[] words = strs.split(Constants.SPACE);
             for (String word : words) {
-                if (Constants.getFrom().equals(word)) {
+                if (Constants.FROM.equals(word)) {
                     tasks.add(createRepeatedTask(words));
                     break;
                 }
-                if (Constants.getAt().equals(word)) {
+                if (Constants.AT.equals(word)) {
                     tasks.add(createNoRepeatedTask(words));
                     break;
                 }
@@ -262,13 +241,12 @@ public final class TaskIO {
      * @param tasks task list.
      * @param file file for write.
      */
-
     public static void writeText(final TaskList tasks, final File file) {
         try {
             Writer out = new FileWriter(file, false);
             write(tasks, out);
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
 
     }
@@ -279,14 +257,13 @@ public final class TaskIO {
      * @param tasks task list.
      * @param file file for reading.
      */
-
     public static void readText(final TaskList tasks, final File file) {
-        if (file.exists() || file.length() != Constants.getNulls()) {
+        if (file.exists() || file.length() != Constants.ZERO) {
             try {
                 Reader in = new FileReader(file);
                 read(tasks, in);
             } catch (IOException e) {
-                logger.error(e.getMessage(), e);
+                LOGGER.error(e.getMessage(), e);
             }
 
         }
@@ -298,14 +275,13 @@ public final class TaskIO {
      * @param map map with tasks.
      * @param out stream for writing.
      */
-
     private static void writeMaps(final Map<Date, Set<Task>> map,
                                   final Writer out) {
         try {
             Set<Date> dates = map.keySet();
             for (Date date : dates) {
-                String str = date + ":" + Constants.getSpace()
-                        + Constants.getEnter();
+                String str = date + ":" + Constants.SPACE
+                        + Constants.ENTER;
                 out.write(str);
                 Set<Task> tasks = map.get(date);
                 for (Task t : tasks) {
@@ -314,7 +290,7 @@ public final class TaskIO {
             }
             out.close();
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -324,14 +300,13 @@ public final class TaskIO {
      * @param maps map with tasks.
      * @param file file for writing.
      */
-
     public static void writeMap(final Map<Date, Set<Task>> maps,
                                 final File file) {
         Writer out = null;
         try {
             out = new FileWriter(file);
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
         writeMaps(maps, out);
     }
