@@ -14,7 +14,7 @@ import javafx.scene.control.Alert;
 
 public class ThreadTask {
 
-   /**
+    /**
      * Map with tasks.
      */
     private ArrayTaskList thistasks;
@@ -41,7 +41,7 @@ public class ThreadTask {
      * @param tasks current tasks for alert.
      */
     public ThreadTask(final ArrayTaskList tasks) {
-        this.thistasks = (ArrayTaskList) tasks.clone();
+        this.thistasks = tasks;
         this.timeStamps = new TreeMap<>();
         this.thread = new Thread(() -> {
             while (work) {
@@ -83,40 +83,6 @@ public class ThreadTask {
             }
         });
         this.thread.start();
-    }
-
-    /**
-     * Method addTaskForAlert(Task task).
-     * Add new task in the map and change the thread.
-     * @param task new task.
-     */
-    public void addTaskForAlert(Task task) {
-        thistasks.add(task);
-        Date date = task.nextTimeAfter(OperationForTime.nowTime());
-        try {
-            if (timeStamps.containsKey(date) && timeStamps.get(date)) {
-                Platform.runLater(() -> {
-                    Alert inf = new Alert(Alert.
-                            AlertType.INFORMATION);
-                    inf.setTitle("Notification");
-                    inf.setHeaderText("At " + date
-                            + " it is necessary to perform:"
-                            + Constants.ENTER + task.getTitle());
-                    inf.show();
-                });
-            }
-        } catch (NullPointerException e) {
-            return;
-        }
-    }
-
-    /**
-     * Method removeTaskForAlert(Task task).
-     * Deletes the task of notification
-     * @param task current task.
-     */
-    public void removeTaskForAlert(Task task) {
-        thistasks.remove(task);
     }
 
     /**

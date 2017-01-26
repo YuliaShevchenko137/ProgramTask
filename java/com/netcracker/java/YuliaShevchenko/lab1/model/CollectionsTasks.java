@@ -18,7 +18,7 @@ public class CollectionsTasks {
     /**
      * Current list of task.
      */
-    private TaskList tasks;
+    private ArrayTaskList tasks;
 
     /**
      * Constructor CollectionsTasks().
@@ -53,11 +53,11 @@ public class CollectionsTasks {
         return this.obs;
     }
 
-    public final TaskList getTasks() {
+    public final ArrayTaskList getTasks() {
         return this.tasks;
     }
 
-    public final void setTasks(final TaskList taskss) {
+    public final void setTasks(final ArrayTaskList taskss) {
         this.tasks = taskss;
         for (Task t : this.tasks) {
             this.obs.add(t);

@@ -93,6 +93,15 @@ public class ArrayTaskList extends TaskList implements Cloneable, Serializable {
     public final boolean remove(final Task task) {
         int i = 0;
         int res = -1;
+        if (this.size == 1) {
+            if (task.equals(array[0])) {
+                array[0] = null;
+                size --;
+                return true;
+            } else {
+                return false;
+            }
+        }
         while (i < this.size) {
             if (this.getArray()[i].equals(task)) {
                 res = i;

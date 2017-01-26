@@ -452,7 +452,8 @@ public final class MainController {
         AddController addController = addfxmlLoader.getController();
         if (addController.isBool()) {
             this.obs.add(addController.getNewTask());
-            this.thread.addTaskForAlert(addController.getNewTask());
+            this.thread.close();
+            this.thread = new ThreadTask(this.obs.getTasks());
             this.taskTable.setItems(this.obs.getObs());
             this.labelSize.setText(Constants.COUNT_TASK
                     + this.obs.getObs().size());
@@ -482,7 +483,6 @@ public final class MainController {
         Optional<ButtonType> result = delete.showAndWait();
         if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
             this.obs.remove(t);
-            this.thread.removeTaskForAlert(t);
             TaskIO.writeText(this.obs.getTasks(), this.temp);
             this.labelSize.setText(Constants.COUNT_TASK
                     + this.obs.getObs().size());
@@ -566,8 +566,8 @@ public final class MainController {
             task.getInterval();
             this.obs.add(task);
             this.taskTable.refresh();
-            this.thread.removeTaskForAlert(task1);
-            this.thread.addTaskForAlert(task);
+            this.thread.close();
+            this.thread = new ThreadTask(this.obs.getTasks());
             TaskIO.writeText(this.obs.getTasks(), this.temp);
             this.countChanges = -1;
             this.change.setVisible(true);
@@ -591,7 +591,7 @@ public final class MainController {
         String str1 = "";
         task.setRepeated(true);
         String s = this.taskNameField.getText();
-        if ("".equals(s)) {
+        if (!"".equals(s)) {
             task.setTitle(s);
         } else {
             LOGGER.warn(Error.ERROR_EMPTY_TITLE.message());
@@ -700,7 +700,7 @@ public final class MainController {
         String str = "";
         task.setRepeated(false);
         String s = this.taskNameField.getText();
-        if (s.length() != 0) {
+        if (!"".equals(s)) {
             task.setTitle(s);
         } else {
             LOGGER.warn(Error.ERROR_EMPTY_TITLE.message());
